@@ -1,0 +1,228 @@
+/* App.css - Updated with navbar fixes */
+
+/* Fix for fixed navbar overlapping content */
+body {
+  padding-top: 76px; /* Match the navbar height */
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Main content area */
+main {
+  min-height: calc(100vh - 76px - 60px); /* Viewport - navbar - footer */
+}
+
+/* Remove any existing padding from root if conflicting */
+#root {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding-top: 70px; /* Slightly less on mobile if navbar is smaller */
+  }
+  
+  main {
+    min-height: calc(100vh - 70px - 60px);
+    padding-top: 70px !important;
+  }
+}
+
+/* For pages that need full viewport height without extra padding */
+.full-viewport {
+  min-height: 100vh;
+  padding-top: 0 !important;
+}
+
+/* Home page specific - hero section should be full viewport */
+.hero-section-premium {
+  margin-top: -76px; /* Counteract the body padding */
+  padding-top: 76px; /* Add back the navbar height */
+}
+
+/* Ensure containers have proper spacing */
+.container,
+.container-fluid {
+  padding-right: var(--spacing-md);
+  padding-left: var(--spacing-md);
+}
+
+/* -------------------
+   Design System - Elegant & Sophisticated
+------------------- */
+
+:root {
+  /* Colors */
+  --primary: #4A4E69; /* Deep Slate Blue */
+  --primary-dark: #2C3040; /* Even darker slate */
+  --secondary: #9A8C98; /* Muted Plum */
+  --accent: #F2E9E4; /* Soft Cream */
+  --light: #F8F9FA; /* Off-white */
+  --dark: #22223B; /* Very Dark Purple-Blue */
+  --success: #52B788; /* Muted Green */
+  --danger: #E07A5F; /* Terracotta */
+  --warning: #F7B801; /* Golden Yellow */
+  --info: #84DCCF; /* Soft Teal */
+  --white: #FFFFFF;
+  --text-primary: var(--dark);
+  --text-secondary: var(--secondary);
+  --background: var(--light);
+  --border-color: #D9D9D9; /* Light Grey */
+
+  /* Typography */
+  --font-family-heading: 'Playfair Display', serif; /* Elegant Serif */
+  --font-family-body: 'Roboto', sans-serif; /* Clean Sans-serif */
+  --font-size-base: 1rem;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --line-height-base: 1.6;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 3rem;
+
+  /* Borders & Shadows */
+  --border-radius: 0.5rem;
+  --border-radius-sm: 0.25rem;
+  --border-radius-lg: 1rem;
+  --border-radius-pill: 50rem;
+
+  --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+  --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --box-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* -------------------
+   Base & Global Styles
+------------------- */
+
+body {
+  margin: 0;
+  font-family: var(--font-family-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-base);
+  color: var(--text-primary);
+  background-color: var(--background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: var(--spacing-sm);
+  font-family: var(--font-family-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.3;
+  color: var(--primary-dark);
+}
+
+.card {
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: var(--box-shadow-lg);
+}
+
+.btn {
+    border-radius: var(--border-radius);
+    font-weight: var(--font-weight-medium);
+    padding: 0.75rem var(--spacing-lg);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.form-control {
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    padding: 0.75rem var(--spacing-md);
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 0.25rem rgba(74, 78, 105, 0.25); /* Primary color with alpha */
+}
+
+.container, .container-fluid {
+    padding-right: var(--spacing-md);
+    padding-left: var(--spacing-md);
+}
+
+/* Remove default blue link color */
+a {
+    text-decoration: none;
+    color: var(--primary);
+}
+
+a:hover {
+    color: var(--primary-dark);
+}
+
+/* Utility classes for text colors */
+.text-primary {
+    color: var(--primary) !important;
+}
+.text-secondary {
+    color: var(--secondary) !important;
+}
+.text-accent {
+    color: var(--accent) !important;
+}
+.text-dark {
+    color: var(--dark) !important;
+}
+
+/* Responsive adjustments for typography */
+@media (max-width: 768px) {
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.75rem; }
+  h4 { font-size: 1.5rem; }
+  h5 { font-size: 1.25rem; }
+  h6 { font-size: 1rem; }
+  
+  /* Mobile specific navbar height adjustment */
+  .navbar-premium {
+    height: 70px;
+  }
+}
+
+/* Ensure the navbar stays on top of everything */
+.navbar-premium {
+  z-index: 1030; /* Higher than Bootstrap's default */
+}
+
+/* Make sure offcanvas mobile menu appears above everything */
+.mobile-menu-offcanvas {
+  z-index: 1040;
+}
+
+/* Loading spinner centering */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}

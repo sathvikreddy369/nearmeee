@@ -1,0 +1,282 @@
+/* ===== VENDOR CARD PREMIUM STYLING ===== */
+
+.vendor-card-premium {
+  border-radius: 20px !important;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  background: white;
+  position: relative;
+}
+
+.vendor-card-premium:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+}
+
+.vendor-card-premium::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.vendor-card-premium:hover::before {
+  transform: scaleX(1);
+}
+
+/* Image Container */
+.vendor-card-image-container {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vendor-card-image {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.vendor-card-premium:hover .vendor-card-image {
+  transform: scale(1.05);
+}
+
+.image-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.image-gradient-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.1));
+  pointer-events: none;
+}
+
+/* Badges */
+.category-badge {
+  background: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: 0.75rem;
+  font-weight: 500;
+  z-index: 3;
+}
+
+.status-badge {
+  font-size: 0.7rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+  z-index: 3;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Content */
+.vendor-card-header {
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 1rem;
+}
+
+.vendor-name {
+  font-size: 1.25rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  min-height: 2.6em;
+}
+
+.vendor-location {
+  font-size: 0.875rem;
+}
+
+/* Rating Section */
+.vendor-rating-section {
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #f8f9ff 0%, #f0f4ff 100%);
+  border-radius: 12px;
+  border: 1px solid #e8edff;
+}
+
+.rating-stars {
+  line-height: 1;
+}
+
+.rating-value {
+  font-size: 1rem;
+}
+
+.reviews-count {
+  font-size: 0.75rem;
+  border-radius: 8px;
+  background: white !important;
+  border: 1px solid #e9ecef;
+}
+
+/* Description */
+.vendor-description {
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Services Preview */
+.services-preview {
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #fff9f0 0%, #fff5e6 100%);
+  border-radius: 12px;
+  border: 1px solid #ffeccc;
+}
+
+/* Contact Info */
+.contact-info {
+  padding: 0.5rem 0.75rem;
+  background: linear-gradient(135deg, #f0fff4 0%, #e8f5e8 100%);
+  border-radius: 8px;
+  border: 1px solid #d4edda;
+}
+
+/* Action Button */
+.view-details-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.view-details-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.view-details-btn:hover::before {
+  left: 100%;
+}
+
+.view-details-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .vendor-card-premium {
+    margin-bottom: 1.5rem;
+  }
+  
+  .vendor-card-image-container {
+    height: 180px;
+  }
+  
+  .vendor-name {
+    font-size: 1.1rem;
+  }
+  
+  .vendor-card-body {
+    padding: 1.25rem !important;
+  }
+  
+  .vendor-rating-section {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .vendor-card-premium {
+    border-radius: 16px !important;
+  }
+  
+  .vendor-card-image-container {
+    height: 160px;
+  }
+  
+  .vendor-card-body {
+    padding: 1rem !important;
+  }
+  
+  .category-badge {
+    font-size: 0.7rem;
+    padding: 0.4rem 0.8rem;
+    margin: 0.5rem !important;
+  }
+  
+  .status-badge {
+    width: 28px;
+    height: 28px;
+    margin: 0.5rem !important;
+  }
+}
+
+/* Animation for card appearance */
+@keyframes cardSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vendor-card-premium {
+  animation: cardSlideIn 0.6s ease-out;
+}
+
+/* Grid layout adjustments */
+.row-cols-1 .vendor-card-premium,
+.row-cols-sm-2 .vendor-card-premium,
+.row-cols-md-3 .vendor-card-premium,
+.row-cols-lg-4 .vendor-card-premium {
+  animation-duration: 0.6s;
+  animation-fill-mode: both;
+}
+
+/* Stagger animation for multiple cards */
+.row-cols-1 .vendor-card-premium:nth-child(1) { animation-delay: 0.1s; }
+.row-cols-1 .vendor-card-premium:nth-child(2) { animation-delay: 0.2s; }
+.row-cols-1 .vendor-card-premium:nth-child(3) { animation-delay: 0.3s; }
+.row-cols-1 .vendor-card-premium:nth-child(4) { animation-delay: 0.4s; }
+
+.row-cols-sm-2 .vendor-card-premium:nth-child(odd) { animation-delay: 0.1s; }
+.row-cols-sm-2 .vendor-card-premium:nth-child(even) { animation-delay: 0.2s; }
+
+.row-cols-md-3 .vendor-card-premium:nth-child(3n+1) { animation-delay: 0.1s; }
+.row-cols-md-3 .vendor-card-premium:nth-child(3n+2) { animation-delay: 0.2s; }
+.row-cols-md-3 .vendor-card-premium:nth-child(3n+3) { animation-delay: 0.3s; }
+
+.row-cols-lg-4 .vendor-card-premium:nth-child(4n+1) { animation-delay: 0.1s; }
+.row-cols-lg-4 .vendor-card-premium:nth-child(4n+2) { animation-delay: 0.2s; }
+.row-cols-lg-4 .vendor-card-premium:nth-child(4n+3) { animation-delay: 0.3s; }
+.row-cols-lg-4 .vendor-card-premium:nth-child(4n+4) { animation-delay: 0.4s; }

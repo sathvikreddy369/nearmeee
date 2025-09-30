@@ -1,0 +1,209 @@
+/* ===== DASHBOARD PREMIUM STYLING ===== */
+
+.dashboard-premium {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Welcome Section */
+.welcome-section {
+  padding: 2rem 0;
+}
+
+.role-badge {
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+}
+
+.profile-btn {
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.2);
+}
+
+/* Stat Cards */
+.stat-card {
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1) !important;
+}
+
+.stat-icon-container {
+  width: 70px;
+  height: 70px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  font-size: 1.5rem;
+}
+
+.bg-primary-light { background: rgba(0, 123, 255, 0.1); }
+.bg-success-light { background: rgba(40, 167, 69, 0.1); }
+.bg-warning-light { background: rgba(255, 193, 7, 0.1); }
+.bg-info-light { background: rgba(23, 162, 184, 0.1); }
+
+.stat-value {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.stat-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+/* Vendor Stats */
+.vendor-stat h4 {
+  font-size: 2.25rem;
+}
+
+/* Action Buttons */
+.action-btn {
+  border-radius: 12px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+  background: white;
+  text-decoration: none;
+  display: block;
+}
+
+.action-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: #007bff;
+  background: white;
+  text-decoration: none;
+}
+
+.action-btn h6 {
+  margin-bottom: 0.5rem;
+}
+
+/* Activity List */
+.activity-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.activity-item {
+  transition: background-color 0.2s ease;
+}
+
+.activity-item:hover {
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.activity-item:last-child {
+  border-bottom: none !important;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 123, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard-premium {
+    padding: 1rem !important;
+  }
+  
+  .welcome-section {
+    text-align: center;
+    padding: 1rem 0;
+  }
+  
+  .stat-value {
+    font-size: 2rem;
+  }
+  
+  .stat-icon-container {
+    width: 60px;
+    height: 60px;
+    font-size: 1.25rem;
+  }
+  
+  .action-btn {
+    text-align: center;
+  }
+  
+  .action-btn h6 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .stat-card .card-body {
+    padding: 1.5rem !important;
+  }
+  
+  .action-btn {
+    padding: 1.5rem !important;
+  }
+  
+  .role-badge {
+    display: block;
+    margin: 0.5rem auto;
+    width: fit-content;
+  }
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.action-btn {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+/* Custom Scrollbar for Activity */
+.activity-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.activity-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.activity-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 2px;
+}
+
+.activity-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

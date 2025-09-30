@@ -1,0 +1,138 @@
+/* src/styles/VendorDiscoveryPage.css */
+
+.vendor-discovery-page {
+    background-color: var(--background);
+}
+
+.vendor-search-card {
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--box-shadow);
+    background-color: var(--white);
+}
+
+.vendor-search-card .form-control,
+.vendor-search-card .form-select,
+.vendor-search-card .btn {
+    border-radius: var(--border-radius);
+    font-family: var(--font-family-body);
+}
+
+.vendor-search-card .btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.vendor-search-card .btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.vendor-search-card .btn-outline-secondary {
+    border-color: var(--secondary);
+    color: var(--secondary);
+}
+.vendor-search-card .btn-outline-secondary:hover {
+    background-color: var(--secondary);
+    color: var(--white);
+}
+
+/* Map/List View Toggle Buttons */
+.map-toggle-buttons .btn {
+    border-radius: var(--border-radius-pill);
+    padding: 0.6rem var(--spacing-lg);
+    font-weight: var(--font-weight-medium);
+    transition: all 0.3s ease;
+}
+
+.map-toggle-buttons .btn-primary {
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.map-toggle-buttons .btn-primary:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.map-toggle-buttons .btn-outline-primary {
+    color: var(--primary);
+    border-color: var(--primary);
+}
+.map-toggle-buttons .btn-outline-primary:hover {
+    background-color: var(--primary);
+    color: var(--white);
+}
+
+/* Mapbox marker custom styling (from MapDisplay.css, but specific overrides for discovery) */
+.mapboxgl-marker.marker {
+    background-color: transparent;
+    border: none;
+    box-shadow: var(--box-shadow-sm);
+    transition: transform 0.2s ease;
+}
+.mapboxgl-marker.marker:hover {
+    transform: scale(1.2);
+}
+
+.mapboxgl-popup .mapboxgl-popup-content {
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+    box-shadow: var(--box-shadow);
+    font-family: var(--font-family-body);
+}
+.mapboxgl-popup-tip {
+    border-top-color: var(--primary) !important;
+}
+.mapboxgl-popup-content h6 {
+    font-family: var(--font-family-heading);
+    color: var(--primary);
+    font-weight: var(--font-weight-bold);
+    margin-bottom: var(--spacing-xs);
+}
+.mapboxgl-popup-content p {
+    font-size: 0.9rem;
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-primary);
+}
+.mapboxgl-popup-content .btn {
+    border-radius: var(--border-radius-sm);
+    font-size: 0.85rem;
+    padding: 0.3rem 0.8rem;
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.mapboxgl-popup-content .btn:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+}
+
+.map-view-container {
+    height: 600px;
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .vendor-search-card .row > div {
+        margin-bottom: var(--spacing-md);
+    }
+    .vendor-search-card .input-group .form-control,
+    .vendor-search-card .input-group .btn {
+        border-radius: var(--border-radius) !important;
+    }
+    .vendor-search-card .input-group {
+        flex-wrap: wrap;
+    }
+    .vendor-search-card .input-group .btn {
+        width: 100%;
+        margin-top: var(--spacing-sm);
+    }
+    .vendor-search-card .input-group .form-control {
+        border-bottom-right-radius: var(--border-radius) !important;
+        border-top-right-radius: var(--border-radius) !important;
+    }
+    .map-toggle-buttons .btn {
+        width: 100%;
+        margin-bottom: var(--spacing-sm);
+    }
+}

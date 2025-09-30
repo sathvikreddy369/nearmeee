@@ -1,0 +1,103 @@
+/* src/styles/VendorDashboardPage.css */
+
+.vendor-dashboard {
+  background-color: var(--background);
+  padding: var(--spacing-lg);
+}
+
+.vendor-dashboard .card {
+  border: none;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow);
+  background-color: var(--white);
+}
+
+.vendor-dashboard .nav-tabs .nav-link {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.vendor-dashboard .nav-tabs .nav-link.active {
+  color: var(--primary);
+  border-color: var(--primary) var(--primary) var(--white) var(--primary);
+  background-color: var(--white);
+}
+
+.vendor-dashboard .nav-tabs .nav-link:hover {
+  border-color: var(--primary);
+}
+
+.vendor-dashboard .stat-card {
+  border: none;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-sm);
+  background-color: var(--white);
+  color: var(--text-primary);
+}
+
+.vendor-dashboard .stat-card .display-4 {
+  font-size: 2.5rem;
+  color: var(--primary);
+}
+
+.vendor-dashboard .stat-card h4 {
+  font-family: var(--font-family-heading);
+  color: var(--primary-dark);
+}
+
+.vendor-dashboard .list-group-item {
+  font-family: var(--font-family-body);
+  color: var(--text-primary);
+}
+
+.vendor-dashboard .form-label {
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.vendor-dashboard .btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.vendor-dashboard .btn-primary:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.vendor-dashboard .btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.vendor-dashboard .btn-outline-primary:hover {
+  background-color: var(--primary);
+  color: var(--white);
+}
+
+.vendor-dashboard .btn-info {
+  background-color: var(--info);
+  border-color: var(--info);
+  color: var(--dark);
+}
+.vendor-dashboard .btn-info:hover {
+  background-color: darken(var(--info), 10%);
+  border-color: darken(var(--info), 10%);
+}
+
+.vendor-dashboard .service-award-card {
+    background-color: var(--light);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-md);
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+  .vendor-dashboard .stat-card .display-4 {
+    font-size: 2rem;
+  }
+  .vendor-dashboard .stat-card h4 {
+    font-size: 1.2rem;
+  }
+}

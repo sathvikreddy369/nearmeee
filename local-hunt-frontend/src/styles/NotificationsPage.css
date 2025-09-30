@@ -1,0 +1,167 @@
+/* ===== NOTIFICATIONS PREMIUM STYLING ===== */
+
+.notifications-premium {
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* Notification Items */
+.notification-item {
+  transition: all 0.3s ease;
+  border: none !important;
+}
+
+.notification-item:hover {
+  background: rgba(0, 123, 255, 0.02) !important;
+}
+
+.notification-unread {
+  background: rgba(0, 123, 255, 0.05) !important;
+  border-left: 4px solid #007bff !important;
+}
+
+.notification-selected {
+  background: rgba(0, 123, 255, 0.1) !important;
+}
+
+.notification-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  background: rgba(0, 123, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification-content {
+  transition: all 0.2s ease;
+}
+
+.notification-content:hover {
+  transform: translateX(2px);
+}
+
+/* Badges */
+.type-badge {
+  background: rgba(0, 123, 255, 0.1) !important;
+  color: #007bff !important;
+  border: 1px solid rgba(0, 123, 255, 0.2);
+  font-weight: 500;
+  font-size: 0.75rem;
+}
+
+.unread-badge {
+  font-size: 0.7rem;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0.6; }
+}
+
+/* Action Buttons */
+.btn-outline-success,
+.btn-outline-danger {
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.btn-outline-success:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+}
+
+.btn-outline-danger:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .notifications-premium {
+    padding: 1rem !important;
+  }
+  
+  .notification-item {
+    padding: 1.5rem !important;
+  }
+  
+  .notification-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 1.1rem !important;
+  }
+  
+  .d-flex.justify-content-between.align-items-center {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 1rem;
+  }
+  
+  .d-flex.gap-2 {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 576px) {
+  .notification-item .d-flex {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+  
+  .notification-item .ms-3 {
+    margin-left: 0 !important;
+    margin-top: 1rem;
+    flex-direction: row !important;
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
+  .notification-icon {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Selection States */
+.form-check-input:checked {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+/* Loading Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notification-item {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Custom Scrollbar */
+.list-group::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list-group::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.list-group::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+.list-group::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

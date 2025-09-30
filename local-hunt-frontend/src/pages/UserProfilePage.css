@@ -1,0 +1,32 @@
+/* src/styles/UserProfilePage.css */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css');
+
+.profile-form-card, .review-card-item, .category-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.profile-form-card:hover, .review-card-item:hover, .category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+.nav-tabs .nav-link {
+    color: #007bff;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+.nav-tabs .nav-link.active {
+    color: #0056b3;
+    border-color: #007bff;
+    font-weight: bold;
+}
+.nav-tabs .nav-link:hover {
+    border-color: #007bff;
+}
+/* Responsive adjustments for forms */
+@media (max-width: 575.98px) { /* xs breakpoint */
+    .form-group label {
+        font-size: 0.9rem;
+    }
+    .form-control {
+        font-size: 0.95rem;
+    }
+}

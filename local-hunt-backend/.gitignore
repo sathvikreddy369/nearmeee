@@ -1,0 +1,5 @@
+node_modules/
+
+.env
+
+src/config/localhunt1-firebase-adminsdk-fbsvc-449e267f56.json
