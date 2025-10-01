@@ -50,37 +50,37 @@ function HomePage() {
       name: 'Electricians', 
       icon: '⚡', 
       query: 'Electricians',
-      image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      image: 'electrician.webp'
     },
     { 
       name: 'Mobile Repair', 
       icon: '📱', 
       query: 'Mobile Repair',
-      image: 'https://images.unsplash.com/photo-1581093458791-8a0a1d63c6b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      image: '/mobilerepair.png'
     },
     { 
       name: 'Tailors', 
       icon: '🧵', 
       query: 'Tailors',
-      image: 'https://images.unsplash.com/photo-1594736797933-d0ea3ff8db41?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      image: '/tailor.png'
     },
     { 
       name: 'Carpenters', 
       icon: '🪚', 
       query: 'Carpenters',
-      image: 'https://images.unsplash.com/photo-1581094794321-8410e6a0d9d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      image: 'carpentry.jpeg'
     },
     { 
       name: 'Plumbers', 
       icon: '🔧', 
       query: 'Plumbers',
-      image: 'https://images.unsplash.com/photo-1621905251180-4e48a1159183?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      image: 'plumber.webp'
     },
     { 
       name: 'Kirana Stores', 
       icon: '🛒', 
       query: 'Kirana Stores',
-      image: 'https://images.unsplash.com/photo-1607082350899-7e105aa886ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+      image: 'kirana.jpg'
     }
   ];
 
@@ -92,7 +92,7 @@ function HomePage() {
       service: 'Electrician',
       rating: 5,
       time: '2 hours ago',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80'
+      avatar: '/woman1.jpeg'
     },
     {
       id: 2,
@@ -100,7 +100,7 @@ function HomePage() {
       service: 'Mobile Repair',
       rating: 4,
       time: '1 hour ago',
-      avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80'
+      avatar: '/man1.jpg'
     },
     {
       id: 3,
@@ -108,7 +108,7 @@ function HomePage() {
       service: 'Tailor',
       rating: 5,
       time: '30 minutes ago',
-      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80'
+      avatar: '/woman2.jpg'
     }
   ];
 
@@ -161,19 +161,19 @@ function HomePage() {
       name: 'Raj Electric Works',
       owner: 'Raj Kumar',
       story: 'Increased customer base by 300% in 6 months',
-      image: 'https://images.unsplash.com/photo-1560449752-5c334c38c74b?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
+      image: '/electricwork.webp'
     },
     {
-      name: 'Mobile Care Center',
+      name: 'CPR-Cell Phone repair',
       owner: 'Sunil Patel',
       story: 'Now serving 50+ customers daily',
-      image: 'https://images.unsplash.com/photo-1581093458791-8a0a1d63c6b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
+      image: '/mobilerepairstore.jpg'
     },
     {
       name: 'Perfect Stitch Tailors',
       owner: 'Meena Sharma',
       story: 'Expanded to 3 locations across city',
-      image: 'https://images.unsplash.com/photo-1594736797933-d0ea3ff8db41?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80'
+      image: '/tailorservice.jpg'
     }
   ];
 
