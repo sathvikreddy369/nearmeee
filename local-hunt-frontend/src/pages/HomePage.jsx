@@ -56,7 +56,7 @@ function HomePage() {
       name: 'Mobile Repair', 
       icon: '📱', 
       query: 'Mobile Repair',
-      image: '/mobilerepair.png'
+      image: '/mobilerepair1.jpg'
     },
     { 
       name: 'Tailors', 

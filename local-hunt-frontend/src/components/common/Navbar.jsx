@@ -126,8 +126,8 @@ function SiteNavbar() {
               
               <Nav.Link 
                 as={Link} 
-                to="/discover" 
-                className={`nav-link-premium mx-3 ${isActiveRoute('/discover') ? 'active' : ''}`}
+                to="/vendors" 
+                className={`nav-link-premium mx-3 ${isActiveRoute('/vendors') ? 'active' : ''}`}
                 onClick={closeMobileMenu}
               >
                 <Search size={18} className="me-2" />
@@ -252,15 +252,6 @@ function SiteNavbar() {
                       <Heart size={18} className="me-2" />
                       Favorites
                     </NavDropdown.Item>
-                    
-                    <NavDropdown.Item 
-                      onClick={() => { navigate('/bookings'); closeMobileMenu(); }}
-                      className="dropdown-item-premium d-flex align-items-center"
-                    >
-                      <Calendar size={18} className="me-2" />
-                      My Bookings
-                    </NavDropdown.Item>
-
                     <NavDropdown.Divider />
                     
                     <NavDropdown.Item 
@@ -463,16 +454,6 @@ function SiteNavbar() {
               Discover
             </Nav.Link>
 
-            <Nav.Link 
-              as={Link} 
-              to="/services" 
-              className={`mobile-nav-link ${isActiveRoute('/services') ? 'active' : ''}`}
-              onClick={closeMobileMenu}
-            >
-              <Store size={20} className="me-3" />
-              Services
-            </Nav.Link>
-
             {userProfile ? (
               <>
                 {/* User Specific Links */}
@@ -502,16 +483,6 @@ function SiteNavbar() {
 
                 <Nav.Link 
                   as={Link} 
-                  to="/favorites" 
-                  className={`mobile-nav-link ${isActiveRoute('/favorites') ? 'active' : ''}`}
-                  onClick={closeMobileMenu}
-                >
-                  <Heart size={20} className="me-3" />
-                  Favorites
-                </Nav.Link>
-
-                <Nav.Link 
-                  as={Link} 
                   to="/messages" 
                   className={`mobile-nav-link ${isActiveRoute('/messages') ? 'active' : ''}`}
                   onClick={closeMobileMenu}
@@ -524,23 +495,12 @@ function SiteNavbar() {
                     </Badge>
                   )}
                 </Nav.Link>
-
-                <Nav.Link 
-                  as={Link} 
-                  to="/bookings" 
-                  className={`mobile-nav-link ${isActiveRoute('/bookings') ? 'active' : ''}`}
-                  onClick={closeMobileMenu}
-                >
-                  <Calendar size={20} className="me-3" />
-                  My Bookings
-                </Nav.Link>
-
                 {userProfile.role === 'vendor' && (
                   <>
                     <Nav.Link 
                       as={Link} 
-                      to="/vendor/dashboard" 
-                      className={`mobile-nav-link ${isActiveRoute('/vendor/dashboard') ? 'active' : ''}`}
+                      to="/vendor-dashboard" 
+                      className={`mobile-nav-link ${isActiveRoute('/vendor-dashboard') ? 'active' : ''}`}
                       onClick={closeMobileMenu}
                     >
                       <Shield size={20} className="me-3" />
@@ -549,8 +509,8 @@ function SiteNavbar() {
 
                     <Nav.Link 
                       as={Link} 
-                      to="/vendor/settings" 
-                      className={`mobile-nav-link ${isActiveRoute('/vendor/settings') ? 'active' : ''}`}
+                      to="/vendor-dashboard" 
+                      className={`mobile-nav-link ${isActiveRoute('/vendor-dashboard') ? 'active' : ''}`}
                       onClick={closeMobileMenu}
                     >
                       <Store size={20} className="me-3" />
