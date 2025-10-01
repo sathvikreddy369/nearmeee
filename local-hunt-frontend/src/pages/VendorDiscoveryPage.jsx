@@ -227,7 +227,7 @@ function VendorDiscoveryPage() {
     if (priceRange[0] > 0 || priceRange[1] < 1000) {
       filters.push(
         <Badge key="price" bg="dark" className="me-2 mb-2 d-inline-flex align-items-center">
-          Price: ${priceRange[0]} - ${priceRange[1]}
+          Price: ₹{priceRange[0]} - ₹{priceRange[1]}
           <X size={12} className="ms-1 cursor-pointer" onClick={() => removeFilter('price')} />
         </Badge>
       );
@@ -545,7 +545,7 @@ function VendorDiscoveryPage() {
               {/* Price Range Filter */}
               <Form.Group className="mb-4">
                 <Form.Label className="fw-medium">
-                  Price Range: ${priceRange[0]} - ${priceRange[1]}
+                  Price Range: ₹{priceRange[0]} - ₹{priceRange[1]}
                 </Form.Label>
                 <Form.Range
                   min={0}
@@ -555,8 +555,8 @@ function VendorDiscoveryPage() {
                   onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
                 />
                 <div className="d-flex justify-content-between">
-                  <small className="text-muted">$0</small>
-                  <small className="text-muted">$1000+</small>
+                  <small className="text-muted">₹0</small>
+                  <small className="text-muted">₹1000+</small>
                 </div>
               </Form.Group>
             </div>

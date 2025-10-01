@@ -9,7 +9,7 @@ const TermsOfServicePage = () => {
     {
       icon: <BookOpen size={24} />,
       title: '1. Acceptance of Terms',
-      content: `By accessing and using LocalHunt ("the Service"), you accept and agree to be bound by the terms and provision of this agreement.`
+      content: `By accessing and using Nearమీ ("the Service"), you accept and agree to be bound by the terms and provision of this agreement.`
     },
     {
       icon: <Scale size={24} />,
@@ -57,7 +57,7 @@ const TermsOfServicePage = () => {
                 <div>
                   <h5 className="fw-bold text-dark mb-2">Important Legal Notice</h5>
                   <p className="text-muted mb-0">
-                    These Terms of Service constitute a legally binding agreement between you and LocalHunt. 
+                    These Terms of Service constitute a legally binding agreement between you and Nearమీ. 
                     By using our services, you acknowledge that you have read, understood, and agree to be bound by these terms.
                   </p>
                 </div>

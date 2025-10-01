@@ -567,7 +567,7 @@ function SiteNavbar() {
                   </Button>
                   <Button 
                     as={Link} 
-                    to="/become-vendor" 
+                    to="/register-vendor" 
                     variant="outline-success" 
                     size="lg"
                     onClick={closeMobileMenu}
