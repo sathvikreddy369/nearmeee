@@ -520,7 +520,7 @@
   margin-bottom: 0;
 }
 
-/* Floating Reviews */
+/* Floating Reviews - Desktop Only */
 .floating-reviews-container {
   position: fixed;
   bottom: 20px;
@@ -538,9 +538,11 @@
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
   border-left: 4px solid #48bb78;
   animation: slideInRight 0.5s ease-out;
-  max-width: 280px;
   opacity: 0;
   animation-fill-mode: forwards;
+  max-width: 280px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @keyframes slideInRight {
@@ -566,6 +568,7 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
+  border: 2px solid #e9ecef;
 }
 
 .floating-review-text {
@@ -598,6 +601,13 @@
 .floating-rating {
   display: flex;
   gap: 1px;
+}
+
+/* Hide on mobile */
+@media (max-width: 991.98px) {
+  .floating-reviews-container {
+    display: none;
+  }
 }
 
 /* Footer CTA */
@@ -721,3 +731,9 @@
   outline: 2px solid #667eea;
   outline-offset: 2px;
 }
+
+
+
+
+
+

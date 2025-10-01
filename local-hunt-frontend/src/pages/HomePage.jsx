@@ -640,39 +640,39 @@ function HomePage() {
         </section>
       )}
 
-      {/* Floating Reviews */}
-      <div className="floating-reviews-container">
-        {floatingReviews.map((review, index) => (
-          <div 
-            key={review.id} 
-            className="floating-review"
-            style={{ animationDelay: `${index * 2}s` }}
-          >
-            <div className="floating-review-content">
-              <img src={review.avatar} alt={review.name} className="floating-avatar" />
-              <div className="floating-review-text">
-                <div className="floating-reviewer">
-                  <strong>{review.name}</strong>
-                  <Badge bg="success" className="verified-floating">
-                    Verified
-                  </Badge>
-                </div>
-                <div className="floating-service">Found a {review.service}</div>
-                <div className="floating-rating">
-                  {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={12} 
-                      fill={i < review.rating ? "#ffc107" : "none"} 
-                      color={i < review.rating ? "#ffc107" : "#ddd"} 
-                    />
-                  ))}
-                </div>
-              </div>
-            </div>
+      {/* Floating Reviews - Hidden on Mobile */}
+<div className="floating-reviews-container d-none d-lg-block">
+  {floatingReviews.map((review, index) => (
+    <div 
+      key={review.id} 
+      className="floating-review"
+      style={{ animationDelay: `${index * 2}s` }}
+    >
+      <div className="floating-review-content">
+        <img src={review.avatar} alt={review.name} className="floating-avatar" />
+        <div className="floating-review-text">
+          <div className="floating-reviewer">
+            <strong>{review.name}</strong>
+            <Badge bg="success" className="verified-floating">
+              Verified
+            </Badge>
           </div>
-        ))}
+          <div className="floating-service">Found a {review.service}</div>
+          <div className="floating-rating">
+            {[...Array(5)].map((_, i) => (
+              <Star 
+                key={i} 
+                size={12} 
+                fill={i < review.rating ? "#ffc107" : "none"} 
+                color={i < review.rating ? "#ffc107" : "#ddd"} 
+              />
+            ))}
+          </div>
+        </div>
       </div>
+    </div>
+  ))}
+</div>
 
       {/* Footer CTA */}
       <section className="footer-cta-section">

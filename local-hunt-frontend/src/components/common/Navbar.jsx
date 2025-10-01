@@ -446,8 +446,8 @@ function SiteNavbar() {
             
             <Nav.Link 
               as={Link} 
-              to="/discover" 
-              className={`mobile-nav-link ${isActiveRoute('/discover') ? 'active' : ''}`}
+              to="/vendors" 
+              className={`mobile-nav-link ${isActiveRoute('/vendors') ? 'active' : ''}`}
               onClick={closeMobileMenu}
             >
               <Search size={20} className="me-3" />
