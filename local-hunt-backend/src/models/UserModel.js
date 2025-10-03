@@ -1,5 +1,5 @@
 // src/models/UserModel.js
-const { db,admin } = require('../config/firebaseAdmin');
+const { db, admin } = require('../config/firebaseAdmin');
 
 class UserModel {
   static async createUserProfile(uid, email, name, role = 'user') {
@@ -13,6 +13,7 @@ class UserModel {
       updatedAt: new Date(),
       favorites: [],
       recentViews: [],
+      vendorProfile: null, // Reference to vendor document if user becomes vendor
     };
     await userRef.set(userData, { merge: true });
     return userData;
@@ -28,9 +29,55 @@ class UserModel {
 
   static async updateUserProfile(uid, updates) {
     const userRef = db.collection('users').doc(uid);
+    
+    // If role is being updated to vendor, set vendorProfile reference
+    if (updates.role === 'vendor') {
+      // Find vendor document for this user
+      const vendorSnapshot = await db.collection('vendors')
+        .where('userId', '==', uid)
+        .limit(1)
+        .get();
+      
+      if (!vendorSnapshot.empty) {
+        const vendorDoc = vendorSnapshot.docs[0];
+        updates.vendorProfile = vendorDoc.id;
+      }
+    }
+    
     const allowedUpdates = { ...updates, updatedAt: new Date() };
     await userRef.update(allowedUpdates);
-    return { id: uid, ...allowedUpdates };
+    
+    // Return updated profile with vendor data if applicable
+    const updatedUser = await this.getUserProfile(uid);
+    return updatedUser;
+  }
+
+  static async updateUserRole(uid, newRole) {
+    const userRef = db.collection('users').doc(uid);
+    
+    const updates = {
+      role: newRole,
+      updatedAt: new Date()
+    };
+    
+    // If becoming vendor, link to vendor profile
+    if (newRole === 'vendor') {
+      const vendorSnapshot = await db.collection('vendors')
+        .where('userId', '==', uid)
+        .limit(1)
+        .get();
+      
+      if (!vendorSnapshot.empty) {
+        const vendorDoc = vendorSnapshot.docs[0];
+        updates.vendorProfile = vendorDoc.id;
+      }
+    } else {
+      // If role changed from vendor, remove vendor profile link
+      updates.vendorProfile = null;
+    }
+    
+    await userRef.update(updates);
+    return this.getUserProfile(uid);
   }
 
   static async deleteUserProfile(uid) {
@@ -39,15 +86,10 @@ class UserModel {
   }
 
   static async getAllUsers() {
-    const snapshot = await db.collection('users').get();
+    const snapshot = await db.collection('users').orderBy('createdAt', 'desc').get();
     return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
   }
-  /**
-   * Adds a vendor ID to a user's favorites list.
-   * @param {string} uid - The user's UID.
-   * @param {string} vendorId - The ID of the vendor to favorite.
-   * @returns {Promise<void>}
-   */
+
   static async addFavoriteVendor(uid, vendorId) {
     try {
       const userRef = db.collection('users').doc(uid);
@@ -61,12 +103,6 @@ class UserModel {
     }
   }
 
-  /**
-   * Removes a vendor ID from a user's favorites list.
-   * @param {string} uid - The user's UID.
-   * @param {string} vendorId - The ID of the vendor to unfavorite.
-   * @returns {Promise<void>}
-   */
   static async removeFavoriteVendor(uid, vendorId) {
     try {
       const userRef = db.collection('users').doc(uid);
@@ -79,14 +115,7 @@ class UserModel {
       throw new Error('Failed to remove vendor from favorites.');
     }
   }
-  /**
-   * Adds a new notification to a user's notifications sub-collection.
-   * @param {string} uid - The user's UID (recipient of the notification).
-   * @param {string} type - Type of notification (e.g., 'new_review', 'admin_message').
-   * @param {string} message - The notification text.
-   * @param {string} [relatedId] - Optional ID of the related entity (e.g., reviewId, messageId).
-   * @returns {Promise<void>}
-   */
+
   static async addNotification(uid, type, message, relatedId = null) {
     try {
       const notificationRef = db.collection('users').doc(uid).collection('notifications');
@@ -100,16 +129,9 @@ class UserModel {
       console.log(`Notification added for user ${uid}: ${message}`);
     } catch (error) {
       console.error(`Error adding notification for user ${uid}:`, error);
-      // Don't re-throw, as this is a background task
     }
   }
 
-  /**
-   * Retrieves notifications for a user.
-   * @param {string} uid - The user's UID.
-   * @param {boolean} [unreadOnly=false] - If true, only fetch unread notifications.
-   * @returns {Promise<Array<object>>} List of notification documents.
-   */
   static async getNotificationsForUser(uid, unreadOnly = false) {
     try {
       let query = db.collection('users').doc(uid).collection('notifications');
@@ -126,35 +148,32 @@ class UserModel {
     }
   }
 
-  /**
-   * Marks a specific notification as read.
-   * @param {string} uid - The user's UID.
-   * @param {string} notificationId - The ID of the notification to mark as read.
-   * @returns {Promise<void>}
-   */
   static async markNotificationAsRead(uid, notificationId) {
     try {
       const notificationRef = db.collection('users').doc(uid).collection('notifications').doc(notificationId);
       await notificationRef.update({ read: true });
     } catch (error) {
       console.error(`Error marking notification ${notificationId} as read for user ${uid}:`, error);
-      // Don't re-throw
     }
   }
 
-  /**
-   * Deletes a specific notification.
-   * @param {string} uid - The user's UID.
-   * @param {string} notificationId - The ID of the notification to delete.
-   * @returns {Promise<void>}
-   */
   static async deleteNotification(uid, notificationId) {
     try {
       const notificationRef = db.collection('users').doc(uid).collection('notifications').doc(notificationId);
       await notificationRef.delete();
     } catch (error) {
       console.error(`Error deleting notification ${notificationId} for user ${uid}:`, error);
-      // Don't re-throw
+    }
+  }
+
+  // Get users by role for admin
+  static async getUsersByRole(role) {
+    try {
+      const snapshot = await db.collection('users').where('role', '==', role).get();
+      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+      console.error(`Error getting users by role ${role}:`, error);
+      throw new Error('Failed to retrieve users by role.');
     }
   }
 }

@@ -10,13 +10,11 @@ import {
   Col,
   ProgressBar,
   Badge,
-  Accordion,
   InputGroup,
   Modal
 } from 'react-bootstrap';
 import { 
   MapPin, 
-  Upload, 
   Plus, 
   Trash2, 
   Clock,
@@ -29,51 +27,61 @@ import {
   Navigation,
   CheckCircle,
   AlertCircle,
-  ChevronDown,
-  ChevronUp
+  FileCheck,
+  Zap,
+  User 
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import useGeolocation from '../hooks/useGeolocation';
 import * as vendorApi from '../services/vendorApi';
 
+const DEFAULT_HOURS = {
+  monday: '9:00 AM - 5:00 PM',
+  tuesday: '9:00 AM - 5:00 PM',
+  wednesday: '9:00 AM - 5:00 PM',
+  thursday: '9:00 AM - 5:00 PM',
+  friday: '9:00 AM - 5:00 PM',
+  saturday: '9:00 AM - 2:00 PM',
+  sunday: 'Closed'
+};
+
 function VendorRegistrationPage() {
   const { userProfile, loadingAuth } = useAuth();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
+    ownerName: '', // <-- Owner Name
     businessName: '',
     description: '',
     category: '',
     contactEmail: '',
     contactPhone: '',
+    gstin: '', 
     address: {
       street: '',
       colony: '',
       city: '',
       state: '',
       zipCode: '',
-      country: ''
+      country: 'India'
     },
     location: {
       latitude: '',
       longitude: ''
     },
     services: [{ name: '', price: '', description: '' }],
-    operatingHours: {
-      monday: '9:00 AM - 5:00 PM',
-      tuesday: '9:00 AM - 5:00 PM',
-      wednesday: '9:00 AM - 5:00 PM',
-      thursday: '9:00 AM - 5:00 PM',
-      friday: '9:00 AM - 5:00 PM',
-      saturday: '9:00 AM - 2:00 PM',
-      sunday: 'Closed'
-    },
+    operatingHours: DEFAULT_HOURS,
     establishmentDate: '',
     awards: [''],
     profileImage: null,
     additionalImages: []
   });
+
+  const [isGstRegistered, setIsGstRegistered] = useState(null);
+  const [gstCheckValue, setGstCheckValue] = useState('');
+  const [gstVerifying, setGstVerifying] = useState(false);
+  const [gstVerificationError, setGstVerificationError] = useState('');
 
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
@@ -122,8 +130,9 @@ function VendorRegistrationPage() {
   // Calculate form completion progress
   useEffect(() => {
     let completed = 0;
-    const total = 8; // Total required fields
+    const total = 9; // Total required fields: +1 for ownerName
 
+    if (formData.ownerName) completed++; 
     if (formData.businessName) completed++;
     if (formData.description) completed++;
     if (formData.category) completed++;
@@ -132,9 +141,9 @@ function VendorRegistrationPage() {
     if (formData.address.city) completed++;
     if (formData.location.latitude) completed++;
     if (formData.profileImage) completed++;
-
-    setProgress(Math.round((completed / total) * 100));
-  }, [formData]);
+    
+    setProgress(Math.min(100, Math.round((completed / total) * 100)));
+  }, [formData, isGstRegistered]);
 
   const handleInputChange = (section, field, value) => {
     if (section === 'address') {
@@ -149,6 +158,51 @@ function VendorRegistrationPage() {
       }));
     } else {
       setFormData(prev => ({ ...prev, [field]: value }));
+    }
+  };
+
+  const handleGSTCheck = async () => {
+    if (!gstCheckValue.trim()) {
+        setGstVerificationError('Please enter a GSTIN.');
+        return;
+    }
+    setGstVerifying(true);
+    setGstVerificationError('');
+    setError('');
+
+    try {
+        const trimmedGstin = gstCheckValue.trim();
+        const result = await vendorApi.checkGstin(trimmedGstin);
+        
+        const verifiedDetails = result.verifiedDetails;
+
+        setFormData(prev => ({
+            ...prev,
+            // Autofill both names from API response
+            businessName: verifiedDetails.businessName || prev.businessName,
+            ownerName: verifiedDetails.ownerName || prev.ownerName, 
+            gstin: trimmedGstin,
+            // Address mapping logic would go here:
+            // address: mapApiAddress(verifiedDetails.address) 
+        }));
+        
+        setMessage(result.message || 'Business details autofilled successfully!');
+        setIsGstRegistered(true);
+    } catch (err) {
+        setGstVerificationError(err.message || 'Verification failed. Check the GSTIN.');
+    } finally {
+        setGstVerifying(false);
+    }
+  };
+  
+  const handleGstRegistrationChoice = (choice) => {
+    setIsGstRegistered(choice);
+    if (!choice) {
+        setFormData(prev => ({ ...prev, gstin: '' }));
+        setGstVerificationError('');
+    }
+    if (!choice && activeSection === 'business') {
+        nextSection(); 
     }
   };
 
@@ -202,7 +256,6 @@ function VendorRegistrationPage() {
   const handleProfileImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
         setError('Profile image must be less than 5MB');
         return;
@@ -213,7 +266,6 @@ function VendorRegistrationPage() {
 
   const handleAdditionalImagesChange = (e) => {
     const files = Array.from(e.target.files).slice(0, 3);
-    // Validate file sizes
     const validFiles = files.filter(file => file.size <= 5 * 1024 * 1024);
     if (validFiles.length !== files.length) {
       setError('Some images were too large (max 5MB each)');
@@ -232,6 +284,24 @@ function VendorRegistrationPage() {
       setLoading(false);
       return;
     }
+    // Check both required names
+    if (!formData.ownerName || !formData.businessName) {
+      setError('Both Owner Name and Business Name are required.');
+      setActiveSection('business');
+      setLoading(false);
+      return;
+    }
+    if (isGstRegistered === true && !formData.gstin) {
+      setError('You selected GST registration, but the GSTIN is missing.');
+      setLoading(false);
+      return;
+    }
+    if (isGstRegistered === null) {
+      setError('Please specify whether you are GST registered.');
+      setActiveSection('business');
+      setLoading(false);
+      return;
+    }
 
     try {
       const submitData = new FormData();
@@ -245,14 +315,14 @@ function VendorRegistrationPage() {
           submitData.append(key, formData[key]);
         }
       });
-
+      // Append files
       submitData.append('profileImage', formData.profileImage);
       formData.additionalImages.forEach(file => {
         submitData.append('additionalImages', file);
       });
 
       await vendorApi.registerVendor(submitData);
-      setMessage('Business registered successfully! Redirecting to dashboard...');
+      setMessage('Business registered successfully! Your listing is now public but marked for verification. Redirecting...');
       setTimeout(() => navigate('/vendor-dashboard'), 2000);
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
@@ -274,7 +344,8 @@ function VendorRegistrationPage() {
       setActiveSection(sections[currentIndex - 1].id);
     }
   };
-
+  
+  // Render based on Auth/Role status (unmodified)
   if (loadingAuth || (userProfile && (userProfile.role === 'vendor' || userProfile.role === 'admin'))) {
     return (
       <Container className="d-flex justify-content-center align-items-center min-vh-100">
@@ -306,20 +377,104 @@ function VendorRegistrationPage() {
       </Container>
     );
   }
+  
+  // --- RENDER CONTENT ---
+  const renderGSTSection = () => {
+    if (isGstRegistered === null) {
+        return (
+            <Card className="text-center p-4 shadow-sm mb-4 bg-light border-0">
+                <h5 className="mb-3 fw-bold">Are you a GST Registered Business?</h5>
+                <p className="text-muted">This helps verify your business identity instantly (highest trust tier).</p>
+                <div className="d-flex justify-content-center gap-3">
+                    <Button variant="success" onClick={() => handleGstRegistrationChoice(true)}>
+                        Yes, I am GST Registered
+                    </Button>
+                    <Button variant="outline-dark" onClick={() => handleGstRegistrationChoice(false)}>
+                        No, I am a Small Vendor
+                    </Button>
+                </div>
+            </Card>
+        );
+    }
 
+    if (isGstRegistered === true) {
+        return (
+            <Card className="p-4 shadow-sm mb-4 border-primary border-3">
+                <h5 className="fw-bold d-flex align-items-center mb-3 text-primary">
+                    <FileCheck size={20} className="me-2" /> GST Verification
+                </h5>
+                <Row>
+                    <Col md={8}>
+                        <Form.Group>
+                            <Form.Label className="fw-medium">GST Identification Number (GSTIN) *</Form.Label>
+                            <InputGroup>
+                                <Form.Control
+                                    type="text"
+                                    value={gstCheckValue} 
+                                    onChange={(e) => {
+                                        setGstCheckValue(e.target.value);
+                                        setFormData(prev => ({ ...prev, gstin: e.target.value })); 
+                                        setGstVerificationError('');
+                                    }}
+                                    placeholder="e.g., 22AAAAA0000A1Z5"
+                                    required
+                                    size="lg"
+                                    disabled={gstVerifying}
+                                />
+                                <Button 
+                                    variant="primary" 
+                                    onClick={handleGSTCheck} 
+                                    disabled={gstVerifying || !gstCheckValue.trim()}
+                                >
+                                    {gstVerifying ? <Spinner animation="border" size="sm" /> : <Zap size={18} />}
+                                </Button>
+                            </InputGroup>
+                            <Form.Text className="text-muted">
+                                Click the Zap icon to auto-fill business name and owner details.
+                            </Form.Text>
+                        </Form.Group>
+                    </Col>
+                    <Col md={4} className="d-flex align-items-center pt-md-4">
+                        <Badge bg={formData.gstin ? "success" : "secondary"} className="fs-6 mt-3 mt-md-0">
+                            {formData.gstin ? 'Checked' : 'Pending Check'}
+                        </Badge>
+                        <Button variant="link" size="sm" onClick={() => handleGstRegistrationChoice(null)}>
+                            (Change)
+                        </Button>
+                    </Col>
+                </Row>
+                {gstVerificationError && <Alert variant="warning" className="mt-3">{gstVerificationError}</Alert>}
+            </Card>
+        );
+    }
+    
+    // isGstRegistered === false
+    return (
+        <Card className="p-3 shadow-sm mb-4 border-info border-3 bg-light">
+            <div className="d-flex justify-content-between align-items-center">
+                <p className="mb-0 text-muted">Proceeding as **Small/Unregistered Vendor**. Both owner and business name are required.</p>
+                <Button variant="link" size="sm" onClick={() => handleGstRegistrationChoice(null)}>
+                    (Change)
+                </Button>
+            </div>
+        </Card>
+    );
+  };
+  
+  
+  // --- MAIN RENDER ---
   return (
     <>
       <Container className="py-5">
         <Row className="justify-content-center">
           <Col xl={10}>
-            {/* Header */}
+            {/* Header and Progress Bar */}
             <div className="text-center mb-5">
               <h1 className="display-5 fw-bold text-dark mb-3">Register Your Business</h1>
               <p className="lead text-muted mb-4">
                 Join our platform and reach more customers in your area
               </p>
               
-              {/* Progress Bar */}
               <Card className="border-0 shadow-sm mb-4">
                 <Card.Body className="p-4">
                   <div className="d-flex justify-content-between align-items-center mb-3">
@@ -378,10 +533,29 @@ function VendorRegistrationPage() {
                         Business Information
                       </h4>
                       
+                      {renderGSTSection()} 
+                      
+                      {isGstRegistered !== null && (
                       <Row className="g-4">
                         <Col md={6}>
                           <Form.Group>
-                            <Form.Label className="fw-medium">Business Name *</Form.Label>
+                            <Form.Label className="fw-medium">**Owner/Proprietor Name** *</Form.Label>
+                            <InputGroup size="lg">
+                              <InputGroup.Text><User size={18} /></InputGroup.Text>
+                              <Form.Control
+                                type="text"
+                                value={formData.ownerName}
+                                onChange={(e) => handleInputChange('business', 'ownerName', e.target.value)}
+                                placeholder="Legal Owner Name"
+                                required
+                              />
+                            </InputGroup>
+                            {isGstRegistered && formData.gstin && <Form.Text className="text-success">Autofilled from GST records. Please confirm.</Form.Text>}
+                          </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                          <Form.Group>
+                            <Form.Label className="fw-medium">Business/Trade Name *</Form.Label>
                             <Form.Control
                               type="text"
                               value={formData.businessName}
@@ -390,6 +564,7 @@ function VendorRegistrationPage() {
                               required
                               size="lg"
                             />
+                            {isGstRegistered && formData.gstin && <Form.Text className="text-success">Autofilled from GST records. Please confirm.</Form.Text>}
                           </Form.Group>
                         </Col>
                         <Col md={6}>
@@ -409,7 +584,10 @@ function VendorRegistrationPage() {
                           </Form.Group>
                         </Col>
                       </Row>
-
+                      )}
+                      
+                      {isGstRegistered !== null && (
+                      <>
                       <Form.Group className="mt-4">
                         <Form.Label className="fw-medium">Business Description *</Form.Label>
                         <Form.Control
@@ -450,17 +628,19 @@ function VendorRegistrationPage() {
                                 type="tel"
                                 value={formData.contactPhone}
                                 onChange={(e) => handleInputChange('business', 'contactPhone', e.target.value)}
-                                placeholder="+1 (555) 123-4567"
+                                placeholder="+91 (555) 123-4567"
                               />
                             </InputGroup>
                           </Form.Group>
                         </Col>
                       </Row>
+                      </>
+                      )}
                     </div>
                   )}
 
                   {/* Location Section */}
-                  {activeSection === 'location' && (
+                  {activeSection === 'location' && isGstRegistered !== null && (
                     <div className="p-4">
                       <h4 className="fw-bold text-dark mb-4 d-flex align-items-center">
                         <MapPin size={24} className="me-2 text-primary" />
@@ -573,7 +753,7 @@ function VendorRegistrationPage() {
                   )}
 
                   {/* Services Section */}
-                  {activeSection === 'services' && (
+                  {activeSection === 'services' && isGstRegistered !== null && (
                     <div className="p-4">
                       <h4 className="fw-bold text-dark mb-4 d-flex align-items-center">
                         <FileText size={24} className="me-2 text-primary" />
@@ -644,6 +824,84 @@ function VendorRegistrationPage() {
                     </div>
                   )}
 
+                  {/* Hours Section */}
+                  {activeSection === 'hours' && isGstRegistered !== null && (
+                      <div className="p-4">
+                          <h4 className="fw-bold text-dark mb-4 d-flex align-items-center">
+                            <Clock size={24} className="me-2 text-primary" />
+                            Operating Hours
+                          </h4>
+                          {Object.keys(formData.operatingHours).map(day => (
+                              <Form.Group as={Row} className="mb-3" key={day}>
+                                  <Form.Label column sm="3" className="text-capitalize fw-medium">
+                                      {day}
+                                  </Form.Label>
+                                  <Col sm="9">
+                                      <Form.Control
+                                          type="text"
+                                          value={formData.operatingHours[day]}
+                                          onChange={(e) => handleOperatingHoursChange(day, e.target.value)}
+                                          placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+                                      />
+                                  </Col>
+                              </Form.Group>
+                          ))}
+                      </div>
+                  )}
+
+                  {/* Media Section */}
+                  {activeSection === 'media' && isGstRegistered !== null && (
+                      <div className="p-4">
+                          <h4 className="fw-bold text-dark mb-4 d-flex align-items-center">
+                            <Image size={24} className="me-2 text-primary" />
+                            Media & Awards
+                          </h4>
+                          
+                          <Row className="g-4">
+                              <Col md={6}>
+                                  <Form.Group>
+                                      <Form.Label className="fw-medium">Profile Image *</Form.Label>
+                                      <Form.Control type="file" onChange={handleProfileImageChange} required={!formData.profileImage} />
+                                      {formData.profileImage && <small className="text-success d-block mt-1">File selected: {formData.profileImage.name}</small>}
+                                  </Form.Group>
+                              </Col>
+                              <Col md={6}>
+                                  <Form.Group>
+                                      <Form.Label className="fw-medium">Additional Images (Max 3)</Form.Label>
+                                      <Form.Control type="file" multiple onChange={handleAdditionalImagesChange} />
+                                      {formData.additionalImages.length > 0 && <small className="text-success d-block mt-1">{formData.additionalImages.length} file(s) selected.</small>}
+                                  </Form.Group>
+                              </Col>
+                          </Row>
+                          
+                          <h5 className="fw-bold text-dark mt-5 mb-3 d-flex align-items-center">
+                            <Award size={20} className="me-2 text-primary" />
+                            Awards & Recognition
+                          </h5>
+                          {formData.awards.map((award, index) => (
+                              <InputGroup className="mb-3" key={index}>
+                                  <Form.Control
+                                      type="text"
+                                      value={award}
+                                      onChange={(e) => handleAwardChange(index, e.target.value)}
+                                      placeholder="e.g., Best Local Tailor 2023"
+                                  />
+                                  <Button 
+                                      variant="outline-danger" 
+                                      onClick={() => handleRemoveAward(index)}
+                                      disabled={formData.awards.length === 1 && index === 0}
+                                  >
+                                      <Trash2 size={16} />
+                                  </Button>
+                              </InputGroup>
+                          ))}
+                          <Button variant="outline-primary" size="sm" onClick={handleAddAward}>
+                              <Plus size={16} /> Add Award
+                          </Button>
+                      </div>
+                  )}
+
+
                   {/* Navigation Buttons */}
                   <div className="border-top p-4 bg-light">
                     <Row className="g-3">
@@ -655,11 +913,11 @@ function VendorRegistrationPage() {
                         )}
                       </Col>
                       <Col className="text-end">
-                        {activeSection !== 'media' ? (
+                        {activeSection !== 'media' && isGstRegistered !== null ? (
                           <Button variant="primary" onClick={nextSection}>
                             Next
                           </Button>
-                        ) : (
+                        ) : activeSection === 'media' && isGstRegistered !== null ? (
                           <div className="d-flex gap-2 justify-content-end">
                             <Button 
                               variant="outline-primary" 
@@ -683,6 +941,14 @@ function VendorRegistrationPage() {
                               )}
                             </Button>
                           </div>
+                        ) : (
+                            <Button 
+                                variant="primary" 
+                                onClick={nextSection}
+                                disabled={isGstRegistered === null}
+                            >
+                                Continue
+                            </Button>
                         )}
                       </Col>
                     </Row>
@@ -700,8 +966,11 @@ function VendorRegistrationPage() {
           <Modal.Title>Business Registration Preview</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {/* Preview content would go here */}
-          <p>Preview of your business registration details...</p>
+          <h5 className="fw-bold">{formData.businessName || 'Your Business Name'}</h5>
+          <p className="text-muted">{formData.description || 'No description provided.'}</p>
+          <p><strong>Proprietor/Owner:</strong> {formData.ownerName || 'N/A'}</p>
+          <p><strong>GSTIN:</strong> {formData.gstin || 'N/A'}</p>
+          <p><strong>Address:</strong> {formData.address.street}, {formData.address.city}, {formData.address.zipCode}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-secondary" onClick={() => setShowPreview(false)}>

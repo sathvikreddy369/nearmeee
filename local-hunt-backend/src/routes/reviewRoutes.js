@@ -3,26 +3,30 @@ const express = require('express');
 const router = express.Router();
 const reviewController = require('../controllers/reviewController');
 const { verifyToken, authorizeRoles } = require('../middleware/authMiddleware');
+const { publicApiLimiter, userWriteLimiter } = require('../middleware/rateLimitMiddleware'); // <-- NEW
 
-// Submit a new review (protected)
-router.post('/', verifyToken, reviewController.submitReview);
+// Submit a new review (protected write)
+router.post('/', verifyToken, userWriteLimiter, reviewController.submitReview); // <-- MODERATE WRITE LIMIT
 
-// Get all reviews for a specific vendor (publicly accessible)
-router.get('/vendor/:vendorId', reviewController.getReviewsForVendor);
+// Report a review (protected write)
+router.post('/:id/report', verifyToken, userWriteLimiter, reviewController.reportReview); // <-- MODERATE WRITE LIMIT
 
-// Get all reviews by the authenticated user (protected)
+// Get all reviews for a specific vendor (public read)
+router.get('/vendor/:vendorId', publicApiLimiter, reviewController.getReviewsForVendor); // <-- STANDARD READ LIMIT
+
+// Get all reviews by the authenticated user (protected read)
 router.get('/me', verifyToken, reviewController.getReviewsByUser);
 
-// Update an existing review (protected, owner or admin only)
-router.put('/:id', verifyToken, reviewController.updateReview);
+// Update an existing review (protected write)
+router.put('/:id', verifyToken, userWriteLimiter, reviewController.updateReview); // <-- MODERATE WRITE LIMIT
 
-// Delete an existing review (protected, owner or admin only)
-router.delete('/:id', verifyToken, reviewController.deleteReview);
+// Delete an existing review (protected write)
+router.delete('/:id', verifyToken, userWriteLimiter, reviewController.deleteReview); // <-- MODERATE WRITE LIMIT
 
-// New: Get all reviews (publicly accessible, for homepage featured reviews)
-router.get('/', reviewController.getAllReviews); // <--- ADD THIS LINE
+// Get all reviews (public read)
+router.get('/', publicApiLimiter, reviewController.getAllReviews); // <-- STANDARD READ LIMIT
 
-// New: Add a reply to a review (protected, vendor owner only)
-router.put('/:id/reply', verifyToken, reviewController.addVendorReply);
+// Add a reply to a review (protected write)
+router.put('/:id/reply', verifyToken, userWriteLimiter, reviewController.addVendorReply); // <-- MODERATE WRITE LIMIT
 
 module.exports = router;

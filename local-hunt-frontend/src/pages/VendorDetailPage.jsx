@@ -44,6 +44,58 @@ import { useAuth } from '../contexts/AuthContext';
 import { useToast } from '../contexts/ToastContext';
 import useGeolocation from '../hooks/useGeolocation';
 
+// Enhanced Star Rating Component
+const StarRating = ({ rating, size = 20, showNumber = false, className = '' }) => {
+  return (
+    <div className={`d-flex align-items-center ${className}`}>
+      {[...Array(5)].map((_, i) => (
+        <Star
+          key={i}
+          size={size}
+          className={i < rating ? "text-warning fill-warning" : "text-muted"}
+          fill={i < rating ? "currentColor" : "none"}
+        />
+      ))}
+      {showNumber && (
+        <span className="ms-2 text-dark fw-medium">
+          {rating?.toFixed(1) || '0.0'}
+        </span>
+      )}
+    </div>
+  );
+};
+
+// Interactive Star Rating Component for Reviews
+const InteractiveStarRating = ({ rating, onRatingChange, size = 28, disabled = false }) => {
+  const [hoverRating, setHoverRating] = useState(0);
+
+  return (
+    <div className="d-flex justify-content-center gap-1 mb-2">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <button
+          key={star}
+          type="button"
+          className={`btn btn-link p-1 ${disabled ? 'pe-none' : ''}`}
+          onClick={() => !disabled && onRatingChange(star)}
+          onMouseEnter={() => !disabled && setHoverRating(star)}
+          onMouseLeave={() => !disabled && setHoverRating(0)}
+          style={{ 
+            border: 'none', 
+            background: 'none', 
+            cursor: disabled ? 'default' : 'pointer' 
+          }}
+        >
+          <Star
+            size={size}
+            className={star <= (hoverRating || rating) ? "text-warning fill-warning" : "text-muted"}
+            fill={star <= (hoverRating || rating) ? "currentColor" : "none"}
+          />
+        </button>
+      ))}
+    </div>
+  );
+};
+
 function VendorDetailPage() {
   const { id: vendorId } = useParams();
   const { currentUser, userProfile } = useAuth();
@@ -203,21 +255,6 @@ function VendorDetailPage() {
     setShowShareModal(false);
   };
 
-  const renderStars = (rating) => {
-    return (
-      <div className="d-flex align-items-center">
-        {[...Array(5)].map((_, i) => (
-          <Star
-            key={i}
-            size={20}
-            className={i < rating ? "text-warning fill-warning" : "text-muted"}
-            fill={i < rating ? "currentColor" : "none"}
-          />
-        ))}
-      </div>
-    );
-  };
-
   const formatDistance = (distance) => {
     if (!distance || distance === 'Unknown') return 'Distance unknown';
     return `${distance} away`;
@@ -304,8 +341,8 @@ function VendorDetailPage() {
           <Col xl={8} lg={7}>
             {/* Header Card */}
             <Card className="border-0 shadow-sm mb-4">
-              <Card.Body className="p-4">
-                <div className="d-flex justify-content-between align-items-start mb-4">
+              <Card.Body className="p-3 p-md-4">
+                <div className="d-flex justify-content-between align-items-start mb-3 mb-md-4">
                   <div className="flex-grow-1">
                     <div className="d-flex align-items-center flex-wrap mb-2">
                       <Badge bg="primary" className="me-2 mb-2">
@@ -319,13 +356,16 @@ function VendorDetailPage() {
                       </Badge>
                     </div>
                     
-                    <h1 className="h2 fw-bold text-dark mb-3">{vendor.businessName}</h1>
+                    <h1 className="h3 h2-md fw-bold text-dark mb-2 mb-md-3">{vendor.businessName}</h1>
                     
                     <div className="d-flex align-items-center mb-3">
-                      {renderStars(vendor.averageRating || 0)}
-                      <span className="ms-3 text-dark fw-medium">
-                        {vendor.averageRating?.toFixed(1) || '0.0'} 
-                        <span className="text-muted"> ({vendor.totalReviews || 0} reviews)</span>
+                      <StarRating 
+                        rating={vendor.averageRating || 0} 
+                        size={20} 
+                        showNumber={true}
+                      />
+                      <span className="ms-3 text-dark fw-medium d-none d-sm-block">
+                        <span className="text-muted">({vendor.totalReviews || 0} reviews)</span>
                       </span>
                     </div>
 
@@ -333,7 +373,7 @@ function VendorDetailPage() {
                   </div>
                   
                   {/* Desktop Action Buttons */}
-                  <div className="d-none d-lg-flex flex-column gap-2 ms-4">
+                  <div className="d-none d-lg-flex flex-column gap-2 ms-3 ms-md-4">
                     <Button 
                       variant={isFavorited ? "warning" : "outline-warning"} 
                       onClick={handleFavoriteToggle}
@@ -354,7 +394,7 @@ function VendorDetailPage() {
                 </div>
 
                 {/* Mobile Action Buttons */}
-                <div className="d-flex d-lg-none gap-2 mb-4">
+                <div className="d-flex d-lg-none gap-2 mb-3">
                   <Button 
                     variant={isFavorited ? "warning" : "outline-warning"} 
                     onClick={handleFavoriteToggle}
@@ -404,7 +444,7 @@ function VendorDetailPage() {
                   
                   {/* Image Thumbnails */}
                   {allImages.length > 1 && (
-                    <div className="p-3">
+                    <div className="p-2 p-md-3">
                       <div className="image-thumbnails">
                         {allImages.map((imgUrl, index) => (
                           <button
@@ -440,7 +480,7 @@ function VendorDetailPage() {
                 <Card.Body className="p-0">
                   <ListGroup variant="flush">
                     {vendor.services.map((service, index) => (
-                      <ListGroup.Item key={index} className="p-4 border-bottom">
+                      <ListGroup.Item key={index} className="p-3 p-md-4 border-bottom">
                         <div className="d-flex justify-content-between align-items-start">
                           <div className="flex-grow-1">
                             <h6 className="fw-bold text-dark mb-2">{service.name}</h6>
@@ -474,11 +514,12 @@ function VendorDetailPage() {
                   )}
                 </h4>
               </Card.Header>
-              <Card.Body>
+              <Card.Body className="p-3 p-md-4">
                 {/* Review Form */}
                 {currentUser ? (
                   <ReviewForm 
                     vendorId={vendorId} 
+                    vendorName={vendor.businessName}
                     onReviewSubmitted={handleReviewSubmitted} 
                     className="mb-4"
                   />
@@ -519,11 +560,11 @@ function VendorDetailPage() {
             <div className="sticky-sidebar">
               {/* Contact & Location Card */}
               <Card className="border-0 shadow-sm mb-4">
-                <Card.Body className="p-4">
-                  <h5 className="fw-bold mb-4 text-dark">Contact & Location</h5>
+                <Card.Body className="p-3 p-md-4">
+                  <h5 className="fw-bold mb-3 mb-md-4 text-dark">Contact & Location</h5>
                   
                   <ListGroup variant="flush" className="vendor-info-list">
-                    <ListGroup.Item className="d-flex align-items-start px-0 py-3 border-bottom">
+                    <ListGroup.Item className="d-flex align-items-start px-0 py-2 py-md-3 border-bottom">
                       <MapPin size={20} className="text-primary mt-1 me-3 flex-shrink-0" />
                       <div>
                         <div className="fw-medium text-dark">{vendor.address?.street}</div>
@@ -534,14 +575,14 @@ function VendorDetailPage() {
                     </ListGroup.Item>
                     
                     {vendor.contactPhone && (
-                      <ListGroup.Item className="d-flex align-items-center px-0 py-3 border-bottom">
+                      <ListGroup.Item className="d-flex align-items-center px-0 py-2 py-md-3 border-bottom">
                         <Phone size={20} className="text-primary me-3 flex-shrink-0" />
                         <div className="fw-medium text-dark">{vendor.contactPhone}</div>
                       </ListGroup.Item>
                     )}
                     
                     {vendor.contactEmail && (
-                      <ListGroup.Item className="d-flex align-items-center px-0 py-3 border-bottom">
+                      <ListGroup.Item className="d-flex align-items-center px-0 py-2 py-md-3 border-bottom">
                         <Mail size={20} className="text-primary me-3 flex-shrink-0" />
                         <div className="fw-medium text-dark">{vendor.contactEmail}</div>
                       </ListGroup.Item>
@@ -549,7 +590,7 @@ function VendorDetailPage() {
 
                     {/* Distance Information */}
                     {distanceInfo && (
-                      <ListGroup.Item className="d-flex align-items-center px-0 py-3 border-bottom">
+                      <ListGroup.Item className="d-flex align-items-center px-0 py-2 py-md-3 border-bottom">
                         <Navigation size={20} className="text-primary me-3 flex-shrink-0" />
                         <div>
                           <div className="fw-medium text-dark">
@@ -564,7 +605,7 @@ function VendorDetailPage() {
                   </ListGroup>
 
                   {/* Action Buttons */}
-                  <div className="d-grid gap-2 mt-4">
+                  <div className="d-grid gap-2 mt-3 mt-md-4">
                     <Button
                       variant="primary"
                       as={Link}

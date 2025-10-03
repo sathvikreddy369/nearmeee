@@ -1,3 +1,4 @@
+// src/services/vendorApi.js
 import axios from 'axios';
 import { getCurrentIdToken } from './authApi';
 
@@ -12,9 +13,37 @@ const getAuthHeaders = async () => {
   return { Authorization: `Bearer ${idToken}` };
 };
 
+/**
+ * Endpoint for the frontend to check a GSTIN instantly.
+ * Expected backend response: { verifiedDetails: { businessName, ownerName, address } }
+ */
+export const checkGstin = async (gstin) => {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await axios.post(`${API_URL}/vendors/check-gstin`, { gstin }, { headers });
+    return response.data;
+  } catch (error) {
+    const errorMessage = error.response?.data?.message || 'Verification failed due to a network error.';
+    throw new Error(errorMessage);
+  }
+};
+
 export const registerVendor = async (formData) => {
   try {
     const headers = await getAuthHeaders();
+    
+    // DEBUG: Log what's being sent
+    console.log('📤 Sending vendor registration data:');
+    for (let [key, value] of formData.entries()) {
+      if (key === 'profileImage' || key === 'additionalImages') {
+        console.log(`  ${key}:`, value.name || 'File object');
+      } else if (key === 'services' || key === 'operatingHours' || key === 'awards') {
+        console.log(`  ${key}:`, value.substring(0, 100) + '...'); // Preview long JSON
+      } else {
+        console.log(`  ${key}:`, value);
+      }
+    }
+    
     const response = await axios.post(`${API_URL}/vendors/register`, formData, {
       headers: {
         ...headers,
@@ -23,9 +52,16 @@ export const registerVendor = async (formData) => {
     });
     return response.data;
   } catch (error) {
+    console.error('❌ Registration error details:', {
+      status: error.response?.status,
+      message: error.response?.data?.message,
+      data: error.response?.data,
+      missingFields: error.response?.data?.missingFields
+    });
     throw new Error(error.response?.data?.message || error.message);
   }
 };
+
 
 export const getAllVendors = async (params = {}) => {
   try {

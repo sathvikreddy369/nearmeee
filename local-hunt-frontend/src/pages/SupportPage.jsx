@@ -1,181 +1,286 @@
 import React, { useState } from 'react';
-import { Container, Row, Col, Card, Form, Button, InputGroup } from 'react-bootstrap';
-import { Search, Mail, MessageCircle, Book, Video, Phone } from 'lucide-react';
+import emailjs from 'emailjs-com';
+import '../styles/SupportPage.css';
 
 const SupportPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    subject: '',
+    category: 'general',
+    message: '',
+    urgency: 'medium'
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
 
-  const helpCategories = [
+  // EmailJS configuration
+  const EMAILJS_SERVICE_ID = 'Yetowarrior_lo7p3ti';
+  const EMAILJS_TEMPLATE_ID = 'template_l4v1se3';
+  const EMAILJS_USER_ID = 'TiPzxagvRdKCbOX_C';
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      await emailjs.send(
+        EMAILJS_SERVICE_ID,
+        EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          subject: `[Nearమీ Support] ${formData.subject}`,
+          category: formData.category,
+          urgency: formData.urgency,
+          message: formData.message,
+          to_email: 'support@nearmee.com'
+        },
+        EMAILJS_USER_ID
+      );
+
+      setSubmitStatus('success');
+      setFormData({
+        name: '',
+        email: '',
+        subject: '',
+        category: 'general',
+        message: '',
+        urgency: 'medium'
+      });
+    } catch (error) {
+      console.error('Error sending email:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const faqItems = [
     {
-      icon: <Book size={24} />,
-      title: 'Knowledge Base',
-      description: 'Browse our comprehensive documentation and guides',
-      link: '#knowledge-base'
+      question: "How do I register as a vendor on Nearమీ?",
+      answer: "Click on 'Register as Vendor' from the homepage, fill in your business details, upload required documents, and our team will verify your account within 24-48 hours."
     },
     {
-      icon: <Video size={24} />,
-      title: 'Video Tutorials',
-      description: 'Watch step-by-step video guides and tutorials',
-      link: '#tutorials'
+      question: "How does Nearమీ determine my location?",
+      answer: "We use your device's GPS and IP address to suggest nearby vendors. You can also manually select your city or area for more precise results."
     },
     {
-      icon: <MessageCircle size={24} />,
-      title: 'Community Forum',
-      description: 'Get help from our community of users and experts',
-      link: '#forum'
+      question: "Are there any fees for using Nearమీ?",
+      answer: "Nearమీ is free for customers. Vendors pay a small commission on successful transactions through our platform."
     },
     {
-      icon: <Mail size={24} />,
-      title: 'Contact Support',
-      description: 'Reach out to our support team for personalized help',
-      link: '/contact'
+      question: "How do I update my business information?",
+      answer: "Vendors can log into their dashboard, go to 'My Business' section, and update information like hours, services, and contact details."
+    },
+    {
+      question: "How does the messaging system work?",
+      answer: "Customers can message vendors directly through the app. Vendors will receive notifications and can respond via their dashboard or mobile app."
     }
   ];
 
-  const popularArticles = [
-    {
-      title: 'How to create a business account',
-      category: 'Getting Started',
-      readTime: '5 min read'
-    },
-    {
-      title: 'Managing your business profile',
-      category: 'Business Tools',
-      readTime: '8 min read'
-    },
-    {
-      title: 'Understanding analytics and insights',
-      category: 'Analytics',
-      readTime: '10 min read'
-    },
-    {
-      title: 'Troubleshooting common issues',
-      category: 'Troubleshooting',
-      readTime: '6 min read'
-    }
+  const supportCategories = [
+    { value: 'general', label: 'General Inquiry' },
+    { value: 'technical', label: 'Technical Issue' },
+    { value: 'vendor', label: 'Vendor Support' },
+    { value: 'billing', label: 'Billing & Payments' },
+    { value: 'account', label: 'Account Issues' },
+    { value: 'bug', label: 'Report a Bug' },
+    { value: 'feature', label: 'Feature Request' }
   ];
 
   return (
-    <Container className="py-5" style={{ paddingTop: '100px' }}>
-      {/* Hero Section */}
-      <Row className="text-center mb-5">
-        <Col lg={8} className="mx-auto">
-          <h1 className="display-4 fw-bold text-dark mb-4">How can we help you?</h1>
-          <p className="lead text-muted mb-4">
-            Find answers to common questions, browse documentation, or contact our support team.
-          </p>
-          
-          {/* Search Bar */}
-          <div className="mb-5">
-            <InputGroup size="lg" className="shadow-sm">
-              <InputGroup.Text className="bg-white border-end-0">
-                <Search size={20} className="text-muted" />
-              </InputGroup.Text>
-              <Form.Control
-                type="text"
-                placeholder="Search for help articles, tutorials, or guides..."
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="border-start-0"
-              />
-              <Button variant="primary">Search</Button>
-            </InputGroup>
+    <div className="support-page">
+      <div className="support-container">
+        {/* Header Section */}
+        <div className="support-header">
+          <h1>Nearమీ Support Center</h1>
+          <p>We're here to help you connect with local businesses seamlessly</p>
+        </div>
+
+        <div className="support-content">
+          {/* Contact Form Section */}
+          <div className="contact-section">
+            <h2>Get in Touch</h2>
+            <p>Having issues? Our support team is ready to assist you.</p>
+            
+            <form onSubmit={handleSubmit} className="support-form">
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name">Full Name *</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter your full name"
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="email">Email Address *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    placeholder="Enter your email"
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="category">Issue Category *</label>
+                  <select
+                    id="category"
+                    name="category"
+                    value={formData.category}
+                    onChange={handleChange}
+                    required
+                  >
+                    {supportCategories.map(cat => (
+                      <option key={cat.value} value={cat.value}>
+                        {cat.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="form-group">
+                  <label htmlFor="urgency">Urgency Level *</label>
+                  <select
+                    id="urgency"
+                    name="urgency"
+                    value={formData.urgency}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="critical">Critical</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="subject">Subject *</label>
+                <input
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  placeholder="Brief description of your issue"
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="message">Detailed Message *</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  rows="6"
+                  placeholder="Please provide detailed information about your issue, including any error messages, steps to reproduce, etc."
+                ></textarea>
+              </div>
+
+              {submitStatus === 'success' && (
+                <div className="alert success">
+                  Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.
+                </div>
+              )}
+
+              {submitStatus === 'error' && (
+                <div className="alert error">
+                  Sorry, there was an error sending your message. Please try again or contact us directly at support@nearmee.com
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                className="submit-btn"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Sending...' : 'Send Message'}
+              </button>
+            </form>
           </div>
-        </Col>
-      </Row>
 
-      {/* Help Categories */}
-      <Row className="g-4 mb-5">
-        {helpCategories.map((category, index) => (
-          <Col key={index} lg={3} md={6}>
-            <Card 
-              className="border-0 shadow-sm h-100 text-center cursor-pointer"
-              onClick={() => window.location.href = category.link}
-              style={{ cursor: 'pointer' }}
-            >
-              <Card.Body className="p-4">
-                <div className="text-primary mb-3">
-                  {category.icon}
+          {/* FAQ Section */}
+          <div className="faq-section">
+            <h2>Frequently Asked Questions</h2>
+            <div className="faq-list">
+              {faqItems.map((faq, index) => (
+                <div key={index} className="faq-item">
+                  <h3>{faq.question}</h3>
+                  <p>{faq.answer}</p>
                 </div>
-                <h5 className="fw-bold mb-3">{category.title}</h5>
-                <p className="text-muted mb-0">{category.description}</p>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+              ))}
+            </div>
+          </div>
 
-      {/* Popular Articles */}
-      <Row className="g-5">
-        <Col lg={8}>
-          <h3 className="fw-bold text-dark mb-4">Popular Help Articles</h3>
-          <Row className="g-3">
-            {popularArticles.map((article, index) => (
-              <Col key={index} md={6}>
-                <Card className="border-0 shadow-sm h-100">
-                  <Card.Body className="p-4">
-                    <Badge bg="light" text="dark" className="mb-2">{article.category}</Badge>
-                    <h6 className="fw-bold text-dark mb-2">{article.title}</h6>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <small className="text-muted">{article.readTime}</small>
-                      <Button variant="link" size="sm" className="p-0 text-primary">
-                        Read more →
-                      </Button>
-                    </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Col>
-
-        {/* Support Options */}
-        <Col lg={4}>
-          <Card className="border-0 shadow-lg sticky-top" style={{ top: '120px' }}>
-            <Card.Body className="p-4">
-              <h5 className="fw-bold text-dark mb-4">Need Immediate Help?</h5>
-              
-              <div className="mb-4">
-                <div className="d-flex align-items-center mb-3">
-                  <Mail size={20} className="text-primary me-3" />
-                  <div>
-                    <h6 className="fw-bold mb-1">Email Support</h6>
-                    <p className="text-muted mb-0">support@localhunt.com</p>
-                    <small className="text-muted">Typically responds within 2 hours</small>
-                  </div>
-                </div>
+          {/* Quick Help Section */}
+          <div className="quick-help-section">
+            <h2>Quick Help</h2>
+            <div className="help-cards">
+              <div className="help-card">
+                <h3>📞 Phone Support</h3>
+                <p>Call us directly for urgent issues</p>
+                <strong>+1-800-NEAR-MEE</strong>
+                <small>Available 9 AM - 6 PM IST</small>
               </div>
-
-              <div className="mb-4">
-                <div className="d-flex align-items-center mb-3">
-                  <Phone size={20} className="text-primary me-3" />
-                  <div>
-                    <h6 className="fw-bold mb-1">Phone Support</h6>
-                    <p className="text-muted mb-0">+1 (555) 123-4567</p>
-                    <small className="text-muted">Mon-Fri, 9AM-6PM EST</small>
-                  </div>
-                </div>
+              <div className="help-card">
+                <h3>📧 Email Support</h3>
+                <p>Send us an email for detailed queries</p>
+                <strong>support@nearmee.com</strong>
+                <small>Response within 24 hours</small>
               </div>
-
-              <div className="mb-3">
-                <div className="d-flex align-items-center">
-                  <MessageCircle size={20} className="text-primary me-3" />
-                  <div>
-                    <h6 className="fw-bold mb-1">Live Chat</h6>
-                    <p className="text-muted mb-0">Available 24/7</p>
-                    <small className="text-muted">Click the chat icon in the corner</small>
-                  </div>
-                </div>
+              <div className="help-card">
+                <h3>💬 Live Chat</h3>
+                <p>Chat with our support team</p>
+                <strong>Available in App</strong>
+                <small>9 AM - 8 PM IST</small>
               </div>
+            </div>
+          </div>
 
-              <Button variant="primary" className="w-100 mt-3" onClick={() => window.location.href = '/contact'}>
-                Contact Support Team
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+          {/* Vendor Resources Section */}
+          <div className="resources-section">
+            <h2>Vendor Resources</h2>
+            <div className="resource-links">
+              <a href="/vendor-guide" className="resource-link">
+                📚 Vendor Setup Guide
+              </a>
+              <a href="/business-tips" className="resource-link">
+                💡 Business Growth Tips
+              </a>
+              <a href="/api-docs" className="resource-link">
+                🔧 API Documentation
+              </a>
+              <a href="/marketing-kit" className="resource-link">
+                🎯 Marketing Toolkit
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

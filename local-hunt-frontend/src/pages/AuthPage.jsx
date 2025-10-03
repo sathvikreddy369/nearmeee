@@ -614,7 +614,7 @@ const handleFormSubmit = async (e) => {
       if (activeTab === 'login') {
         await loginWithEmailAndPassword(email, password);
         addToast('success', 'Welcome back! Login successful.');
-        navigate('/dashboard'); 
+        navigate('/'); 
       } else {
         // --- SIGNUP LOGIC ---
         
@@ -635,7 +635,7 @@ const handleFormSubmit = async (e) => {
 
           // 3. Success feedback and navigation
           addToast('success', 'Welcome to Nearమీ! Your account has been created.');
-          navigate('/dashboard');
+          navigate('/');
           
         } catch (profileError) {
           // 4. Handle backend failure by deleting Firebase Auth user
@@ -706,7 +706,7 @@ const handleFormSubmit = async (e) => {
     try {
       await signInWithGoogle();
       addToast('success', 'Successfully signed in with Google!');
-      navigate('/dashboard');
+      navigate('/');
     } catch (err) {
       console.error('Google sign-in error:', err);
       

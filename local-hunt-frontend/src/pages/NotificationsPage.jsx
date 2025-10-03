@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useToast } from '../contexts/ToastContext';
 import * as notificationApi from '../services/notificationApi';
 import '../styles/NotificationsPage.css';
+
 function NotificationsPage() {
   const { currentUser } = useAuth();
   const { addToast } = useToast();
@@ -72,7 +73,7 @@ function NotificationsPage() {
 
   const handleMarkAsRead = async (notificationId) => {
     try {
-      await notificationApi.markAsRead(notificationId);
+      await notificationApi.markNotificationAsRead(notificationId); // Fixed function name
       setNotifications(prev => prev.map(n => 
         n.id === notificationId ? { ...n, read: true } : n
       ));
@@ -261,6 +262,7 @@ function NotificationsPage() {
                     size="sm"
                     onClick={handleMarkAllAsRead}
                     disabled={bulkActionLoading}
+                    className="d-flex align-items-center"
                   >
                     <i className="bi bi-check-all me-2"></i>
                     Mark Selected Read
@@ -270,18 +272,20 @@ function NotificationsPage() {
                     size="sm"
                     onClick={() => setShowDeleteModal(true)}
                     disabled={bulkActionLoading}
+                    className="d-flex align-items-center"
                   >
                     <i className="bi bi-trash me-2"></i>
                     Delete Selected ({selectedCount})
                   </Button>
                 </>
               )}
-              {unreadCount > 0 && (
+              {unreadCount > 0 && selectedCount === 0 && (
                 <Button
                   variant="primary"
                   size="sm"
                   onClick={handleMarkAllAsRead}
                   disabled={bulkActionLoading}
+                  className="d-flex align-items-center"
                 >
                   <i className="bi bi-check-circle me-2"></i>
                   Mark All Read
@@ -327,6 +331,7 @@ function NotificationsPage() {
               variant="outline-secondary"
               onClick={fetchNotifications}
               disabled={loading}
+              className="d-flex align-items-center"
             >
               <i className="bi bi-arrow-clockwise"></i>
             </Button>
@@ -384,8 +389,8 @@ function NotificationsPage() {
                 <ListGroup.Item
                   key={notification.id}
                   className={`notification-item p-4 border-bottom ${
-                    !notification.read ? 'notification-unread' : ''
-                  } ${selectedNotifications.has(notification.id) ? 'notification-selected' : ''}`}
+                    !notification.read ? 'notification-unread bg-light' : ''
+                  } ${selectedNotifications.has(notification.id) ? 'notification-selected bg-warning bg-opacity-10' : ''}`}
                 >
                   <div className="d-flex align-items-start">
                     {/* Checkbox for selection */}
@@ -406,28 +411,29 @@ function NotificationsPage() {
                     <div 
                       className="flex-grow-1 notification-content"
                       onClick={() => handleNotificationClick(notification)}
-                      style={{ cursor: 'pointer' }}
+                      style={{ cursor: 'pointer', minWidth: 0 }}
                     >
                       <div className="d-flex justify-content-between align-items-start mb-2">
-                        <div>
+                        <div className="d-flex align-items-center gap-2 flex-wrap">
                           <Badge 
                             bg="outline-primary" 
-                            className="me-2 type-badge"
+                            className="type-badge border border-primary text-primary"
+                            style={{ fontSize: '12px' }}
                           >
                             {getNotificationTypeLabel(notification.type)}
                           </Badge>
                           {!notification.read && (
-                            <Badge bg="primary" pill className="unread-badge">
+                            <Badge bg="primary" pill className="unread-badge" style={{ fontSize: '10px' }}>
                               New
                             </Badge>
                           )}
                         </div>
-                        <small className="text-muted">
+                        <small className="text-muted text-nowrap ms-2">
                           {formatTime(notification.timestamp || notification.createdAt)}
                         </small>
                       </div>
                       
-                      <p className="mb-2 fw-medium text-dark">
+                      <p className="mb-2 fw-medium text-dark" style={{ lineHeight: '1.4' }}>
                         {notification.message}
                       </p>
 
@@ -442,8 +448,8 @@ function NotificationsPage() {
                       )}
                     </div>
 
-                    {/* Action Buttons */}
-                    <div className="ms-3 d-flex flex-column gap-2">
+                    {/* Action Buttons - Fixed visibility and spacing */}
+                    <div className="ms-3 d-flex flex-column gap-2" style={{ minWidth: '80px' }}>
                       {!notification.read && (
                         <Button
                           variant="outline-success"
@@ -453,6 +459,8 @@ function NotificationsPage() {
                             handleMarkAsRead(notification.id);
                           }}
                           title="Mark as read"
+                          className="d-flex align-items-center justify-content-center"
+                          style={{ width: '36px', height: '36px' }}
                         >
                           <i className="bi bi-check"></i>
                         </Button>
@@ -465,6 +473,8 @@ function NotificationsPage() {
                           handleDeleteNotification(notification.id);
                         }}
                         title="Delete notification"
+                        className="d-flex align-items-center justify-content-center"
+                        style={{ width: '36px', height: '36px' }}
                       >
                         <i className="bi bi-trash"></i>
                       </Button>

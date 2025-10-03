@@ -1,6 +1,25 @@
 import React, { useState } from 'react';
 import { Card, Button, Collapse, Badge } from 'react-bootstrap';
+import { Star, ThumbsUp, Flag, ChevronDown, ChevronUp, MessageSquareQuote, Store } from 'lucide-react';
 import './review.css';
+
+// Static Star Rating Display Component
+const StaticStarRating = ({ rating, size = 16 }) => {
+  return (
+    <div className="d-flex align-items-center gap-1">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <Star
+          key={star}
+          size={size}
+          className={star <= rating ? "text-warning fill-warning" : "text-light"}
+          fill={star <= rating ? "currentColor" : "none"}
+        />
+      ))}
+      <span className="fw-semibold text-dark ms-1">{rating}.0</span>
+    </div>
+  );
+};
+
 function ReviewItem({ review }) {
   const { reviewerName, rating, comment, createdAt, vendorReply, reviewerPhoto } = review;
   const [showFullComment, setShowFullComment] = useState(false);
@@ -36,7 +55,7 @@ function ReviewItem({ review }) {
 
   return (
     <Card className="review-item-premium border-0 shadow-sm mb-3">
-      <Card.Body className="p-4">
+      <Card.Body className="p-3 p-md-4">
         {/* Review Header */}
         <div className="d-flex align-items-start mb-3">
           {/* Reviewer Avatar */}
@@ -45,10 +64,14 @@ function ReviewItem({ review }) {
               <img 
                 src={reviewerPhoto} 
                 alt={reviewerName}
-                className="avatar-image"
+                className="avatar-image rounded-circle"
+                style={{ width: '48px', height: '48px', objectFit: 'cover' }}
               />
             ) : (
-              <div className="avatar-placeholder bg-primary text-white">
+              <div 
+                className="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+                style={{ width: '48px', height: '48px', fontSize: '16px', fontWeight: '600' }}
+              >
                 {getInitials(reviewerName)}
               </div>
             )}
@@ -61,34 +84,19 @@ function ReviewItem({ review }) {
                 <h6 className="fw-bold text-dark mb-1">
                   {reviewerName || 'Anonymous User'}
                 </h6>
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center gap-2">
                   {/* Rating Stars */}
-                  <div className="rating-display me-2">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <span
-                        key={star}
-                        className={star <= rating ? 'text-warning' : 'text-light'}
-                        style={{ fontSize: '1rem' }}
-                      >
-                        <i className={`bi ${star <= rating ? 'bi-star-fill' : 'bi-star'}`}></i>
-                      </span>
-                    ))}
-                  </div>
-                  
-                  {/* Rating Badge */}
-                  <Badge 
-                    bg="warning" 
-                    text="dark" 
-                    className="rating-badge"
-                  >
-                    <i className="bi bi-star-fill me-1"></i>
-                    {rating}.0
-                  </Badge>
+                  <StaticStarRating rating={rating} />
                   
                   {/* Rating Label */}
-                  <span className="text-muted ms-2 small">
+                  <Badge 
+                    bg="outline-warning" 
+                    text="dark"
+                    className="border border-warning"
+                    style={{ fontSize: '12px', fontWeight: '500' }}
+                  >
                     {getRatingLabel(rating)}
-                  </span>
+                  </Badge>
                 </div>
               </div>
               
@@ -102,7 +110,7 @@ function ReviewItem({ review }) {
 
         {/* Review Comment */}
         <div className="review-comment mb-3">
-          <p className="text-dark mb-2" style={{ lineHeight: '1.6' }}>
+          <p className="text-dark mb-2" style={{ lineHeight: '1.6', fontSize: '15px' }}>
             {displayComment}
           </p>
           
@@ -110,11 +118,12 @@ function ReviewItem({ review }) {
             <Button
               variant="link"
               size="sm"
-              className="text-primary p-0 fw-semibold"
+              className="text-primary p-0 fw-semibold d-flex align-items-center"
               onClick={() => setShowFullComment(!showFullComment)}
+              style={{ fontSize: '14px' }}
             >
               {showFullComment ? 'Show less' : 'Read more'}
-              <i className={`bi bi-chevron-${showFullComment ? 'up' : 'down'} ms-1`}></i>
+              {showFullComment ? <ChevronUp size={16} className="ms-1" /> : <ChevronDown size={16} className="ms-1" />}
             </Button>
           )}
         </div>
@@ -127,32 +136,33 @@ function ReviewItem({ review }) {
                 variant="outline-primary"
                 size="sm"
                 onClick={() => setShowVendorReply(!showVendorReply)}
-                className="vendor-reply-toggle"
+                className="vendor-reply-toggle d-flex align-items-center"
+                style={{ fontSize: '14px' }}
               >
-                <i className="bi bi-chat-square-quote me-2"></i>
+                <MessageSquareQuote size={16} className="me-2" />
                 Vendor Response
-                <i className={`bi bi-chevron-${showVendorReply ? 'up' : 'down'} ms-2`}></i>
+                {showVendorReply ? <ChevronUp size={16} className="ms-2" /> : <ChevronDown size={16} className="ms-2" />}
               </Button>
             </div>
             
             <Collapse in={showVendorReply}>
               <div>
-                <Card className="vendor-reply-card border-start-4 border-primary">
+                <Card className="vendor-reply-card border-start-4 border-primary bg-light">
                   <Card.Body className="p-3">
                     <div className="d-flex align-items-center mb-2">
                       <div className="vendor-avatar me-2">
-                        <i className="bi bi-shop text-primary"></i>
+                        <Store size={20} className="text-primary" />
                       </div>
-                      <div>
-                        <strong className="text-primary">Business Response</strong>
+                      <div className="d-flex align-items-center">
+                        <strong className="text-primary" style={{ fontSize: '14px' }}>Business Response</strong>
                         {vendorReply.repliedAt && (
-                          <small className="text-muted ms-2">
+                          <small className="text-muted ms-2" style={{ fontSize: '12px' }}>
                             {new Date(vendorReply.repliedAt._seconds * 1000).toLocaleDateString()}
                           </small>
                         )}
                       </div>
                     </div>
-                    <p className="text-dark mb-0" style={{ lineHeight: '1.5' }}>
+                    <p className="text-dark mb-0" style={{ lineHeight: '1.5', fontSize: '14px' }}>
                       {vendorReply.text}
                     </p>
                   </Card.Body>
@@ -163,13 +173,23 @@ function ReviewItem({ review }) {
         )}
 
         {/* Review Actions */}
-        <div className="review-actions d-flex gap-3 pt-2 border-top">
-          <Button variant="link" size="sm" className="text-muted p-0">
-            <i className="bi bi-hand-thumbs-up me-1"></i>
+        <div className="review-actions d-flex gap-3 pt-3 border-top">
+          <Button 
+            variant="link" 
+            size="sm" 
+            className="text-muted p-0 d-flex align-items-center"
+            style={{ fontSize: '14px' }}
+          >
+            <ThumbsUp size={16} className="me-1" />
             Helpful
           </Button>
-          <Button variant="link" size="sm" className="text-muted p-0">
-            <i className="bi bi-flag me-1"></i>
+          <Button 
+            variant="link" 
+            size="sm" 
+            className="text-muted p-0 d-flex align-items-center"
+            style={{ fontSize: '14px' }}
+          >
+            <Flag size={16} className="me-1" />
             Report
           </Button>
         </div>

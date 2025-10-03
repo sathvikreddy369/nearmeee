@@ -1,14 +1,65 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Spinner, Row, Col, Alert } from 'react-bootstrap';
+import { Star } from 'lucide-react';
 import { submitReview } from '../../services/reviewApi';
 import { useAuth } from '../../contexts/AuthContext';
 import { useToast } from '../../contexts/ToastContext';
 import './review.css';
+
+// Interactive Star Rating Component
+const InteractiveStarRating = ({ rating, onRatingChange, size = 32, disabled = false }) => {
+  const [hoverRating, setHoverRating] = useState(0);
+
+  const getRatingText = (rating) => {
+    const ratings = {
+      1: 'Poor',
+      2: 'Fair',
+      3: 'Good',
+      4: 'Very Good',
+      5: 'Excellent'
+    };
+    return ratings[rating] || 'Select Rating';
+  };
+
+  return (
+    <div className="text-center">
+      <div className="d-flex justify-content-center gap-1 mb-2">
+        {[1, 2, 3, 4, 5].map((star) => (
+          <button
+            key={star}
+            type="button"
+            className={`btn btn-link p-1 ${disabled ? 'pe-none' : ''}`}
+            onClick={() => !disabled && onRatingChange(star)}
+            onMouseEnter={() => !disabled && setHoverRating(star)}
+            onMouseLeave={() => !disabled && setHoverRating(0)}
+            style={{ 
+              border: 'none', 
+              background: 'none', 
+              cursor: disabled ? 'default' : 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <Star
+              size={size}
+              className={star <= (hoverRating || rating) ? "text-warning fill-warning" : "text-muted"}
+              fill={star <= (hoverRating || rating) ? "currentColor" : "none"}
+            />
+          </button>
+        ))}
+      </div>
+      <div className="rating-text">
+        <span className={`fw-semibold ${rating ? 'text-warning' : 'text-muted'}`}>
+          {getRatingText(hoverRating || rating)}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 function ReviewForm({ vendorId, onReviewSubmitted, vendorName }) {
   const { currentUser, userProfile } = useAuth();
   const { addToast } = useToast();
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
   const [loading, setLoading] = useState(false);
   const [characterCount, setCharacterCount] = useState(0);
@@ -65,21 +116,10 @@ function ReviewForm({ vendorId, onReviewSubmitted, vendorName }) {
     }
   };
 
-  const getRatingText = (rating) => {
-    const ratings = {
-      1: 'Poor',
-      2: 'Fair',
-      3: 'Good',
-      4: 'Very Good',
-      5: 'Excellent'
-    };
-    return ratings[rating] || 'Select Rating';
-  };
-
   return (
     <Card className="review-form-premium shadow-sm border-0">
-      <Card.Body className="p-4">
-        <div className="text-center mb-4">
+      <Card.Body className="p-3 p-md-4">
+        <div className="text-center mb-3 mb-md-4">
           <h5 className="fw-bold text-dark mb-2">Share Your Experience</h5>
           <p className="text-muted mb-0">
             {vendorName ? `How was your experience with ${vendorName}?` : 'Tell us about your experience'}
@@ -88,46 +128,25 @@ function ReviewForm({ vendorId, onReviewSubmitted, vendorName }) {
 
         {!currentUser ? (
           <Alert variant="info" className="text-center">
-            <i className="bi bi-info-circle me-2"></i>
             Please <strong>log in</strong> to submit a review and help other customers.
           </Alert>
         ) : (
           <Form onSubmit={handleSubmit}>
             {/* Rating Section */}
-            <Form.Group className="mb-4">
-              <Form.Label className="fw-semibold text-dark mb-3">
+            <Form.Group className="mb-3 mb-md-4">
+              <Form.Label className="fw-semibold text-dark mb-3 d-block text-center">
                 Overall Rating <span className="text-danger">*</span>
               </Form.Label>
               
-              <div className="text-center">
-                <div 
-                  className="rating-stars-premium mb-2"
-                  onMouseLeave={() => setHoverRating(0)}
-                >
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <button
-                      key={star}
-                      type="button"
-                      className={`star-button ${star <= (hoverRating || rating) ? 'active' : ''}`}
-                      onClick={() => handleRatingChange(star)}
-                      onMouseEnter={() => setHoverRating(star)}
-                      disabled={loading}
-                    >
-                      <i className="bi bi-star-fill"></i>
-                    </button>
-                  ))}
-                </div>
-                
-                <div className="rating-text">
-                  <span className={`fw-semibold ${rating ? 'text-warning' : 'text-muted'}`}>
-                    {getRatingText(hoverRating || rating)}
-                  </span>
-                </div>
-              </div>
+              <InteractiveStarRating 
+                rating={rating}
+                onRatingChange={handleRatingChange}
+                disabled={loading}
+              />
             </Form.Group>
 
             {/* Comment Section */}
-            <Form.Group className="mb-4">
+            <Form.Group className="mb-3 mb-md-4">
               <Form.Label className="fw-semibold text-dark">
                 Your Review <span className="text-danger">*</span>
               </Form.Label>
@@ -162,7 +181,7 @@ function ReviewForm({ vendorId, onReviewSubmitted, vendorName }) {
                 variant="primary" 
                 type="submit" 
                 disabled={loading || !currentUser || rating === 0 || comment.length < 10}
-                className="submit-review-btn px-5 py-2"
+                className="submit-review-btn px-4 px-md-5 py-2"
                 size="lg"
               >
                 {loading ? (
@@ -177,7 +196,6 @@ function ReviewForm({ vendorId, onReviewSubmitted, vendorName }) {
                   </>
                 ) : (
                   <>
-                    <i className="bi bi-send-check me-2"></i>
                     Submit Review
                   </>
                 )}
