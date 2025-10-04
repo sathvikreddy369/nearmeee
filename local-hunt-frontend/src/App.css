@@ -226,3 +226,115 @@ a:hover {
   align-items: center;
   min-height: 60vh;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* App.css - Fixed navbar spacing */
+
+/* Fix for fixed navbar overlapping content */
+body {
+  padding-top: 60px !important; /* Reduced from 76px to match new navbar height */
+}
+
+/* Ensure smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Main content area */
+main {
+  min-height: calc(100vh - 60px - 60px); /* Viewport - navbar - footer */
+  padding-top: 0 !important;
+}
+
+/* Remove any existing padding from root if conflicting */
+#root {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  body {
+    padding-top: 56px !important; /* Slightly less on mobile */
+  }
+  
+  main {
+    min-height: calc(100vh - 56px - 60px);
+  }
+}
+
+/* For pages that need full viewport height without extra padding */
+.full-viewport {
+  min-height: 100vh;
+  margin-top: -60px; /* Counteract the body padding */
+  padding-top: 60px; /* Add back the navbar height */
+}
+
+/* Home page specific - hero section should be full viewport */
+.hero-section-premium {
+  margin-top: -60px; /* Counteract the body padding */
+  padding-top: 60px; /* Add back the navbar height */
+}
+
+/* Ensure the navbar stays on top of everything */
+.navbar-elegant {
+  z-index: 1030;
+  height: 60px;
+  min-height: 60px;
+}
+
+/* Make sure offcanvas mobile menu appears above everything */
+.mobile-menu-offcanvas {
+  z-index: 1040;
+}
+
+/* Mobile specific adjustments */
+@media (max-width: 991.98px) {
+  .navbar-elegant {
+    height: 56px;
+    min-height: 56px;
+  }
+}
+
+/* Loading spinner centering */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 60vh;
+}
+
+/* Additional utility classes */
+.no-padding-top {
+  padding-top: 0 !important;
+}
+
+.mt-navbar {
+  margin-top: 60px;
+}
+
+@media (max-width: 768px) {
+  .mt-navbar {
+    margin-top: 56px;
+  }
+}

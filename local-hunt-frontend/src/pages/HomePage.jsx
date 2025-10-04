@@ -97,14 +97,6 @@ function HomePage() {
     }
   ];
 
-  // Stats data
-  const stats = [
-    { number: '50,000+', label: 'Verified Professionals' },
-    { number: '500+', label: 'Cities Across India' },
-    { number: '10L+', label: 'Happy Customers' },
-    { number: '4.8/5', label: 'Customer Rating' }
-  ];
-
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
@@ -208,10 +200,10 @@ function HomePage() {
                 <h1 className="hero-title">
                   Find Trusted Local Services<br />in Your Neighborhood
                 </h1>
-                <p className="hero-subtitle">
+                {/* <p className="hero-subtitle">
                   Connect with government ID verified, background checked professionals<br />
                   for all your home service needs. Safety and quality guaranteed.
-                </p>
+                </p> */}
 
                 <Card className="search-main-card floating-element">
                   <Card.Body className="p-4">
@@ -361,22 +353,7 @@ function HomePage() {
         </Container>
       </section>
 
-      {/* Stats Section */}
-      <section className="stats-section">
-        <Container>
-          <div className="section-header">
-            <h2>Trusted by Millions Across India</h2>
-          </div>
-          <div className="stats-grid">
-            {stats.map((stat, index) => (
-              <div key={index} className="stat-item fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <h3>{stat.number}</h3>
-                <p>{stat.label}</p>
-              </div>
-            ))}
-          </div>
-        </Container>
-      </section>
+      
 
       {/* Recent Reviews */}
       <section className="reviews-section">

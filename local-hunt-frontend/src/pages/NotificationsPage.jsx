@@ -186,8 +186,6 @@ function NotificationsPage() {
         return 'bi-check-circle-fill text-success';
       case 'vendor_rejected':
         return 'bi-x-circle-fill text-danger';
-      case 'booking_confirmed':
-        return 'bi-calendar-check-fill text-info';
       case 'system':
         return 'bi-info-circle-fill text-secondary';
       default:
@@ -323,7 +321,6 @@ function NotificationsPage() {
               <option value="new_message">Messages</option>
               <option value="new_review">Reviews</option>
               <option value="vendor_approved">Approvals</option>
-              <option value="booking_confirmed">Bookings</option>
               <option value="system">System</option>
             </Form.Select>
             

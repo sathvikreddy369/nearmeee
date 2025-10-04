@@ -186,3 +186,105 @@
   background: #a8a8a8;
 }
 
+
+
+
+/* common.css - Notification Bell Styles */
+
+.notification-bell {
+  text-decoration: none !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.notification-bell:hover {
+  background: rgba(74, 78, 105, 0.1) !important;
+  transform: translateY(-1px);
+}
+
+.notification-bell:hover .notification-icon {
+  color: var(--primary) !important;
+  transform: scale(1.1);
+}
+
+.notification-bell:focus {
+  box-shadow: 0 0 0 2px rgba(74, 78, 105, 0.25) !important;
+}
+
+.notification-bell:active {
+  transform: scale(0.95);
+}
+
+.notification-badge {
+  animation: pulse 2s infinite;
+  font-weight: 600;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(220, 53, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 53, 69, 0);
+  }
+}
+
+/* Mobile specific styles */
+@media (max-width: 991.98px) {
+  .notification-bell {
+    min-width: 36px !important;
+    height: 36px !important;
+    margin-right: 0.5rem !important;
+  }
+  
+  .notification-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+  
+  .notification-badge {
+    font-size: 0.55rem !important;
+    min-width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+/* Loading state animation */
+.notification-bell .spinner-border {
+  border-width: 2px;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .notification-bell:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+  }
+}
+
+/* Accessibility improvements */
+.notification-bell:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .notification-bell,
+  .notification-icon,
+  .notification-badge {
+    transition: none !important;
+    animation: none !important;
+  }
+  
+  .notification-bell:hover {
+    transform: none !important;
+  }
+  
+  .notification-bell:hover .notification-icon {
+    transform: none !important;
+  }
+}
