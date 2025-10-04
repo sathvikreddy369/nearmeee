@@ -29,7 +29,8 @@ import {
   AlertCircle,
   FileCheck,
   Zap,
-  User 
+  User,
+  IdCard
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -51,13 +52,14 @@ function VendorRegistrationPage() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    ownerName: '', // <-- Owner Name
+    ownerName: '',
     businessName: '',
     description: '',
     category: '',
     contactEmail: '',
     contactPhone: '',
-    gstin: '', 
+    gstin: '',
+    aadharNumber: '',
     address: {
       street: '',
       colony: '',
@@ -75,7 +77,9 @@ function VendorRegistrationPage() {
     establishmentDate: '',
     awards: [''],
     profileImage: null,
-    additionalImages: []
+    additionalImages: [],
+    aadharFront: null,
+    aadharBack: null
   });
 
   const [isGstRegistered, setIsGstRegistered] = useState(null);
@@ -99,10 +103,10 @@ function VendorRegistrationPage() {
 
   const sections = [
     { id: 'business', title: 'Business Info', icon: Building, progress: 20 },
-    { id: 'location', title: 'Location', icon: MapPin, progress: 40 },
-    { id: 'services', title: 'Services', icon: FileText, progress: 60 },
-    { id: 'hours', title: 'Operating Hours', icon: Clock, progress: 80 },
-    { id: 'media', title: 'Media & Awards', icon: Image, progress: 100 }
+    { id: 'identity', title: 'Identity', icon: IdCard, progress: 40 },
+    { id: 'location', title: 'Location', icon: MapPin, progress: 60 },
+    { id: 'services', title: 'Services', icon: FileText, progress: 80 },
+    { id: 'media', title: 'Media & Hours', icon: Image, progress: 100 }
   ];
 
   // Redirect if user is already a vendor or admin
@@ -130,13 +134,16 @@ function VendorRegistrationPage() {
   // Calculate form completion progress
   useEffect(() => {
     let completed = 0;
-    const total = 9; // Total required fields: +1 for ownerName
+    const total = 12; // Total required fields including Aadhar
 
     if (formData.ownerName) completed++; 
     if (formData.businessName) completed++;
     if (formData.description) completed++;
     if (formData.category) completed++;
     if (formData.contactEmail) completed++;
+    if (formData.aadharNumber) completed++;
+    if (formData.aadharFront) completed++;
+    if (formData.aadharBack) completed++;
     if (formData.address.street) completed++;
     if (formData.address.city) completed++;
     if (formData.location.latitude) completed++;
@@ -178,12 +185,9 @@ function VendorRegistrationPage() {
 
         setFormData(prev => ({
             ...prev,
-            // Autofill both names from API response
             businessName: verifiedDetails.businessName || prev.businessName,
-            ownerName: verifiedDetails.ownerName || prev.ownerName, 
+            ownerName: verifiedDetails.ownerName || prev.ownerName,
             gstin: trimmedGstin,
-            // Address mapping logic would go here:
-            // address: mapApiAddress(verifiedDetails.address) 
         }));
         
         setMessage(result.message || 'Business details autofilled successfully!');
@@ -273,21 +277,49 @@ function VendorRegistrationPage() {
     setFormData(prev => ({ ...prev, additionalImages: validFiles }));
   };
 
+  const handleAadharFrontChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Aadhar front image must be less than 5MB');
+        return;
+      }
+      setFormData(prev => ({ ...prev, aadharFront: file }));
+    }
+  };
+
+  const handleAadharBackChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Aadhar back image must be less than 5MB');
+        return;
+      }
+      setFormData(prev => ({ ...prev, aadharBack: file }));
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setMessage('');
     setLoading(true);
 
+    // Validation
     if (!formData.profileImage) {
       setError('A profile image is required');
       setLoading(false);
       return;
     }
-    // Check both required names
     if (!formData.ownerName || !formData.businessName) {
       setError('Both Owner Name and Business Name are required.');
       setActiveSection('business');
+      setLoading(false);
+      return;
+    }
+    if (!formData.aadharNumber || !formData.aadharFront || !formData.aadharBack) {
+      setError('Aadhar card number and both front/back images are required for verification.');
+      setActiveSection('identity');
       setLoading(false);
       return;
     }
@@ -311,18 +343,22 @@ function VendorRegistrationPage() {
         if (key === 'address' || key === 'location' || key === 'services' || 
             key === 'operatingHours' || key === 'awards') {
           submitData.append(key, JSON.stringify(formData[key]));
-        } else if (key !== 'profileImage' && key !== 'additionalImages') {
+        } else if (key !== 'profileImage' && key !== 'additionalImages' && 
+                   key !== 'aadharFront' && key !== 'aadharBack') {
           submitData.append(key, formData[key]);
         }
       });
+      
       // Append files
       submitData.append('profileImage', formData.profileImage);
       formData.additionalImages.forEach(file => {
         submitData.append('additionalImages', file);
       });
+      submitData.append('aadharFront', formData.aadharFront);
+      submitData.append('aadharBack', formData.aadharBack);
 
       await vendorApi.registerVendor(submitData);
-      setMessage('Business registered successfully! Your listing is now public but marked for verification. Redirecting...');
+      setMessage('Business registered successfully! Your listing is now under review.');
       setTimeout(() => navigate('/vendor-dashboard'), 2000);
     } catch (err) {
       setError(err.message || 'Registration failed. Please try again.');
@@ -345,7 +381,7 @@ function VendorRegistrationPage() {
     }
   };
   
-  // Render based on Auth/Role status (unmodified)
+  // Render based on Auth/Role status
   if (loadingAuth || (userProfile && (userProfile.role === 'vendor' || userProfile.role === 'admin'))) {
     return (
       <Container className="d-flex justify-content-center align-items-center min-vh-100">
@@ -406,7 +442,7 @@ function VendorRegistrationPage() {
                 <Row>
                     <Col md={8}>
                         <Form.Group>
-                            <Form.Label className="fw-medium">GST Identification Number (GSTIN) *</Form.Label>
+                            <Form.Label className="fw-medium">GST Identification Number (GSTIN)</Form.Label>
                             <InputGroup>
                                 <Form.Control
                                     type="text"
@@ -417,7 +453,6 @@ function VendorRegistrationPage() {
                                         setGstVerificationError('');
                                     }}
                                     placeholder="e.g., 22AAAAA0000A1Z5"
-                                    required
                                     size="lg"
                                     disabled={gstVerifying}
                                 />
@@ -452,7 +487,7 @@ function VendorRegistrationPage() {
     return (
         <Card className="p-3 shadow-sm mb-4 border-info border-3 bg-light">
             <div className="d-flex justify-content-between align-items-center">
-                <p className="mb-0 text-muted">Proceeding as **Small/Unregistered Vendor**. Both owner and business name are required.</p>
+                <p className="mb-0 text-muted">Proceeding as <strong>Small/Unregistered Vendor</strong>. Aadhar verification required.</p>
                 <Button variant="link" size="sm" onClick={() => handleGstRegistrationChoice(null)}>
                     (Change)
                 </Button>
@@ -460,7 +495,89 @@ function VendorRegistrationPage() {
         </Card>
     );
   };
-  
+
+  const renderIdentitySection = () => (
+    <div className="p-4">
+      <h4 className="fw-bold text-dark mb-4 d-flex align-items-center">
+        <IdCard size={24} className="me-2 text-primary" />
+        Identity Verification
+      </h4>
+
+      <Alert variant="info" className="mb-4">
+        <strong>Aadhar Card Verification Required</strong>
+        <br />
+        For security and verification purposes, we require Aadhar card details for all vendors.
+      </Alert>
+
+      <Row className="g-4">
+        <Col md={6}>
+          <Form.Group>
+            <Form.Label className="fw-medium">Aadhar Card Number *</Form.Label>
+            <InputGroup size="lg">
+              <InputGroup.Text><IdCard size={18} /></InputGroup.Text>
+              <Form.Control
+                type="text"
+                value={formData.aadharNumber}
+                onChange={(e) => handleInputChange('identity', 'aadharNumber', e.target.value)}
+                placeholder="Enter 12-digit Aadhar number"
+                required
+                maxLength={12}
+              />
+            </InputGroup>
+            <Form.Text className="text-muted">
+              12-digit Aadhar number without spaces
+            </Form.Text>
+          </Form.Group>
+        </Col>
+      </Row>
+
+      <Row className="g-4 mt-3">
+        <Col md={6}>
+          <Form.Group>
+            <Form.Label className="fw-medium">Aadhar Front Side *</Form.Label>
+            <Form.Control 
+              type="file" 
+              onChange={handleAadharFrontChange}
+              accept="image/*"
+              required
+            />
+            {formData.aadharFront && (
+              <small className="text-success d-block mt-1">
+                Selected: {formData.aadharFront.name}
+              </small>
+            )}
+            <Form.Text className="text-muted">
+              Clear photo of the front side of your Aadhar card
+            </Form.Text>
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group>
+            <Form.Label className="fw-medium">Aadhar Back Side *</Form.Label>
+            <Form.Control 
+              type="file" 
+              onChange={handleAadharBackChange}
+              accept="image/*"
+              required
+            />
+            {formData.aadharBack && (
+              <small className="text-success d-block mt-1">
+                Selected: {formData.aadharBack.name}
+              </small>
+            )}
+            <Form.Text className="text-muted">
+              Clear photo of the back side of your Aadhar card
+            </Form.Text>
+          </Form.Group>
+        </Col>
+      </Row>
+
+      <Alert variant="warning" className="mt-4">
+        <strong>Privacy Note:</strong> Your Aadhar details are securely stored and used only for verification purposes. 
+        They are not shared with third parties.
+      </Alert>
+    </div>
+  );
   
   // --- MAIN RENDER ---
   return (
@@ -539,7 +656,7 @@ function VendorRegistrationPage() {
                       <Row className="g-4">
                         <Col md={6}>
                           <Form.Group>
-                            <Form.Label className="fw-medium">**Owner/Proprietor Name** *</Form.Label>
+                            <Form.Label className="fw-medium">Owner/Proprietor Name *</Form.Label>
                             <InputGroup size="lg">
                               <InputGroup.Text><User size={18} /></InputGroup.Text>
                               <Form.Control
@@ -637,6 +754,11 @@ function VendorRegistrationPage() {
                       </>
                       )}
                     </div>
+                  )}
+
+                  {/* Identity Verification Section */}
+                  {activeSection === 'identity' && isGstRegistered !== null && (
+                    renderIdentitySection()
                   )}
 
                   {/* Location Section */}
@@ -824,37 +946,12 @@ function VendorRegistrationPage() {
                     </div>
                   )}
 
-                  {/* Hours Section */}
-                  {activeSection === 'hours' && isGstRegistered !== null && (
-                      <div className="p-4">
-                          <h4 className="fw-bold text-dark mb-4 d-flex align-items-center">
-                            <Clock size={24} className="me-2 text-primary" />
-                            Operating Hours
-                          </h4>
-                          {Object.keys(formData.operatingHours).map(day => (
-                              <Form.Group as={Row} className="mb-3" key={day}>
-                                  <Form.Label column sm="3" className="text-capitalize fw-medium">
-                                      {day}
-                                  </Form.Label>
-                                  <Col sm="9">
-                                      <Form.Control
-                                          type="text"
-                                          value={formData.operatingHours[day]}
-                                          onChange={(e) => handleOperatingHoursChange(day, e.target.value)}
-                                          placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
-                                      />
-                                  </Col>
-                              </Form.Group>
-                          ))}
-                      </div>
-                  )}
-
-                  {/* Media Section */}
+                  {/* Media & Hours Section */}
                   {activeSection === 'media' && isGstRegistered !== null && (
                       <div className="p-4">
                           <h4 className="fw-bold text-dark mb-4 d-flex align-items-center">
                             <Image size={24} className="me-2 text-primary" />
-                            Media & Awards
+                            Media & Operating Hours
                           </h4>
                           
                           <Row className="g-4">
@@ -873,6 +970,23 @@ function VendorRegistrationPage() {
                                   </Form.Group>
                               </Col>
                           </Row>
+
+                          <h5 className="fw-bold text-dark mt-5 mb-3">Operating Hours</h5>
+                          {Object.keys(formData.operatingHours).map(day => (
+                              <Form.Group as={Row} className="mb-3" key={day}>
+                                  <Form.Label column sm="3" className="text-capitalize fw-medium">
+                                      {day}
+                                  </Form.Label>
+                                  <Col sm="9">
+                                      <Form.Control
+                                          type="text"
+                                          value={formData.operatingHours[day]}
+                                          onChange={(e) => handleOperatingHoursChange(day, e.target.value)}
+                                          placeholder="e.g., 9:00 AM - 5:00 PM or Closed"
+                                      />
+                                  </Col>
+                              </Form.Group>
+                          ))}
                           
                           <h5 className="fw-bold text-dark mt-5 mb-3 d-flex align-items-center">
                             <Award size={20} className="me-2 text-primary" />
@@ -900,7 +1014,6 @@ function VendorRegistrationPage() {
                           </Button>
                       </div>
                   )}
-
 
                   {/* Navigation Buttons */}
                   <div className="border-top p-4 bg-light">
@@ -970,7 +1083,11 @@ function VendorRegistrationPage() {
           <p className="text-muted">{formData.description || 'No description provided.'}</p>
           <p><strong>Proprietor/Owner:</strong> {formData.ownerName || 'N/A'}</p>
           <p><strong>GSTIN:</strong> {formData.gstin || 'N/A'}</p>
+          <p><strong>Aadhar Number:</strong> {formData.aadharNumber ? 'Provided' : 'Not provided'}</p>
           <p><strong>Address:</strong> {formData.address.street}, {formData.address.city}, {formData.address.zipCode}</p>
+          <Alert variant="info" className="mt-3">
+            Your registration will be reviewed by our team. You'll be notified once approved.
+          </Alert>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="outline-secondary" onClick={() => setShowPreview(false)}>

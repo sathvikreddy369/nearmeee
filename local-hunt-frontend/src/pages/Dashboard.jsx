@@ -95,7 +95,7 @@ function Dashboard() {
                   {getWelcomeMessage()}, {userProfile.name}!
                 </h1>
                 <p className="lead text-muted mb-3">
-                  Welcome to your LocalHunt dashboard
+                  Welcome to your Nearమీ dashboard
                   <Badge 
                     bg={getRoleBadgeVariant(userProfile.role)} 
                     className="ms-3 role-badge"
@@ -377,7 +377,7 @@ function Dashboard() {
           <Col>
             <Alert variant="info" className="text-center">
               <i className="bi bi-info-circle display-4 d-block mb-3"></i>
-              <h5>Welcome to LocalHunt!</h5>
+              <h5>Welcome to Nearమీ!</h5>
               <p className="mb-3">
                 Get started by exploring local businesses, saving your favorites, and writing reviews.
               </p>

@@ -235,46 +235,22 @@ const SupportPage = () => {
             </div>
           </div>
 
-          {/* Quick Help Section */}
-          <div className="quick-help-section">
-            <h2>Quick Help</h2>
-            <div className="help-cards">
-              <div className="help-card">
-                <h3>📞 Phone Support</h3>
-                <p>Call us directly for urgent issues</p>
-                <strong>+1-800-NEAR-MEE</strong>
-                <small>Available 9 AM - 6 PM IST</small>
-              </div>
-              <div className="help-card">
-                <h3>📧 Email Support</h3>
-                <p>Send us an email for detailed queries</p>
-                <strong>support@nearmee.com</strong>
-                <small>Response within 24 hours</small>
-              </div>
-              <div className="help-card">
-                <h3>💬 Live Chat</h3>
-                <p>Chat with our support team</p>
-                <strong>Available in App</strong>
-                <small>9 AM - 8 PM IST</small>
-              </div>
-            </div>
-          </div>
 
           {/* Vendor Resources Section */}
           <div className="resources-section">
             <h2>Vendor Resources</h2>
             <div className="resource-links">
-              <a href="/vendor-guide" className="resource-link">
+              <a href="/vendor-success-hub#setup-guide" className="resource-link">
                 📚 Vendor Setup Guide
               </a>
-              <a href="/business-tips" className="resource-link">
+              <a href="/vendor-success-hub#business-growth" className="resource-link">
                 💡 Business Growth Tips
               </a>
-              <a href="/api-docs" className="resource-link">
-                🔧 API Documentation
-              </a>
-              <a href="/marketing-kit" className="resource-link">
+              <a href="/vendor-success-hub#marketing-toolkit" className="resource-link">
                 🎯 Marketing Toolkit
+              </a>
+              <a href="/vendor-success-hub#success-stories" className="resource-link">
+                🌟 Success Stories
               </a>
             </div>
           </div>

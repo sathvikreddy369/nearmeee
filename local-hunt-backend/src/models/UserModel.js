@@ -13,43 +13,51 @@ class UserModel {
       updatedAt: new Date(),
       favorites: [],
       recentViews: [],
-      vendorProfile: null, // Reference to vendor document if user becomes vendor
+      vendorProfile: null,
     };
     await userRef.set(userData, { merge: true });
     return userData;
   }
 
   static async getUserProfile(uid) {
-    const userDoc = await db.collection('users').doc(uid).get();
-    if (!userDoc.exists) {
-      return null;
+    try {
+      console.log('🔍 Fetching user profile for:', uid);
+      
+      const userDoc = await db.collection('users').doc(uid).get();
+      
+      if (!userDoc.exists) {
+        console.log('❌ User profile not found in Firestore for ID:', uid);
+        return null;
+      }
+      
+      const userData = userDoc.data();
+      console.log('✅ User profile found:', userData);
+      
+      return { 
+        id: userDoc.id, 
+        ...userData 
+      };
+    } catch (error) {
+      console.error('Error in getUserProfile:', error);
+      throw error;
     }
-    return { id: userDoc.id, ...userDoc.data() };
   }
 
   static async updateUserProfile(uid, updates) {
-    const userRef = db.collection('users').doc(uid);
-    
-    // If role is being updated to vendor, set vendorProfile reference
-    if (updates.role === 'vendor') {
-      // Find vendor document for this user
-      const vendorSnapshot = await db.collection('vendors')
-        .where('userId', '==', uid)
-        .limit(1)
-        .get();
+    try {
+      const userRef = db.collection('users').doc(uid);
+      const updatedData = { 
+        ...updates, 
+        updatedAt: new Date() 
+      };
       
-      if (!vendorSnapshot.empty) {
-        const vendorDoc = vendorSnapshot.docs[0];
-        updates.vendorProfile = vendorDoc.id;
-      }
+      await userRef.update(updatedData);
+      const updatedDoc = await userRef.get();
+      return { id: updatedDoc.id, ...updatedDoc.data() };
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+      throw new Error('Failed to update user profile.');
     }
-    
-    const allowedUpdates = { ...updates, updatedAt: new Date() };
-    await userRef.update(allowedUpdates);
-    
-    // Return updated profile with vendor data if applicable
-    const updatedUser = await this.getUserProfile(uid);
-    return updatedUser;
   }
 
   static async updateUserRole(uid, newRole) {
@@ -60,7 +68,6 @@ class UserModel {
       updatedAt: new Date()
     };
     
-    // If becoming vendor, link to vendor profile
     if (newRole === 'vendor') {
       const vendorSnapshot = await db.collection('vendors')
         .where('userId', '==', uid)
@@ -72,7 +79,6 @@ class UserModel {
         updates.vendorProfile = vendorDoc.id;
       }
     } else {
-      // If role changed from vendor, remove vendor profile link
       updates.vendorProfile = null;
     }
     
@@ -166,7 +172,6 @@ class UserModel {
     }
   }
 
-  // Get users by role for admin
   static async getUsersByRole(role) {
     try {
       const snapshot = await db.collection('users').where('role', '==', role).get();
@@ -174,6 +179,22 @@ class UserModel {
     } catch (error) {
       console.error(`Error getting users by role ${role}:`, error);
       throw new Error('Failed to retrieve users by role.');
+    }
+  }
+
+  static async getUserByEmail(email) {
+    try {
+      const snapshot = await db.collection('users')
+        .where('email', '==', email.toLowerCase())
+        .limit(1)
+        .get();
+      
+      if (snapshot.empty) return null;
+      const doc = snapshot.docs[0];
+      return { id: doc.id, ...doc.data() };
+    } catch (error) {
+      console.error('Error getting user by email:', error);
+      throw new Error('Failed to retrieve user by email.');
     }
   }
 }

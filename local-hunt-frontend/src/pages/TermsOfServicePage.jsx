@@ -112,7 +112,7 @@ const TermsOfServicePage = () => {
             <Card.Body className="p-4">
               <h3 className="fw-bold text-dark mb-3">7. Limitation of Liability</h3>
               <p className="text-muted mb-0">
-                In no event shall LocalHunt, nor its directors, employees, partners, agents, suppliers, or affiliates, 
+                In no event shall Nearమీ, nor its directors, employees, partners, agents, suppliers, or affiliates, 
                 be liable for any indirect, incidental, special, consequential or punitive damages, including without limitation, 
                 loss of profits, data, use, goodwill, or other intangible losses, resulting from your access to or use of or inability to access or use the Service.
               </p>

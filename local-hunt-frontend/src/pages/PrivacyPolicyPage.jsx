@@ -3,7 +3,7 @@ import { Container, Row, Col, Card } from 'react-bootstrap';
 import { Shield, Lock, Eye, UserCheck } from 'lucide-react';
 
 const PrivacyPolicyPage = () => {
-  const lastUpdated = "December 1, 2024";
+  const lastUpdated = "October 1, 2025";
 
   const sections = [
     {
@@ -71,7 +71,7 @@ const PrivacyPolicyPage = () => {
             <Card.Body className="p-4">
               <h3 className="fw-bold text-dark mb-3">Introduction</h3>
               <p className="text-muted mb-0">
-                This Privacy Policy describes how LocalHunt ("we," "us," or "our") collects, uses, 
+                This Privacy Policy describes how Nearమీ ("we," "us," or "our") collects, uses, 
                 and shares your personal information when you use our website, mobile application, 
                 and services (collectively, the "Services"). By using our Services, you agree to 
                 the collection and use of information in accordance with this policy.
@@ -130,7 +130,7 @@ const PrivacyPolicyPage = () => {
               <h3 className="fw-bold text-dark mb-3">Contact Us</h3>
               <p className="text-muted mb-0">
                 If you have any questions or concerns about this Privacy Policy or our data practices, 
-                please contact us at privacy@localhunt.com or through our contact page.
+                please contact us through our contact page.
               </p>
             </Card.Body>
           </Card>

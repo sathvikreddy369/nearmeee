@@ -44,7 +44,7 @@ const CookiePolicyPage = () => {
               Last updated: {lastUpdated}
             </p>
             <p className="text-muted">
-              This Cookie Policy explains how LocalHunt uses cookies and similar technologies to recognize you when you visit our website.
+              This Cookie Policy explains how Nearమీ uses cookies and similar technologies to recognize you when you visit our website.
             </p>
           </div>
 
@@ -149,7 +149,7 @@ const CookiePolicyPage = () => {
             <Card.Body className="p-4">
               <h3 className="fw-bold text-dark mb-3">Contact Us</h3>
               <p className="text-muted mb-0">
-                If you have any questions about our use of cookies, please contact us at privacy@localhunt.com.
+                If you have any questions about our use of cookies, please contact us through our contact page.
               </p>
             </Card.Body>
           </Card>

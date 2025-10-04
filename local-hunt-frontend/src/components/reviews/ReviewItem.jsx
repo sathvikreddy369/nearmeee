@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Card, Button, Collapse, Badge } from 'react-bootstrap';
-import { Star, ThumbsUp, Flag, ChevronDown, ChevronUp, MessageSquareQuote, Store } from 'lucide-react';
+import { Card, Button, Collapse, Badge, Alert } from 'react-bootstrap';
+import { Star, Flag, ChevronDown, ChevronUp, MessageSquareQuote, Store } from 'lucide-react';
+import { useAuth } from '../../contexts/AuthContext';
+import { useToast } from '../../contexts/ToastContext';
+import { reportReview } from '../../services/reviewApi';
 import './review.css';
 
-// Static Star Rating Display Component
 const StaticStarRating = ({ rating, size = 16 }) => {
   return (
     <div className="d-flex align-items-center gap-1">
@@ -20,10 +22,17 @@ const StaticStarRating = ({ rating, size = 16 }) => {
   );
 };
 
-function ReviewItem({ review }) {
-  const { reviewerName, rating, comment, createdAt, vendorReply, reviewerPhoto } = review;
+function ReviewItem({ review, onReviewUpdated }) {
+  const { reviewerName, rating, comment, createdAt, vendorReply } = review;
+  const { currentUser } = useAuth();
+  const { addToast } = useToast();
+  
   const [showFullComment, setShowFullComment] = useState(false);
   const [showVendorReply, setShowVendorReply] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [userActions, setUserActions] = useState({
+    reported: false
+  });
 
   const reviewDate = createdAt 
     ? new Date(createdAt._seconds ? createdAt._seconds * 1000 : createdAt).toLocaleDateString('en-US', {
@@ -53,6 +62,43 @@ function ReviewItem({ review }) {
       : 'U';
   };
 
+  const handleReport = async () => {
+    if (!currentUser) {
+      addToast('info', 'Please log in to report reviews.');
+      return;
+    }
+
+    if (userActions.reported) {
+      addToast('info', 'You have already reported this review.');
+      return;
+    }
+
+    // Confirm before reporting
+    if (!window.confirm('Are you sure you want to report this review? This action cannot be undone.')) {
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      await reportReview(review.id);
+      setUserActions(prev => ({ ...prev, reported: true }));
+      addToast('success', 'Review reported successfully. Our team will review it shortly.');
+      
+      // Update the review data if parent component provided callback
+      if (onReviewUpdated) {
+        onReviewUpdated({
+          ...review,
+          reportCount: (review.reportCount || 0) + 1
+        });
+      }
+    } catch (error) {
+      addToast('danger', error.message || 'Failed to report review.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Card className="review-item-premium border-0 shadow-sm mb-3">
       <Card.Body className="p-3 p-md-4">
@@ -60,21 +106,12 @@ function ReviewItem({ review }) {
         <div className="d-flex align-items-start mb-3">
           {/* Reviewer Avatar */}
           <div className="reviewer-avatar me-3">
-            {reviewerPhoto ? (
-              <img 
-                src={reviewerPhoto} 
-                alt={reviewerName}
-                className="avatar-image rounded-circle"
-                style={{ width: '48px', height: '48px', objectFit: 'cover' }}
-              />
-            ) : (
-              <div 
-                className="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
-                style={{ width: '48px', height: '48px', fontSize: '16px', fontWeight: '600' }}
-              >
-                {getInitials(reviewerName)}
-              </div>
-            )}
+            <div 
+              className="avatar-placeholder bg-primary text-white rounded-circle d-flex align-items-center justify-content-center"
+              style={{ width: '48px', height: '48px', fontSize: '16px', fontWeight: '600' }}
+            >
+              {getInitials(reviewerName)}
+            </div>
           </div>
 
           {/* Review Info */}
@@ -85,10 +122,7 @@ function ReviewItem({ review }) {
                   {reviewerName || 'Anonymous User'}
                 </h6>
                 <div className="d-flex align-items-center gap-2">
-                  {/* Rating Stars */}
                   <StaticStarRating rating={rating} />
-                  
-                  {/* Rating Label */}
                   <Badge 
                     bg="outline-warning" 
                     text="dark"
@@ -100,7 +134,6 @@ function ReviewItem({ review }) {
                 </div>
               </div>
               
-              {/* Review Date */}
               <small className="text-muted text-nowrap">
                 {reviewDate}
               </small>
@@ -155,9 +188,13 @@ function ReviewItem({ review }) {
                       </div>
                       <div className="d-flex align-items-center">
                         <strong className="text-primary" style={{ fontSize: '14px' }}>Business Response</strong>
-                        {vendorReply.repliedAt && (
+                        {vendorReply.createdAt && (
                           <small className="text-muted ms-2" style={{ fontSize: '12px' }}>
-                            {new Date(vendorReply.repliedAt._seconds * 1000).toLocaleDateString()}
+                            {new Date(
+                              vendorReply.createdAt._seconds ? 
+                              vendorReply.createdAt._seconds * 1000 : 
+                              vendorReply.createdAt
+                            ).toLocaleDateString()}
                           </small>
                         )}
                       </div>
@@ -177,22 +214,35 @@ function ReviewItem({ review }) {
           <Button 
             variant="link" 
             size="sm" 
-            className="text-muted p-0 d-flex align-items-center"
+            className={`p-0 d-flex align-items-center ${
+              userActions.reported ? 'text-danger' : 'text-muted'
+            }`}
             style={{ fontSize: '14px' }}
-          >
-            <ThumbsUp size={16} className="me-1" />
-            Helpful
-          </Button>
-          <Button 
-            variant="link" 
-            size="sm" 
-            className="text-muted p-0 d-flex align-items-center"
-            style={{ fontSize: '14px' }}
+            onClick={handleReport}
+            disabled={loading || userActions.reported}
           >
             <Flag size={16} className="me-1" />
-            Report
+            {loading ? '...' : (userActions.reported ? 'Reported' : 'Report')}
           </Button>
         </div>
+
+        {/* Report Count Badge */}
+        {review.reportCount > 0 && (
+          <div className="mt-2">
+            <Badge bg="warning" text="dark" className="small">
+              <Flag size={12} className="me-1" />
+              {review.reportCount} report{review.reportCount !== 1 ? 's' : ''}
+            </Badge>
+          </div>
+        )}
+
+        {/* User Action Feedback */}
+        {userActions.reported && (
+          <Alert variant="warning" className="mt-2 py-2 small mb-0">
+            <i className="bi bi-flag-fill me-2"></i>
+            Review reported. Our team will review it.
+          </Alert>
+        )}
       </Card.Body>
     </Card>
   );

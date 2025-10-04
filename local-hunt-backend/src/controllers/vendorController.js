@@ -9,12 +9,12 @@ const fs = require('fs');
 const path = require('path');
 const ngeohash = require('ngeohash');
 
-
 /**
  * Endpoint for the frontend to check a GSTIN instantly before registration.
  * Fetches Legal Name (Business) and Owner Name (Legal Entity/Proprietor).
  * @route POST /api/vendors/check-gstin
  */
+// In src/controllers/vendorController.js - update the checkGstinForRegistration function
 exports.checkGstinForRegistration = async (req, res, next) => {
     const { gstin } = req.body;
     
@@ -25,7 +25,7 @@ exports.checkGstinForRegistration = async (req, res, next) => {
         });
     }
     
-    // Basic GSTIN format validation
+    // Basic GSTIN format validation (optional, can be removed)
     const gstinRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
     if (!gstinRegex.test(gstin.trim())) {
         return res.status(400).json({ 
@@ -37,7 +37,9 @@ exports.checkGstinForRegistration = async (req, res, next) => {
     try {
         const result = await GstinService.verify(gstin); 
         
-        if (result.isValid) {
+        console.log('🔍 GST Verification Result:', result); // Debug log
+        
+        if (result.success && result.isValid) {
             return res.status(200).json({
                 success: true,
                 message: 'GSTIN is active and details fetched. Please confirm the names.',
@@ -45,6 +47,9 @@ exports.checkGstinForRegistration = async (req, res, next) => {
                     businessName: result.businessName,
                     ownerName: result.ownerName,
                     address: result.principalAddress,
+                    status: result.status,
+                    registrationDate: result.registrationDate,
+                    businessType: result.businessType,
                     additionalData: result.additionalData
                 },
                 gstin: gstin.trim()
@@ -78,6 +83,8 @@ exports.checkGstinForRegistration = async (req, res, next) => {
 exports.registerVendor = async (req, res, next) => {
   const profileImageFile = req.files?.profileImage ? req.files.profileImage[0] : null;
   const additionalImageFiles = req.files?.additionalImages || [];
+  const aadharFrontFile = req.files?.aadharFront ? req.files.aadharFront[0] : null;
+  const aadharBackFile = req.files?.aadharBack ? req.files.aadharBack[0] : null;
 
   // DEBUG: Log ALL request body fields to see what's actually being received
   console.log('📨 ALL REQUEST BODY FIELDS:', Object.keys(req.body));
@@ -91,7 +98,9 @@ exports.registerVendor = async (req, res, next) => {
     country: req.body.country,
     latitude: req.body.latitude,
     longitude: req.body.longitude,
-    address: req.body.address // The JSON string
+    address: req.body.address, // The JSON string
+    aadharNumber: req.body.aadharNumber,
+    gstin: req.body.gstin
   });
 
   // Parse address from JSON string and extract individual fields
@@ -112,6 +121,7 @@ exports.registerVendor = async (req, res, next) => {
   const category = req.body.category;
   const contactEmail = req.body.contactEmail;
   const contactPhone = req.body.contactPhone;
+  const aadharNumber = req.body.aadharNumber;
   
   // Address fields: try body first, then parsed address
   const street = req.body.street || parsedAddress.street;
@@ -141,16 +151,18 @@ exports.registerVendor = async (req, res, next) => {
   const operatingHours = req.body.operatingHours;
   const establishmentDate = req.body.establishmentDate;
   const awards = req.body.awards;
-  const gstin = req.body.gstin;
+  const gstin = req.body.gstin; // Now optional
 
   const userId = req.user.uid;
 
   let uploadedProfileImageUrl = '';
   let uploadedAdditionalImageUrls = [];
+  let uploadedAadharFrontUrl = '';
+  let uploadedAadharBackUrl = '';
   const filesToDelete = [];
 
   try {
-    // Enhanced validation with final values
+    // Enhanced validation with final values (Aadhar is now required)
     console.log('🔍 FINAL Validation check:', {
       businessName: !!businessName,
       ownerName: !!ownerName,
@@ -164,13 +176,17 @@ exports.registerVendor = async (req, res, next) => {
       country: !!country,
       latitude: !!latitude,
       longitude: !!longitude,
-      profileImageFile: !!profileImageFile
+      profileImageFile: !!profileImageFile,
+      aadharNumber: !!aadharNumber,
+      aadharFrontFile: !!aadharFrontFile,
+      aadharBackFile: !!aadharBackFile
     });
 
     // Final validation with the actual values we'll use
     if (!businessName || !ownerName || !description || !category || !contactEmail || 
         !street || !city || !state || !zipCode || !country || 
-        !latitude || !longitude || !profileImageFile) {
+        !latitude || !longitude || !profileImageFile ||
+        !aadharNumber || !aadharFrontFile || !aadharBackFile) {
       
       return res.status(400).json({ 
         message: 'Missing required vendor registration fields.',
@@ -187,7 +203,10 @@ exports.registerVendor = async (req, res, next) => {
           country: !country,
           latitude: !latitude,
           longitude: !longitude,
-          profileImage: !profileImageFile
+          profileImage: !profileImageFile,
+          aadharNumber: !aadharNumber,
+          aadharFront: !aadharFrontFile,
+          aadharBack: !aadharBackFile
         },
         receivedData: {
           businessName,
@@ -199,14 +218,14 @@ exports.registerVendor = async (req, res, next) => {
           country,
           latitude,
           longitude,
+          aadharNumber,
           hasAddressJSON: !!req.body.address,
           hasLocationJSON: !!req.body.location
         }
       });
     }
 
-    // --- REST OF YOUR CODE REMAINS THE SAME ---
-    // Handle Image Uploads
+    // --- Handle Image Uploads ---
     if (profileImageFile) {
       uploadedProfileImageUrl = await ImageUploadService.uploadImage(profileImageFile.path, `localhunt/vendors/${userId}/profile`);
       filesToDelete.push(profileImageFile.path);
@@ -216,6 +235,17 @@ exports.registerVendor = async (req, res, next) => {
       const additionalImagePaths = additionalImageFiles.map(file => file.path);
       uploadedAdditionalImageUrls = await ImageUploadService.uploadMultipleImages(additionalImagePaths, `localhunt/vendors/${userId}/additional`);
       filesToDelete.push(...additionalImagePaths);
+    }
+
+    // Upload Aadhar card images
+    if (aadharFrontFile) {
+      uploadedAadharFrontUrl = await ImageUploadService.uploadImage(aadharFrontFile.path, `localhunt/vendors/${userId}/aadhar`);
+      filesToDelete.push(aadharFrontFile.path);
+    }
+
+    if (aadharBackFile) {
+      uploadedAadharBackUrl = await ImageUploadService.uploadImage(aadharBackFile.path, `localhunt/vendors/${userId}/aadhar`);
+      filesToDelete.push(aadharBackFile.path);
     }
 
     // Handle Geocoding
@@ -234,26 +264,13 @@ exports.registerVendor = async (req, res, next) => {
       locationData.country = country;
     }
 
-    // Determine Verification Status
+    // Determine Verification Status - Simplified logic
     const hasGstin = gstin && gstin.trim();
-    let initialVerificationStatus;
-    let legalGstName = null;
-
+    let initialVerificationStatus = 'pending_review_basic'; // Default for all vendors
+    
+    // If GSTIN is provided, mark for GST verification
     if (hasGstin) {
-      try {
-        const gstinCheck = await GstinService.verify(hasGstin);
-        if (gstinCheck.isValid) {
-          initialVerificationStatus = 'verified_gst'; 
-          legalGstName = gstinCheck.businessName;
-        } else {
-          initialVerificationStatus = 'pending_review_gst'; 
-        }
-      } catch (gstError) {
-        console.warn('GST verification failed:', gstError.message);
-        initialVerificationStatus = 'pending_review_gst';
-      }
-    } else {
-      initialVerificationStatus = 'pending_review_basic'; 
+      initialVerificationStatus = 'pending_gst_verification';
     }
 
     // Safe JSON parsing
@@ -283,8 +300,16 @@ exports.registerVendor = async (req, res, next) => {
       awards: parseSafeJSON(awards, []),
       profileImageUrl: uploadedProfileImageUrl,
       additionalImages: uploadedAdditionalImageUrls,
+      
+      // New Aadhar fields
+      aadharNumber: aadharNumber.trim(),
+      aadharFrontUrl: uploadedAadharFrontUrl,
+      aadharBackUrl: uploadedAadharBackUrl,
+      
+      // GSTIN (optional)
       gstin: hasGstin ? gstin.trim() : '',
-      legalGstName: legalGstName,
+      
+      // Verification status
       verificationStatus: initialVerificationStatus, 
       isSuspended: false, 
       changeHistory: [], 
@@ -297,14 +322,17 @@ exports.registerVendor = async (req, res, next) => {
       ownerName: vendorData.ownerName,
       address: vendorData.address,
       location: vendorData.location,
-      servicesCount: vendorData.services.length
+      servicesCount: vendorData.services.length,
+      hasGstin: !!vendorData.gstin,
+      hasAadhar: !!vendorData.aadharNumber
     });
 
     const newVendor = await VendorModel.createVendor(vendorData);
 
     await auth.setCustomUserClaims(userId, { role: 'vendor' });
     await UserModel.updateUserProfile(userId, { role: 'vendor' });
-        // Send notification to admin about new vendor registration
+    
+    // Send notification to admin about new vendor registration
     try {
       const adminUsers = await UserModel.getUsersByRole('admin');
       adminUsers.forEach(async (adminUser) => {
@@ -320,7 +348,7 @@ exports.registerVendor = async (req, res, next) => {
     }
 
     res.status(201).json({
-      message: 'Vendor registered successfully! Your listing is now public but marked as unverified.',
+      message: 'Vendor registered successfully! Your listing is now under review.',
       vendor: newVendor,
     });
 
@@ -402,11 +430,13 @@ exports.updateVendorProfile = async (req, res, next) => {
     country = addressData.country,
     latitude, longitude, services, operatingHours, establishmentDate, awards,
     existingProfileImageUrl, existingAdditionalImagesUrls,
-    gstin 
+    gstin, aadharNumber
   } = req.body;
 
   const profileImageFile = req.files?.profileImage ? req.files.profileImage[0] : null;
   const additionalImageFiles = req.files?.additionalImages || [];
+  const aadharFrontFile = req.files?.aadharFront ? req.files.aadharFront[0] : null;
+  const aadharBackFile = req.files?.aadharBack ? req.files.aadharBack[0] : null;
   const filesToDelete = [];
 
   try {
@@ -433,6 +463,7 @@ exports.updateVendorProfile = async (req, res, next) => {
     if (profileImageFile || existingProfileImageUrl !== undefined) {
         updates.profileImageUrl = updatedProfileImageUrl;
     }
+
     let updatedAdditionalImageUrls = vendorDocData.additionalImages || []; 
     if (additionalImageFiles.length > 0 || existingAdditionalImagesUrls !== undefined) {
       const newAdditionalImagePaths = additionalImageFiles.map(file => file.path);
@@ -443,7 +474,20 @@ exports.updateVendorProfile = async (req, res, next) => {
       updates.additionalImages = updatedAdditionalImageUrls.filter(url => url);
     }
 
-    // --- 2. Audit and Update Critical Fields (Names, Contact, GSTIN) ---
+    // Handle Aadhar card updates
+    if (aadharFrontFile) {
+      updates.aadharFrontUrl = await ImageUploadService.uploadImage(aadharFrontFile.path, `localhunt/vendors/${userId}/aadhar`);
+      filesToDelete.push(aadharFrontFile.path);
+      auditLogs.push({ field: 'aadharFront', changedBy: userId, timestamp, flagForReview: true });
+    }
+
+    if (aadharBackFile) {
+      updates.aadharBackUrl = await ImageUploadService.uploadImage(aadharBackFile.path, `localhunt/vendors/${userId}/aadhar`);
+      filesToDelete.push(aadharBackFile.path);
+      auditLogs.push({ field: 'aadharBack', changedBy: userId, timestamp, flagForReview: true });
+    }
+
+    // --- 2. Audit and Update Critical Fields (Names, Contact, GSTIN, Aadhar) ---
     if (businessName !== undefined && businessName !== vendorDocData.businessName) {
       auditLogs.push({ field: 'businessName', oldValue: vendorDocData.businessName, newValue: businessName, changedBy: userId, timestamp, flagForReview: true });
       updates.businessName = businessName;
@@ -456,28 +500,27 @@ exports.updateVendorProfile = async (req, res, next) => {
       auditLogs.push({ field: 'contactPhone', oldValue: vendorDocData.contactPhone, newValue: contactPhone, changedBy: userId, timestamp, flagForReview: false });
       updates.contactPhone = contactPhone || '';
     }
+
+    // Aadhar Number Change Audit
+    if (aadharNumber !== undefined && aadharNumber.trim() !== (vendorDocData.aadharNumber || '')) {
+      const trimmedAadhar = aadharNumber.trim();
+      auditLogs.push({ field: 'aadharNumber', oldValue: vendorDocData.aadharNumber || '', newValue: trimmedAadhar, changedBy: userId, timestamp, flagForReview: true });
+      updates.aadharNumber = trimmedAadhar;
+    }
+
     // GSTIN Change/Addition Audit & Re-verification
     if (gstin !== undefined && gstin.trim() !== (vendorDocData.gstin || '')) {
       const trimmedGstin = gstin.trim();
       auditLogs.push({ field: 'gstin', oldValue: vendorDocData.gstin || '', newValue: trimmedGstin, changedBy: userId, timestamp, flagForReview: true });
       updates.gstin = trimmedGstin;
       
-      // --- AUTOMATIC GST VERIFICATION on change ---
-      try {
-         const gstinCheck = await GstinService.verify(trimmedGstin);
-         
-         if (gstinCheck.isValid) {
-           updates.verificationStatus = 'verified_gst'; 
-           updates.legalGstName = gstinCheck.businessName;
-         } else {
-           updates.verificationStatus = 'pending_review_gst'; 
-         }
-      } catch (apiError) {
-         console.error('Failed to communicate with GST API:', apiError.message);
-         updates.verificationStatus = 'pending_review_gst'; 
+      // If GSTIN is added or changed, mark for verification
+      if (trimmedGstin) {
+        updates.verificationStatus = 'pending_gst_verification';
+      } else {
+        // If GSTIN is removed, revert to basic verification
+        updates.verificationStatus = 'pending_review_basic';
       }
-    } else if (gstin !== undefined) {
-      updates.gstin = gstin.trim(); 
     }
 
     // Other basic fields (no audit log needed)
@@ -545,7 +588,8 @@ exports.updateVendorProfile = async (req, res, next) => {
             locationToSave = { latitude: newLatitude, longitude: newLongitude, fullAddress: `${newFullAddress.street || ''}, ${newFullAddress.city || ''}, ${newFullAddress.state || ''}, ${newFullAddress.country || ''}`, ...newFullAddress };
       }
       updates.location = locationToSave; 
-      if (vendorDocData.verificationStatus !== 'pending_review_gst' && vendorDocData.verificationStatus !== 'verified_gst') {
+      // If location changes and vendor has GST, keep GST status, otherwise mark for basic review
+      if (vendorDocData.verificationStatus !== 'verified_gst') {
         updates.verificationStatus = 'pending_review_basic'; 
       }
     } else if (vendorDocData.location !== undefined) {
@@ -581,6 +625,7 @@ exports.updateVendorProfile = async (req, res, next) => {
     });
   }
 };
+
 
 exports.incrementProfileView = async (req, res, next) => {
   try {

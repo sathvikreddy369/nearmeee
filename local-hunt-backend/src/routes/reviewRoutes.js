@@ -3,30 +3,25 @@ const express = require('express');
 const router = express.Router();
 const reviewController = require('../controllers/reviewController');
 const { verifyToken, authorizeRoles } = require('../middleware/authMiddleware');
-const { publicApiLimiter, userWriteLimiter } = require('../middleware/rateLimitMiddleware'); // <-- NEW
+const { publicApiLimiter, userWriteLimiter } = require('../middleware/rateLimitMiddleware');
 
-// Submit a new review (protected write)
-router.post('/', verifyToken, userWriteLimiter, reviewController.submitReview); // <-- MODERATE WRITE LIMIT
+// --- Public Routes ---
+router.get('/', publicApiLimiter, reviewController.getAllReviews);
+router.get('/vendor/:vendorId', publicApiLimiter, reviewController.getReviewsForVendor);
 
-// Report a review (protected write)
-router.post('/:id/report', verifyToken, userWriteLimiter, reviewController.reportReview); // <-- MODERATE WRITE LIMIT
-
-// Get all reviews for a specific vendor (public read)
-router.get('/vendor/:vendorId', publicApiLimiter, reviewController.getReviewsForVendor); // <-- STANDARD READ LIMIT
-
-// Get all reviews by the authenticated user (protected read)
+// --- User Routes (Authenticated) ---
+router.post('/', verifyToken, userWriteLimiter, reviewController.submitReview);
+router.post('/:id/report', verifyToken, userWriteLimiter, reviewController.reportReview);
 router.get('/me', verifyToken, reviewController.getReviewsByUser);
+router.put('/:id', verifyToken, userWriteLimiter, reviewController.updateReview);
+router.delete('/:id', verifyToken, userWriteLimiter, reviewController.deleteReview);
+router.put('/:id/reply', verifyToken, userWriteLimiter, reviewController.addVendorReply);
 
-// Update an existing review (protected write)
-router.put('/:id', verifyToken, userWriteLimiter, reviewController.updateReview); // <-- MODERATE WRITE LIMIT
-
-// Delete an existing review (protected write)
-router.delete('/:id', verifyToken, userWriteLimiter, reviewController.deleteReview); // <-- MODERATE WRITE LIMIT
-
-// Get all reviews (public read)
-router.get('/', publicApiLimiter, reviewController.getAllReviews); // <-- STANDARD READ LIMIT
-
-// Add a reply to a review (protected write)
-router.put('/:id/reply', verifyToken, userWriteLimiter, reviewController.addVendorReply); // <-- MODERATE WRITE LIMIT
+// --- Admin Routes ---
+router.get('/admin/flagged', verifyToken, authorizeRoles(['admin']), reviewController.getFlaggedReviews);
+router.get('/admin/analytics', verifyToken, authorizeRoles(['admin']), reviewController.getReviewAnalytics);
+router.post('/admin/:reviewId/remove', verifyToken, authorizeRoles(['admin']), reviewController.removeReviewAdmin);
+router.post('/admin/:reviewId/restore', verifyToken, authorizeRoles(['admin']), reviewController.restoreReviewAdmin);
+router.post('/admin/:reviewId/dismiss-reports', verifyToken, authorizeRoles(['admin']), reviewController.dismissReports);
 
 module.exports = router;

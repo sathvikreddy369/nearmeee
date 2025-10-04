@@ -3,7 +3,7 @@ const UserModel = require('../models/UserModel');
 const VendorModel = require('../models/VendorModel');
 const ReviewModel = require('../models/ReviewModel');
 const { auth } = require('../config/firebaseAdmin');
-
+const GstinService = require('../services/GstinService');
 // --- User Management ---
 exports.getAllUsers = async (req, res, next) => {
   try {
@@ -135,6 +135,186 @@ exports.updateVendorStatus = async (req, res, next) => {
   }
 };
 
+exports.updateVendorVerificationStatus = async (req, res, next) => {
+  try {
+    const { vendorId } = req.params;
+    const { status, notes } = req.body;
+
+    if (!status) {
+      return res.status(400).json({ message: 'Verification status is required.' });
+    }
+
+    const vendor = await VendorModel.getVendorById(vendorId);
+    if (!vendor) {
+      return res.status(404).json({ message: 'Vendor not found.' });
+    }
+
+    const updatedVendor = await VendorModel.updateVerificationStatus(vendorId, status, notes);
+
+    // Send notification to vendor about status change
+    try {
+      const statusMessages = {
+        'verified_basic': 'Your basic verification is complete.',
+        'verified_gst': 'Your GST verification is complete.',
+        'suspended': 'Your vendor account has been suspended.',
+        'rejected': 'Your vendor registration has been rejected.'
+      };
+
+      if (statusMessages[status]) {
+        await UserModel.addNotification(
+          vendor.userId,
+          'verification_status_update',
+          statusMessages[status],
+          vendorId
+        );
+      }
+    } catch (notifyError) {
+      console.warn('Failed to send verification status notification:', notifyError);
+    }
+
+    res.status(200).json({
+      message: `Vendor verification status updated to ${status}.`,
+      vendor: updatedVendor
+    });
+  } catch (error) {
+    console.error('Admin: Error updating vendor verification status:', error);
+    next(error);
+  }
+};
+
+// In src/controllers/adminController.js - simplify the verifyGstinForVendor function
+
+// In src/controllers/adminController.js - fix the verifyGstinForVendor function
+exports.verifyGstinForVendor = async (req, res, next) => {
+  try {
+    const { vendorId } = req.params;
+    const { gstin } = req.body;
+
+    if (!gstin) {
+      return res.status(400).json({ message: 'GSTIN is required for verification.' });
+    }
+
+    const vendor = await VendorModel.getVendorById(vendorId);
+    if (!vendor) {
+      return res.status(404).json({ message: 'Vendor not found.' });
+    }
+
+    // Call GST verification API
+    const verificationResult = await GstinService.verify(gstin);
+
+    console.log('🔍 GST Verification Result for Admin:', verificationResult); // Debug log
+
+    // Return both vendor data and verification result for manual review
+    res.status(200).json({
+      success: true,
+      message: 'GSTIN verification completed. Please review the details.',
+      vendorData: {
+        id: vendor.id,
+        businessName: vendor.businessName,
+        ownerName: vendor.ownerName,
+        category: vendor.category,
+        contactEmail: vendor.contactEmail,
+        contactPhone: vendor.contactPhone,
+        location: vendor.location,
+        submittedGstin: vendor.gstin,
+        verificationStatus: vendor.verificationStatus,
+        createdAt: vendor.createdAt
+      },
+      gstVerificationResult: verificationResult // This should now contain the proper data
+    });
+
+  } catch (error) {
+    console.error('Admin: Error verifying GSTIN:', error);
+    next(error);
+  }
+};
+
+
+exports.getVendorsByVerificationStatus = async (req, res, next) => {
+  try {
+    const { status } = req.params;
+    
+    const vendors = await VendorModel.getAllVendorsAdmin();
+    const filteredVendors = vendors.filter(vendor => vendor.verificationStatus === status);
+    
+    // Enhance vendor data with user information
+    const enhancedVendors = await Promise.all(
+      filteredVendors.map(async (vendor) => {
+        try {
+          const user = await UserModel.getUserProfile(vendor.userId);
+          return {
+            ...vendor,
+            userEmail: user?.email,
+            userName: user?.name,
+            userRole: user?.role
+          };
+        } catch (error) {
+          return vendor;
+        }
+      })
+    );
+    
+    res.status(200).json({ 
+      status,
+      count: enhancedVendors.length,
+      vendors: enhancedVendors 
+    });
+  } catch (error) {
+    console.error('Admin: Error getting vendors by verification status:', error);
+    next(error);
+  }
+};
+
+exports.confirmGstinVerification = async (req, res, next) => {
+  try {
+    const { vendorId } = req.params;
+    const { confirmed, notes } = req.body;
+
+    const vendor = await VendorModel.getVendorById(vendorId);
+    if (!vendor) {
+      return res.status(404).json({ message: 'Vendor not found.' });
+    }
+
+    let updates = {
+      gstinVerified: confirmed,
+      gstinVerificationDate: new Date(),
+      verificationNotes: notes || ''
+    };
+
+    if (confirmed) {
+      updates.verificationStatus = 'verified_gst';
+      updates.isSuspended = false;
+      updates.status = 'active';
+    } else {
+      updates.verificationStatus = 'gst_verification_failed';
+    }
+
+    const updatedVendor = await VendorModel.updateVendorStatus(vendorId, updates);
+
+    // Send notification to vendor
+    try {
+      await UserModel.addNotification(
+        vendor.userId,
+        'gst_verification',
+        `Your GSTIN verification has been ${confirmed ? 'approved' : 'rejected'}. ${notes || ''}`,
+        vendorId
+      );
+    } catch (notifyError) {
+      console.warn('Failed to send GST verification notification:', notifyError);
+    }
+
+    res.status(200).json({
+      message: `GSTIN verification ${confirmed ? 'confirmed' : 'rejected'} successfully.`,
+      vendor: updatedVendor
+    });
+
+  } catch (error) {
+    console.error('Admin: Error confirming GST verification:', error);
+    next(error);
+  }
+};
+
+
 exports.approveVendorRole = async (req, res, next) => {
   try {
     const { vendorId } = req.params;
@@ -214,7 +394,14 @@ exports.deleteVendor = async (req, res, next) => {
 // --- Review Management ---
 exports.getAllReviewsAdmin = async (req, res, next) => {
   try {
-    const reviews = await ReviewModel.getAllReviewsAdmin();
+    const { status, flagged, vendorId } = req.query;
+    const filters = {};
+    
+    if (status) filters.status = status;
+    if (flagged !== undefined) filters.flagged = flagged === 'true';
+    if (vendorId) filters.vendorId = vendorId;
+
+    const reviews = await ReviewModel.getAllReviewsAdmin(filters);
     
     // Enhance reviews with vendor and user information
     const enhancedReviews = await Promise.all(
@@ -231,14 +418,52 @@ exports.getAllReviewsAdmin = async (req, res, next) => {
             reviewerName: user?.name || review.reviewerName
           };
         } catch (error) {
-          return review; // Return basic review data if fetches fail
+          return review;
         }
       })
     );
     
-    res.status(200).json({ reviews: enhancedReviews });
+    res.status(200).json({ 
+      count: enhancedReviews.length,
+      filters,
+      reviews: enhancedReviews 
+    });
   } catch (error) {
-    console.error('Admin: Error getting all reviews for admin:', error);
+    console.error('Admin: Error getting all reviews:', error);
+    next(error);
+  }
+};
+
+exports.getFlaggedReviews = async (req, res, next) => {
+  try {
+    const reviews = await ReviewModel.getFlaggedReviews();
+    
+    // Enhance reviews with vendor and user information
+    const enhancedReviews = await Promise.all(
+      reviews.map(async (review) => {
+        try {
+          const vendor = await VendorModel.getVendorById(review.vendorId);
+          const user = await UserModel.getUserProfile(review.userId);
+          
+          return {
+            ...review,
+            vendorName: vendor?.businessName,
+            vendorCategory: vendor?.category,
+            reviewerEmail: user?.email,
+            reviewerName: user?.name || review.reviewerName
+          };
+        } catch (error) {
+          return review;
+        }
+      })
+    );
+    
+    res.status(200).json({ 
+      count: enhancedReviews.length,
+      reviews: enhancedReviews 
+    });
+  } catch (error) {
+    console.error('Admin: Error getting flagged reviews:', error);
     next(error);
   }
 };
@@ -254,14 +479,22 @@ exports.getReviewAnalytics = async (req, res, next) => {
       removed: reviews.filter(r => r.status === 'removed').length,
       flagged: reviews.filter(r => r.flagged).length,
       averageRating: 0,
-      ratingDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 }
+      ratingDistribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+      reports: {
+        totalReports: reviews.reduce((sum, review) => sum + (review.reportCount || 0), 0),
+        flaggedCount: reviews.filter(r => r.flagged).length,
+        topReported: reviews
+          .filter(r => r.reportCount > 0)
+          .sort((a, b) => b.reportCount - a.reportCount)
+          .slice(0, 10)
+      }
     };
 
-    // Calculate average rating and distribution
+    // Calculate average rating and distribution for approved reviews only
     const approvedReviews = reviews.filter(r => r.status === 'approved');
     if (approvedReviews.length > 0) {
       const totalRating = approvedReviews.reduce((sum, review) => sum + review.rating, 0);
-      analytics.averageRating = (totalRating / approvedReviews.length).toFixed(1);
+      analytics.averageRating = parseFloat((totalRating / approvedReviews.length).toFixed(2));
       
       approvedReviews.forEach(review => {
         analytics.ratingDistribution[review.rating]++;
@@ -278,33 +511,149 @@ exports.getReviewAnalytics = async (req, res, next) => {
 exports.updateReviewStatus = async (req, res, next) => {
   try {
     const { reviewId } = req.params;
-    const { status } = req.body;
+    const { status, reason } = req.body;
+    const adminId = req.user.uid;
 
-    const updatedReview = await ReviewModel.updateReviewStatus(reviewId, status);
+    const existingReview = await ReviewModel.getReviewById(reviewId);
+    if (!existingReview) {
+      return res.status(404).json({ message: 'Review not found.' });
+    }
+
+    const updatedReview = await ReviewModel.updateReviewStatus(reviewId, status, adminId, reason);
     
-    // Recalculate vendor rating
-    await VendorModel.recalculateVendorRating(updatedReview.vendorId);
+    // Recalculate vendor rating if status affects visibility
+    if (status === 'removed' || status === 'approved') {
+      await VendorModel.recalculateVendorRating(existingReview.vendorId);
+    }
 
-    // Send notification to reviewer if review is removed
+    // Notify the reviewer about status change
     if (status === 'removed') {
       try {
         await UserModel.addNotification(
-          updatedReview.userId,
+          existingReview.userId,
           'review_removed',
-          'Your review has been removed by administrator for violating platform guidelines.',
+          `Your review for ${existingReview.vendorName} has been removed: ${reason || 'Violation of community guidelines'}`,
           reviewId
         );
       } catch (notifyError) {
         console.warn('Failed to send removal notification:', notifyError);
       }
+    } else if (status === 'approved' && existingReview.status === 'removed') {
+      try {
+        await UserModel.addNotification(
+          existingReview.userId,
+          'review_restored',
+          `Your review for ${existingReview.vendorName} has been approved and restored.`,
+          reviewId
+        );
+      } catch (notifyError) {
+        console.warn('Failed to send restoration notification:', notifyError);
+      }
     }
 
     res.status(200).json({ 
-      message: `Review ${reviewId} status updated to ${status}.`, 
+      message: `Review status updated to ${status}.`, 
       review: updatedReview 
     });
   } catch (error) {
     console.error('Admin: Error updating review status:', error);
+    next(error);
+  }
+};
+
+exports.removeReviewAdmin = async (req, res, next) => {
+  try {
+    const { reviewId } = req.params;
+    const { reason } = req.body;
+    const adminId = req.user.uid;
+
+    const existingReview = await ReviewModel.getReviewById(reviewId);
+    if (!existingReview) {
+      return res.status(404).json({ message: 'Review not found.' });
+    }
+
+    const removedReview = await ReviewModel.removeReview(reviewId, adminId, reason);
+    
+    // Recalculate vendor rating
+    await VendorModel.recalculateVendorRating(existingReview.vendorId);
+
+    // Notify the reviewer
+    try {
+      await UserModel.addNotification(
+        existingReview.userId,
+        'review_removed',
+        `Your review for ${existingReview.vendorName} has been removed: ${reason}`,
+        reviewId
+      );
+    } catch (notifyError) {
+      console.warn('Failed to send removal notification:', notifyError);
+    }
+
+    res.status(200).json({ 
+      message: 'Review removed successfully.', 
+      review: removedReview 
+    });
+  } catch (error) {
+    console.error('Admin: Error removing review:', error);
+    next(error);
+  }
+};
+
+exports.restoreReviewAdmin = async (req, res, next) => {
+  try {
+    const { reviewId } = req.params;
+    const adminId = req.user.uid;
+
+    const existingReview = await ReviewModel.getReviewById(reviewId);
+    if (!existingReview) {
+      return res.status(404).json({ message: 'Review not found.' });
+    }
+
+    const restoredReview = await ReviewModel.restoreReview(reviewId, adminId);
+    
+    // Recalculate vendor rating
+    await VendorModel.recalculateVendorRating(existingReview.vendorId);
+
+    // Notify the reviewer
+    try {
+      await UserModel.addNotification(
+        existingReview.userId,
+        'review_restored',
+        `Your review for ${existingReview.vendorName} has been restored.`,
+        reviewId
+      );
+    } catch (notifyError) {
+      console.warn('Failed to send restoration notification:', notifyError);
+    }
+
+    res.status(200).json({ 
+      message: 'Review restored successfully.', 
+      review: restoredReview 
+    });
+  } catch (error) {
+    console.error('Admin: Error restoring review:', error);
+    next(error);
+  }
+};
+
+exports.dismissReports = async (req, res, next) => {
+  try {
+    const { reviewId } = req.params;
+    const adminId = req.user.uid;
+
+    const existingReview = await ReviewModel.getReviewById(reviewId);
+    if (!existingReview) {
+      return res.status(404).json({ message: 'Review not found.' });
+    }
+
+    const updatedReview = await ReviewModel.dismissReports(reviewId, adminId);
+
+    res.status(200).json({ 
+      message: 'Reports dismissed successfully. Review has been restored.', 
+      review: updatedReview 
+    });
+  } catch (error) {
+    console.error('Admin: Error dismissing reports:', error);
     next(error);
   }
 };
@@ -349,26 +698,28 @@ exports.getDashboardStats = async (req, res, next) => {
       ReviewModel.getAllReviewsAdmin()
     ]);
 
+    const flaggedReviews = reviews.filter(r => r.flagged);
+
     const stats = {
       totalUsers: users.length,
       totalVendors: vendors.length,
       totalReviews: reviews.length,
-      pendingVendors: vendors.filter(v => v.status === 'pending').length,
+      pendingVendors: vendors.filter(v => v.verificationStatus === 'pending_review_basic' || v.verificationStatus === 'pending_gst_verification').length,
+      flaggedReviews: flaggedReviews.length,
       newUsersToday: users.filter(u => {
         const today = new Date();
         const userDate = u.createdAt?._seconds ? new Date(u.createdAt._seconds * 1000) : new Date(u.createdAt);
         return userDate.toDateString() === today.toDateString();
       }).length,
-      flaggedReviews: reviews.filter(r => r.flagged).length,
       userRoles: {
         user: users.filter(u => u.role === 'user').length,
         vendor: users.filter(u => u.role === 'vendor').length,
         admin: users.filter(u => u.role === 'admin').length
       },
       vendorStatus: {
-        pending: vendors.filter(v => v.status === 'pending').length,
-        approved: vendors.filter(v => v.status === 'approved').length,
-        suspended: vendors.filter(v => v.status === 'suspended').length
+        pending: vendors.filter(v => v.verificationStatus === 'pending_review_basic' || v.verificationStatus === 'pending_gst_verification').length,
+        approved: vendors.filter(v => v.verificationStatus === 'verified_basic' || v.verificationStatus === 'verified_gst').length,
+        suspended: vendors.filter(v => v.verificationStatus === 'suspended').length
       }
     };
 

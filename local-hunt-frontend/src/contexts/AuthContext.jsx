@@ -16,6 +16,50 @@ export const AuthProvider = ({ children }) => {
   const [loadingAuth, setLoadingAuth] = useState(true);
   const [authError, setAuthError] = useState(null);
 
+  const refreshUserProfile = async (user = null) => {
+    const userToRefresh = user || currentUser;
+    
+    if (!userToRefresh) {
+      setUserProfile(null);
+      return;
+    }
+
+    try {
+      console.log('🔄 Refreshing user profile for:', userToRefresh.uid);
+      const idToken = await userToRefresh.getIdToken();
+      const profile = await authApi.getAuthenticatedUserProfile(idToken);
+      setUserProfile(profile);
+      console.log('✅ User profile loaded:', profile);
+    } catch (error) {
+      console.error('❌ Error fetching user profile:', error);
+      
+      // If profile doesn't exist, create it automatically
+      if (error.message.includes('User profile not found') || error.message.includes('404') || error.message.includes('500')) {
+        console.log('🆕 User profile not found, creating one...');
+        try {
+          const idToken = await userToRefresh.getIdToken();
+          await authApi.registerUserProfileInBackend(
+            userToRefresh.uid,
+            userToRefresh.email,
+            userToRefresh.displayName || 'User',
+            'user',
+            idToken
+          );
+          
+          // Try to fetch the profile again
+          const newProfile = await authApi.getAuthenticatedUserProfile(idToken);
+          setUserProfile(newProfile);
+          console.log('✅ New user profile created and loaded:', newProfile);
+        } catch (createError) {
+          console.error('❌ Failed to create user profile:', createError);
+          setUserProfile(null);
+        }
+      } else {
+        setUserProfile(null);
+      }
+    }
+  };
+
   const logout = async () => {
     try {
       await auth.signOut();
@@ -29,33 +73,35 @@ export const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log('AuthContext: onAuthStateChanged listener initiated.'); // LOG 1
+    console.log('AuthContext: onAuthStateChanged listener initiated.');
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      console.log('AuthContext: onAuthStateChanged callback fired. User:', user); // LOG 2
-      setAuthError(null); // Reset error on auth change
+      console.log('AuthContext: onAuthStateChanged callback fired. User:', user);
+      setAuthError(null);
+      
       if (user) {
         setCurrentUser(user);
         try {
-          console.log('AuthContext: Attempting to fetch user profile from backend...'); // LOG 3
+          console.log('AuthContext: Attempting to fetch user profile from backend...');
           const profile = await authApi.getAuthenticatedUserProfile(await user.getIdToken());
-          console.log('AuthContext: User profile fetched:', profile); // LOG 4
+          console.log('AuthContext: User profile fetched:', profile);
           setUserProfile(profile);
         } catch (error) {
-          console.error("AuthContext: Error fetching user profile from backend:", error); // ERROR LOG
-          setUserProfile(null);
-          setAuthError('Failed to load user profile. Please refresh the page.');
+          console.error("AuthContext: Error fetching user profile from backend:", error);
+          
+          // Use the refreshUserProfile function to handle missing profiles
+          await refreshUserProfile(user);
         }
       } else {
-        console.log('AuthContext: No user authenticated.'); // LOG 5
+        console.log('AuthContext: No user authenticated.');
         setCurrentUser(null);
         setUserProfile(null);
       }
       setLoadingAuth(false);
-      console.log('AuthContext: setLoadingAuth(false).'); // LOG 6
+      console.log('AuthContext: setLoadingAuth(false).');
     });
 
     return () => {
-      console.log('AuthContext: Cleaning up onAuthStateChanged listener.'); // LOG 7 (on unmount)
+      console.log('AuthContext: Cleaning up onAuthStateChanged listener.');
       unsubscribe();
     };
   }, []);
@@ -65,6 +111,7 @@ export const AuthProvider = ({ children }) => {
     userProfile,
     loadingAuth,
     authError,
+    refreshUserProfile,
     logout,
   };
 

@@ -32,7 +32,6 @@ const generateSearchKeywords = (vendorData) => {
 
 class VendorModel {
   static async createVendor(vendorData) {
-    // Note: vendorData now includes: gstin, verificationStatus, isSuspended (from controller)
     const newVendorData = {
       ...vendorData,
       createdAt: new Date(),
@@ -45,12 +44,12 @@ class VendorModel {
       searchImpressions: 0,
       
       // Update status/verification to match new model
-      status: 'active', // Default to 'active' or remove if verificationStatus is primary
+      status: 'active',
       
-      // Default VendorModel fields (overwritten by controller data)
+      // Default VendorModel fields
       verificationStatus: vendorData.verificationStatus || 'pending_review_basic',
       isSuspended: vendorData.isSuspended || false, 
-      changeHistory: vendorData.changeHistory || [], // Initialize
+      changeHistory: vendorData.changeHistory || [],
       isOpen: true,
     };
 
@@ -68,7 +67,6 @@ class VendorModel {
       throw new Error('Failed to create vendor profile.');
     }
   }
-
   static async getVendorById(vendorId) {
     try {
       const doc = await db.collection('vendors').doc(vendorId).get();
@@ -279,6 +277,95 @@ static async updateVendor(vendorId, updates) {
       throw new Error('Failed to delete vendor.');
     }
   }
-}
 
+  /**
+   * Verify GSTIN for a vendor (admin function)
+   * @param {string} vendorId - The ID of the vendor
+   * @param {string} gstin - The GSTIN to verify
+   * @returns {Promise<object>} Verification result
+   */
+  static async verifyGstin(vendorId, gstin) {
+    try {
+      const GstinService = require('../services/GstinService');
+      const result = await GstinService.verify(gstin);
+      
+      const updates = {
+        gstinVerified: result.isValid,
+        gstinVerificationDate: new Date(),
+        gstinVerificationResult: result
+      };
+
+      // Update verification status based on GST result
+      if (result.isValid) {
+        updates.verificationStatus = 'verified_gst';
+      } else {
+        updates.verificationStatus = 'gst_verification_failed';
+      }
+
+      await db.collection('vendors').doc(vendorId).update(updates);
+      
+      return {
+        success: true,
+        vendorId,
+        gstin,
+        isValid: result.isValid,
+        businessName: result.businessName,
+        message: result.isValid ? 'GSTIN verified successfully' : result.error
+      };
+    } catch (error) {
+      console.error('Error verifying GSTIN:', error);
+      throw new Error('Failed to verify GSTIN: ' + error.message);
+    }
+  }
+
+  /**
+   * Update vendor verification status (admin function)
+   * @param {string} vendorId - The ID of the vendor
+   * @param {string} status - New verification status
+   * @param {string} notes - Admin notes for the status change
+   * @returns {Promise<object>} Updated vendor
+   */
+  static async updateVerificationStatus(vendorId, status, notes = '') {
+    const validStatuses = [
+      'pending_review_basic', 
+      'pending_gst_verification',
+      'verified_basic',
+      'verified_gst', 
+      'gst_verification_failed',
+      'suspended',
+      'rejected'
+    ];
+
+    if (!validStatuses.includes(status)) {
+      throw new Error('Invalid verification status provided.');
+    }
+
+    const updates = {
+      verificationStatus: status,
+      updatedAt: new Date(),
+      verificationNotes: notes
+    };
+
+    // If suspending, also set isSuspended
+    if (status === 'suspended') {
+      updates.isSuspended = true;
+    } else if (status === 'rejected') {
+      updates.isSuspended = true;
+      updates.status = 'rejected';
+    } else {
+      updates.isSuspended = false;
+      updates.status = 'active';
+    }
+
+    try {
+      const vendorRef = db.collection('vendors').doc(vendorId);
+      await vendorRef.update(updates);
+      const updatedDoc = await vendorRef.get();
+      return { id: updatedDoc.id, ...updatedDoc.data() };
+    } catch (error) {
+      console.error('Error updating vendor verification status:', error);
+      throw new Error('Failed to update vendor verification status.');
+    }
+  }
+}
 module.exports = VendorModel;

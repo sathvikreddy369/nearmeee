@@ -1,0 +1,59 @@
+/* src/pages/AuthPages.css */
+.auth-page-container {
+  min-height: calc(100vh - 76px);
+  display: flex;
+  align-items: center;
+}
+
+.auth-card {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.auth-icon-container {
+  width: 80px;
+  height: 80px;
+}
+
+.auth-card .form-control {
+  border-radius: 8px;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.auth-card .form-control:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+}
+
+.auth-card .btn {
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.auth-card .nav-link {
+  border-radius: 8px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.auth-card .nav-link.active {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+
+/* Password visibility toggle */
+.password-toggle-btn {
+  border: none;
+  background: transparent;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
+}
+
+.password-toggle-btn:hover {
+  color: #495057;
+}

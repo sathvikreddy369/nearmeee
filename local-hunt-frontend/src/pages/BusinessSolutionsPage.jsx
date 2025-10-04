@@ -72,7 +72,7 @@ const BusinessSolutionsPage = () => {
       <Row className="text-center mb-5">
         <Col lg={8} className="mx-auto">
           <Badge bg="primary" className="mb-3 px-3 py-2 fs-6">For Businesses</Badge>
-          <h1 className="display-4 fw-bold text-dark mb-4">Grow Your Business with LocalHunt</h1>
+          <h1 className="display-4 fw-bold text-dark mb-4">Grow Your Business with Nearమీ</h1>
           <p className="lead text-muted mb-4">
             Join thousands of successful local businesses using our platform to attract more customers, 
             increase revenue, and build lasting relationships with their community.
@@ -110,49 +110,7 @@ const BusinessSolutionsPage = () => {
         ))}
       </Row>
 
-      {/* Pricing Section */}
-      <Row className="g-5 mt-5">
-        <Col className="text-center">
-          <h2 className="fw-bold text-dark mb-4">Simple, Transparent Pricing</h2>
-          <p className="text-muted lead mb-5">Choose the plan that works best for your business</p>
-        </Col>
-      </Row>
-      <Row className="g-4 justify-content-center">
-        {plans.map((plan, index) => (
-          <Col key={index} lg={4} md={6}>
-            <Card className={`border-0 shadow-lg h-100 ${plan.popular ? 'border-primary' : ''}`}>
-              {plan.popular && (
-                <div className="bg-primary text-white text-center py-2">
-                  <small className="fw-bold">MOST POPULAR</small>
-                </div>
-              )}
-              <Card.Body className="p-4 text-center">
-                <h4 className="fw-bold text-dark mb-2">{plan.name}</h4>
-                <div className="my-4">
-                  <span className="h1 fw-bold text-dark">{plan.price}</span>
-                  <span className="text-muted">{plan.period}</span>
-                </div>
-                <p className="text-muted mb-4">{plan.description}</p>
-                <ul className="list-unstyled mb-4">
-                  {plan.features.map((feature, idx) => (
-                    <li key={idx} className="mb-2">
-                      <span className="text-success me-2">✓</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-                <Button 
-                  variant={plan.popular ? "primary" : "outline-primary"} 
-                  className="w-100"
-                  onClick={() => navigate('/register-vendor')}
-                >
-                  Get Started
-                </Button>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
+      
     </Container>
   );
 };
