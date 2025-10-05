@@ -355,7 +355,6 @@ function VendorDiscoveryPage() {
         {/* Results Header */}
         <div className="results-header">
           <div className="results-info">
-            <h2 className="results-title">Beauty Clinics in Mumbai</h2>
             <p className="results-count">
               {loading ? 'Searching...' : `${vendors.length} ${vendors.length === 1 ? 'Business' : 'Businesses'} Found`}
             </p>

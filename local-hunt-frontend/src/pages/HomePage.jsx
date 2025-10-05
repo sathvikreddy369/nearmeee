@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, InputGroup, Spinner, Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
   Search, 
   MapPin, 
@@ -38,20 +38,20 @@ function HomePage() {
   const categories = [
     { 
       name: 'AC Repair', 
-      image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=200&h=200&fit=crop',
+      image: 'https://tiimg.tistatic.com/fp/1/007/134/ac-repair-maintenance-service-518.jpg?w=200&h=200&fit=crop',
       query: 'AC Repair',
       seasonal: 'summer',
       description: 'Stay cool this summer'
     },
     { 
       name: 'Electricians', 
-      image: 'https://images.unsplash.com/photo-1621905251180-2f1d37b1ee29?w=200&h=200&fit=crop',
+      image: '/electricwork.webp',
       query: 'Electricians',
       description: 'Power solutions anytime'
     },
     { 
       name: 'Plumbers', 
-      image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=200&h=200&fit=crop',
+      image: 'plumber.webp',
       query: 'Plumbers',
       description: 'Fix leaks & installations'
     },
@@ -69,7 +69,7 @@ function HomePage() {
     },
     { 
       name: 'Carpenters', 
-      image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=200&h=200&fit=crop',
+      image: '/carpentry.jpeg',
       query: 'Carpenters',
       description: 'Custom furniture & repairs'
     },
@@ -82,10 +82,34 @@ function HomePage() {
     },
     { 
       name: 'Kirana Stores', 
-      image: 'https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=200&h=200&fit=crop',
+      image: 'kirana.jpg?w=200&h=200&fit=crop',
       query: 'Kirana Stores',
       description: 'Daily essentials'
-    }
+    },
+    { 
+      name: 'Tailor Service', 
+      image: 'tailorservice.jpg?w=200&h=200&fit=crop',
+      query: 'Tailor Service',
+      description: 'Tailoring & alterations'
+    },
+    { 
+      name: 'Computer Peripherals', 
+      image: 'computer.jpeg?w=200&h=200&fit=crop',
+      query: 'Computer and laptops',
+      description: 'Computer repairs & sales'
+    },
+    { 
+      name: 'Pet Care', 
+      image: 'petcare.webp?w=200&h=200&fit=crop',
+      query: 'Pet Care',
+      description: 'Pet Care & grooming'
+    },
+    { 
+      name: 'Medical Stores', 
+      image: 'medicalstore.avif?w=200&h=200&fit=crop',
+      query: 'Medical Stores',
+      description: 'Medicines & health supplies'
+    },
   ];
 
   // Seasonal categories
@@ -93,21 +117,58 @@ function HomePage() {
     {
       season: 'Summer',
       icon: <Sun size={24} />,
+      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop',
       services: ['AC Repair', 'Cooler Services', 'Cold Drinks', 'Swimming Pools'],
       description: 'Beat the heat with essential summer services'
     },
     {
       season: 'Winter',
       icon: <Thermometer size={24} />,
+      image: 'https://img.theweek.in/content/dam/week/news/india/images/2022/12/23/Winterrevised.jpg?w=600&auto=format&fit=crop',
       services: ['Geyser Repair', 'Heater Services', 'Woolen Clothing', 'Hot Food'],
       description: 'Stay warm and comfortable this winter'
     },
     {
       season: 'Monsoon',
       icon: <CloudRain size={24} />,
+      image: 'https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=600&auto=format&fit=crop',
       services: ['Waterproofing', 'Umbrella Repair', 'Car Cleaning', 'Pest Control'],
       description: 'Rain-ready services for the monsoon'
     }
+  ];
+
+  // Trending services
+  const trendingServices = [
+    { 
+      name: 'Salon at Home', 
+      image: 'serviceathome.jpg?w=400&h=600&fit=crop',
+      query: 'Salon at Home'
+    },
+    { 
+      name: 'Appliance Repair', 
+      image: 'appliancerepair.jpg?w=400&h=600&fit=crop',
+      query: 'Appliance Repair'
+    },
+    { 
+      name: 'Birthday Party', 
+      image: 'birthdayparty.jpg?w=400&h=600&fit=crop',
+      query: 'Birthday Party Organizers'
+    },
+    { 
+      name: 'Pest Control', 
+      image: 'pestcontrol.jpg?w=400&h=600&fit=crop',
+      query: 'Pest Control'
+    },
+    { 
+      name: 'House Painting', 
+      image: 'housepainting.webp?w=400&h=600&fit=crop',
+      query: 'House Painting'
+    },
+    { 
+      name: 'Geyser Service', 
+      image: 'geyserservice.webp?w=400&h=600&fit=crop',
+      query: 'Geyser Service'
+    },
   ];
 
   // Trust indicators
@@ -272,13 +333,7 @@ function HomePage() {
           <Row className="justify-content-center">
             <Col lg={10}>
               <div className="hero-content text-center">
-                <h1 className="hero-title">
-                  Find Trusted Local Services on <span className="brand-name-hero">Nearమీ</span>
-                </h1>
-                <p className="hero-subtitle">
-                  Connect with verified professionals for all your service needs
-                </p>
-
+                <p className="hero-subtitle">Find Trusted Local Services on <span className="brand-name-hero">Nearమీ</span></p>
                 <Card className="search-main-card">
                   <Card.Body className="p-3 p-md-4">
                     <Form onSubmit={handleSearch}>
@@ -388,7 +443,7 @@ function HomePage() {
           </div>
 
           <Row className="g-3">
-            {categories.map((category, index) => (
+            {categories.slice(0, 12).map((category, index) => (
               <Col key={category.name} xs={6} sm={4} md={3} lg={3} xl={2}>
                 <div 
                   className="category-card"
@@ -420,6 +475,35 @@ function HomePage() {
         </Container>
       </section>
 
+      {/* Trending Services */}
+      <section className="trending-section">
+        <Container>
+          <div className="section-header">
+            <h2>Trending Now</h2>
+            <p>Check out what's popular with our users this week</p>
+          </div>
+          <Row className="g-4">
+            {trendingServices.map((service, index) => (
+              <Col key={index} lg={2} md={4} xs={6}>
+                <div 
+                  className="trending-card"
+                  onClick={() => navigate(`/vendors?search=${service.query}`)}
+                >
+                  <img 
+                    src={service.image} 
+                    alt={service.name}
+                    className="trending-card-image"
+                  />
+                  <div className="trending-card-overlay">
+                    <h5 className="trending-card-title">{service.name}</h5>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
       {/* Seasonal Services */}
       <section className="seasonal-section">
         <Container>
@@ -431,12 +515,13 @@ function HomePage() {
           <Row className="g-4">
             {seasonalCategories.map((season, index) => (
               <Col key={season.season} md={4}>
-                <div className="seasonal-card">
+                <div className="seasonal-card" style={{ backgroundImage: `url(${season.image})` }}>
+                  <div className="seasonal-card-overlay">
                   <div className="seasonal-header">
                     <div className="seasonal-icon">
                       {season.icon}
                     </div>
-                    <h4>{season.season}</h4>
+                    <h4 className="text-white">{season.season}</h4>
                   </div>
                   <p className="seasonal-description">{season.description}</p>
                   <div className="seasonal-services">
@@ -449,6 +534,7 @@ function HomePage() {
                         {service}
                       </span>
                     ))}
+                  </div>
                   </div>
                 </div>
               </Col>
