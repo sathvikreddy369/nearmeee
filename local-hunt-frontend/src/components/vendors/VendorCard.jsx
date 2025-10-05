@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Card, Badge, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import './VendorCard.css'; // Assuming you have a CSS file for custom styles
-function VendorCard({ vendor }) {
+import { Card, Badge, Button, OverlayTrigger, Tooltip, Row, Col } from 'react-bootstrap';
+import { Eye, Navigation, Star, MapPin, Clock } from 'lucide-react';
+import './VendorCard.css';
+
+function VendorCard({ vendor, onViewDetails, onGetDirections }) {
   const {
     id,
     businessName,
@@ -14,14 +15,15 @@ function VendorCard({ vendor }) {
     isOpen,
     location,
     services,
-    contactPhone
+    contactPhone,
+    openingHours
   } = vendor;
 
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
 
-  const imageUrl = profileImageUrl || 'https://placehold.co/400x200/667eea/764ba2?text=Local+Business';
-  const fallbackImage = 'https://placehold.co/400x200/667eea/764ba2?text=Local+Business';
+  const imageUrl = profileImageUrl || 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=200&fit=crop';
+  const fallbackImage = 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=200&fit=crop';
 
   const handleImageLoad = () => {
     setImageLoaded(true);
@@ -38,13 +40,12 @@ function VendorCard({ vendor }) {
     
     for (let i = 1; i <= 5; i++) {
       stars.push(
-        <span
+        <Star
           key={i}
-          className={i <= numericRating ? 'text-warning' : 'text-light'}
-          style={{ fontSize: '0.9rem' }}
-        >
-          <i className={`bi ${i <= numericRating ? 'bi-star-fill' : 'bi-star'}`}></i>
-        </span>
+          size={16}
+          fill={i <= numericRating ? "#ffc107" : "none"}
+          color={i <= numericRating ? "#ffc107" : "#ddd"}
+        />
       );
     }
     return stars;
@@ -52,13 +53,15 @@ function VendorCard({ vendor }) {
 
   const getCategoryIcon = (category) => {
     const icons = {
-      'Food & Beverage': 'bi-egg-fried',
-      'Services': 'bi-tools',
-      'Healthcare': 'bi-heart-pulse',
-      'Retail': 'bi-bag',
-      'Automotive': 'bi-car-front',
-      'Education': 'bi-book',
-      'default': 'bi-shop'
+      'Food & Beverage': '🍔',
+      'Services': '🔧',
+      'Healthcare': '🏥',
+      'Retail': '🛒',
+      'Automotive': '🚗',
+      'Education': '📚',
+      'Home Services': '🏠',
+      'Beauty & Wellness': '💅',
+      'default': '🏪'
     };
     return icons[category] || icons.default;
   };
@@ -84,142 +87,103 @@ function VendorCard({ vendor }) {
   const primaryService = hasServices ? services[0] : null;
   const distanceInfo = formatDistance(vendor.distance);
 
+  const handleDetailsClick = (e) => {
+    e.preventDefault();
+    if (onViewDetails) {
+      onViewDetails(id);
+    }
+  };
+
+  const handleDirectionsClick = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (onGetDirections) {
+      onGetDirections(vendor);
+    }
+  };
+
   return (
-    <Card className="vendor-card-premium h-100 border-0 shadow-sm">
-      {/* Image Section */}
-      <div className="vendor-card-image-container position-relative">
-        <Card.Img
-          variant="top"
-          src={imageError ? fallbackImage : imageUrl}
-          alt={`${businessName} - ${category} business`}
-          className="vendor-card-image"
-          onLoad={handleImageLoad}
-          onError={handleImageError}
-        />
-        
-        {/* Loading Overlay */}
-        {!imageLoaded && (
-          <div className="image-loading-overlay">
-            <div className="spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        )}
-
-        {/* Category Badge */}
-        <Badge 
-          bg="dark" 
-          className="category-badge position-absolute top-0 start-0 m-3 px-3 py-2 rounded-pill"
-        >
-          <i className={`bi ${getCategoryIcon(category)} me-1`}></i>
-          {category}
-        </Badge>
-
-        {/* Status Badge */}
-        <OverlayTrigger placement="top" overlay={getStatusTooltip(isOpen)}>
-          <Badge 
-            bg={isOpen ? "success" : "danger"} 
-            className="status-badge position-absolute top-0 end-0 m-3 px-2 py-2 rounded-circle"
-          >
-            <i className={`bi ${isOpen ? 'bi-check-lg' : 'bi-x-lg'}`}></i>
-          </Badge>
-        </OverlayTrigger>
-
-        {/* Gradient Overlay */}
-        <div className="image-gradient-overlay"></div>
-      </div>
-
-      <Card.Body className="d-flex flex-column p-4">
-        {/* Header Section */}
-        <div className="vendor-card-header mb-3">
-          <Card.Title className="vendor-name mb-2 fw-bold text-dark">
-            {businessName}
-          </Card.Title>
-          
-          {/* Location & Distance */}
-          <div className="vendor-location mb-2">
-            <div className="d-flex align-items-center text-muted small">
-              <i className="bi bi-geo-alt-fill me-2 text-primary"></i>
-              <span>
-                {location?.colony && `${location.colony}, `}{location?.city}
-                {distanceInfo && (
-                  <span className="text-primary fw-semibold ms-2">
-                    • {distanceInfo}
-                  </span>
-                )}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Rating Section */}
-        <div className="vendor-rating-section mb-3">
-          <div className="d-flex align-items-center justify-content-between">
-            <div className="d-flex align-items-center">
-              <div className="rating-stars me-2">
-                {renderStars(averageRating)}
-              </div>
-              <span className="rating-value fw-semibold text-dark">
-                {averageRating ? averageRating.toFixed(1) : '0.0'}
-              </span>
-            </div>
+    <Card className="vendor-card-horizontal">
+      <Row className="g-0">
+        <Col xs={4} className="vendor-card-image-col">
+          <div className="vendor-card-image-container">
+            <img
+              src={imageError ? fallbackImage : imageUrl}
+              alt={`${businessName} - ${category} business`}
+              className="vendor-card-image"
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+            />
             
-            <Badge bg="light" text="dark" className="reviews-count px-2 py-1">
-              <i className="bi bi-chat-square-text me-1"></i>
-              {totalReviews || 0}
-            </Badge>
-          </div>
-        </div>
-
-        {/* Description */}
-        <Card.Text className="vendor-description text-muted small mb-3 flex-grow-1">
-          {truncateDescription(description)}
-        </Card.Text>
-
-        {/* Services Preview */}
-        {primaryService && (
-          <div className="services-preview mb-3">
-            <div className="d-flex align-items-center text-primary small">
-              <i className="bi bi-tags me-2"></i>
-              <span className="fw-medium">{primaryService.name}</span>
-              {primaryService.price && (
-                <Badge bg="primary" className="ms-2 px-2 py-1">
-                  ₹{primaryService.price}
-                </Badge>
-              )}
-            </div>
-            {hasServices && services.length > 1 && (
-              <small className="text-muted">
-                +{services.length - 1} more service{services.length > 2 ? 's' : ''}
-              </small>
+            {/* Loading Overlay */}
+            {!imageLoaded && (
+              <div className="image-loading-overlay">
+                <div className="spinner-border text-primary" role="status">
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+              </div>
             )}
-          </div>
-        )}
 
-        {/* Contact Info */}
-        {contactPhone && (
-          <div className="contact-info mb-3">
-            <div className="d-flex align-items-center text-muted small">
-              <i className="bi bi-telephone-fill me-2 text-success"></i>
-              <span>{contactPhone}</span>
+            {/* Status Badge */}
+            <OverlayTrigger placement="top" overlay={getStatusTooltip(isOpen)}>
+              <Badge className={`status-badge ${isOpen ? 'open' : 'closed'}`}>
+                {isOpen ? '✓' : '✕'}
+              </Badge>
+            </OverlayTrigger>
+          </div>
+        </Col>
+        <Col xs={8}>
+          <div className="vendor-card-content">
+            {/* Header Section */}
+            <div className="vendor-card-header">
+              <h3 className="vendor-name">{businessName}</h3>
+              
+              {/* Location & Distance */}
+              <div className="vendor-location">
+                <MapPin size={14} className="location-icon" />
+                <span>
+                  {location?.colony && `${location.colony}, `}{location?.city}
+                  {distanceInfo && (
+                    <span className="distance-info"> • {distanceInfo}</span>
+                  )}
+                </span>
+              </div>
+            </div>
+
+            {/* Rating Section */}
+            <div className="vendor-rating-section">
+              <div className="rating-content">
+                <div className="rating-stars">
+                  {renderStars(averageRating)}
+                </div>
+                <span className="rating-value">
+                  {averageRating ? averageRating.toFixed(1) : '0.0'}
+                </span>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="vendor-actions">
+              <Button 
+                variant="primary" 
+                onClick={handleDetailsClick}
+                className="view-details-btn"
+              >
+                <Eye size={16} className="me-2" />
+                Details
+              </Button>
+              <Button 
+                variant="outline" 
+                onClick={handleDirectionsClick}
+                className="directions-btn"
+              >
+                <Navigation size={16} className="me-2" />
+                Directions
+              </Button>
             </div>
           </div>
-        )}
-
-        {/* Action Button */}
-        <div className="vendor-actions mt-auto pt-2">
-          <Button 
-            as={Link} 
-            to={`/vendors/${id}`}
-            variant="primary" 
-            className="view-details-btn w-100 py-2 rounded-pill fw-semibold"
-            size="lg"
-          >
-            <i className="bi bi-eye me-2"></i>
-            View Details
-          </Button>
-        </div>
-      </Card.Body>
+        </Col>
+      </Row>
     </Card>
   );
 }

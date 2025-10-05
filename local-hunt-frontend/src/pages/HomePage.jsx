@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form, Button, InputGroup, Spinner, Card } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { 
@@ -6,20 +6,17 @@ import {
   MapPin, 
   Filter,
   Shield,
-  CheckCircle,
-  Users,
   Star,
-  TrendingUp,
   FileCheck,
   UserCheck,
   ArrowRight,
+  Users,
   Zap,
-  Users as UsersIcon,
   BarChart3,
-  MessageCircle,
-  Award,
-  Clock,
-  ThumbsUp
+  TrendingUp,
+  Sun,
+  Thermometer,
+  CloudRain
 } from 'lucide-react';
 import VendorCard from '../components/vendors/VendorCard';
 import * as vendorApi from '../services/vendorApi';
@@ -32,21 +29,85 @@ function HomePage() {
   const { location: userLocation, getPosition, loading: geoLoading } = useGeolocation();
 
   const [searchTerm, setSearchTerm] = useState('');
-  const [location, setLocation] = useState('');
+  const [locationInput, setLocationInput] = useState('');
   const [featuredVendors, setFeaturedVendors] = useState([]);
   const [recentReviews, setRecentReviews] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // Categories with enhanced data
+  // Enhanced categories with images and seasonal tags
   const categories = [
-    { name: 'Electricians', icon: '⚡', query: 'Electricians' },
-    { name: 'Mobile Repair', icon: '📱', query: 'Mobile Repair' },
-    { name: 'Tailors', icon: '🧵', query: 'Tailors' },
-    { name: 'Plumbers', icon: '🔧', query: 'Plumbers' },
-    { name: 'Carpenters', icon: '🪚', query: 'Carpenters' },
-    { name: 'Kirana Stores', icon: '🛒', query: 'Kirana Stores' },
-    { name: 'AC Repair', icon: '❄️', query: 'AC Repair' },
-    { name: 'Home Cleaning', icon: '🧹', query: 'Home Cleaning' }
+    { 
+      name: 'AC Repair', 
+      image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=200&h=200&fit=crop',
+      query: 'AC Repair',
+      seasonal: 'summer',
+      description: 'Stay cool this summer'
+    },
+    { 
+      name: 'Electricians', 
+      image: 'https://images.unsplash.com/photo-1621905251180-2f1d37b1ee29?w=200&h=200&fit=crop',
+      query: 'Electricians',
+      description: 'Power solutions anytime'
+    },
+    { 
+      name: 'Plumbers', 
+      image: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?w=200&h=200&fit=crop',
+      query: 'Plumbers',
+      description: 'Fix leaks & installations'
+    },
+    { 
+      name: 'Home Cleaning', 
+      image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=200&h=200&fit=crop',
+      query: 'Home Cleaning',
+      description: 'Sparkling clean homes'
+    },
+    { 
+      name: 'Mobile Repair', 
+      image: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=200&h=200&fit=crop',
+      query: 'Mobile Repair',
+      description: 'Quick phone fixes'
+    },
+    { 
+      name: 'Carpenters', 
+      image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=200&h=200&fit=crop',
+      query: 'Carpenters',
+      description: 'Custom furniture & repairs'
+    },
+    { 
+      name: 'Geyser Repair', 
+      image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=200&h=200&fit=crop',
+      query: 'Geyser Repair',
+      seasonal: 'winter',
+      description: 'Hot water all winter'
+    },
+    { 
+      name: 'Kirana Stores', 
+      image: 'https://images.unsplash.com/photo-1607082350899-7e105aa886ae?w=200&h=200&fit=crop',
+      query: 'Kirana Stores',
+      description: 'Daily essentials'
+    }
+  ];
+
+  // Seasonal categories
+  const seasonalCategories = [
+    {
+      season: 'Summer',
+      icon: <Sun size={24} />,
+      services: ['AC Repair', 'Cooler Services', 'Cold Drinks', 'Swimming Pools'],
+      description: 'Beat the heat with essential summer services'
+    },
+    {
+      season: 'Winter',
+      icon: <Thermometer size={24} />,
+      services: ['Geyser Repair', 'Heater Services', 'Woolen Clothing', 'Hot Food'],
+      description: 'Stay warm and comfortable this winter'
+    },
+    {
+      season: 'Monsoon',
+      icon: <CloudRain size={24} />,
+      services: ['Waterproofing', 'Umbrella Repair', 'Car Cleaning', 'Pest Control'],
+      description: 'Rain-ready services for the monsoon'
+    }
   ];
 
   // Trust indicators
@@ -76,7 +137,7 @@ function HomePage() {
   // Business growth features
   const growthFeatures = [
     {
-      icon: <UsersIcon size={32} />,
+      icon: <Users size={32} />,
       title: 'Perfect for Home Makers',
       description: 'Start your home-based business and serve your local community'
     },
@@ -100,6 +161,7 @@ function HomePage() {
   useEffect(() => {
     const fetchInitialData = async () => {
       try {
+        setLoading(true);
         const [featured, reviews] = await Promise.all([
           vendorApi.getAllVendors({ 
             limit: 6, 
@@ -108,10 +170,14 @@ function HomePage() {
           }),
           reviewApi.getRecentReviews({ limit: 3 })
         ]);
-        setFeaturedVendors(featured);
-        setRecentReviews(reviews);
+        setFeaturedVendors(featured || []);
+        setRecentReviews(reviews || []);
       } catch (err) {
         console.error('Error fetching initial data:', err);
+        setFeaturedVendors([]);
+        setRecentReviews([]);
+      } finally {
+        setLoading(false);
       }
     };
     fetchInitialData();
@@ -119,9 +185,12 @@ function HomePage() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    if (searchTerm.trim()) {
+    if (searchTerm.trim() || locationInput.trim()) {
       navigate('/vendors', { 
-        state: { searchTerm, location } 
+        state: { 
+          searchTerm: searchTerm.trim(),
+          location: locationInput.trim()
+        } 
       });
     }
   };
@@ -132,11 +201,17 @@ function HomePage() {
     });
   };
 
+  const handleSeasonalServiceClick = (service) => {
+    navigate('/vendors', { 
+      state: { searchTerm: service } 
+    });
+  };
+
   const handleUseMyLocation = async () => {
     try {
       await getPosition();
       if (userLocation.latitude && userLocation.longitude) {
-        setLocation('Current Location');
+        setLocationInput('Current Location');
         navigate('/vendors', { 
           state: { useCurrentLocation: true } 
         });
@@ -167,7 +242,7 @@ function HomePage() {
       rating: 5,
       comment: 'Excellent service! The electrician was professional and completed the work quickly. Highly recommended!',
       createdAt: new Date().toISOString(),
-      userAvatar: '/woman1.jpeg'
+      userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
     },
     {
       id: 2,
@@ -176,7 +251,7 @@ function HomePage() {
       rating: 4,
       comment: 'Good service at reasonable prices. My phone was fixed within an hour. Will use again.',
       createdAt: new Date().toISOString(),
-      userAvatar: '/man1.jpg'
+      userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
     },
     {
       id: 3,
@@ -185,7 +260,7 @@ function HomePage() {
       rating: 5,
       comment: 'Perfect stitching and on-time delivery. The tailor understood exactly what I wanted.',
       createdAt: new Date().toISOString(),
-      userAvatar: '/woman2.jpg'
+      userAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face'
     }
   ];
 
@@ -196,27 +271,27 @@ function HomePage() {
         <Container>
           <Row className="justify-content-center">
             <Col lg={10}>
-              <div className="hero-content text-center fade-in-up">
+              <div className="hero-content text-center">
                 <h1 className="hero-title">
-                  Find Trusted Local Services<br />in Your Neighborhood
+                  Find Trusted Local Services on <span className="brand-name-hero">Nearమీ</span>
                 </h1>
-                {/* <p className="hero-subtitle">
-                  Connect with government ID verified, background checked professionals<br />
-                  for all your home service needs. Safety and quality guaranteed.
-                </p> */}
+                <p className="hero-subtitle">
+                  Connect with verified professionals for all your service needs
+                </p>
 
-                <Card className="search-main-card floating-element">
-                  <Card.Body className="p-4">
+                <Card className="search-main-card">
+                  <Card.Body className="p-3 p-md-4">
                     <Form onSubmit={handleSearch}>
-                      <Row className="g-3 align-items-end">
+                      <Row className="g-2 g-md-3 align-items-end">
                         <Col md={5}>
+                          <Form.Label className="form-label-small">What service do you need?</Form.Label>
                           <InputGroup className="search-input-main">
                             <InputGroup.Text className="search-icon">
                               <Search size={20} />
                             </InputGroup.Text>
                             <Form.Control
                               type="text"
-                              placeholder="Electrician, Plumber, Tailor..."
+                              placeholder="Electrician, Plumber, AC Repair..."
                               value={searchTerm}
                               onChange={(e) => setSearchTerm(e.target.value)}
                               className="search-input"
@@ -224,15 +299,16 @@ function HomePage() {
                           </InputGroup>
                         </Col>
                         <Col md={4}>
+                          <Form.Label className="form-label-small">Where?</Form.Label>
                           <InputGroup className="search-input-main">
                             <InputGroup.Text className="location-icon">
                               <MapPin size={20} />
                             </InputGroup.Text>
                             <Form.Control
                               type="text"
-                              placeholder="Enter your colony or area..."
-                              value={location}
-                              onChange={(e) => setLocation(e.target.value)}
+                              placeholder="Enter your area or colony..."
+                              value={locationInput}
+                              onChange={(e) => setLocationInput(e.target.value)}
                               className="search-input"
                             />
                           </InputGroup>
@@ -241,7 +317,8 @@ function HomePage() {
                           <Button 
                             variant="primary" 
                             type="submit" 
-                            className="search-btn-main"
+                            className="search-btn-main w-100 mt-3 mt-md-0"
+                            disabled={!searchTerm.trim() && !locationInput.trim()}
                           >
                             <Search size={20} className="me-2" />
                             Find Services
@@ -250,7 +327,7 @@ function HomePage() {
                       </Row>
                       <Row className="mt-3">
                         <Col>
-                          <div className="d-flex gap-2 flex-wrap">
+                          <div className="d-flex gap-2 flex-wrap justify-content-center">
                             <Button
                               variant="outline-primary"
                               onClick={handleUseMyLocation}
@@ -266,7 +343,7 @@ function HomePage() {
                               ) : (
                                 <>
                                   <MapPin size={16} className="me-2" />
-                                  Use Current Location
+                                  Use My Location
                                 </>
                               )}
                             </Button>
@@ -286,7 +363,7 @@ function HomePage() {
                   </Card.Body>
                 </Card>
 
-                <div className="quick-actions">
+                <div className="quick-actions mt-4">
                   <Button 
                     variant="outline-light" 
                     onClick={handleDiscoverAll}
@@ -305,24 +382,73 @@ function HomePage() {
       {/* Popular Services */}
       <section className="categories-section">
         <Container>
-          <div className="section-header fade-in-up">
+          <div className="section-header">
             <h2>Popular Services in Your City</h2>
             <p>Choose from our most requested and trusted services</p>
           </div>
 
-          <Row className="g-4">
+          <Row className="g-3">
             {categories.map((category, index) => (
-              <Col key={category.name} xs={6} sm={4} md={3} lg={2}>
+              <Col key={category.name} xs={6} sm={4} md={3} lg={3} xl={2}>
                 <div 
-                  className="category-card fade-in-up"
+                  className="category-card"
                   onClick={() => handleCategoryClick(category)}
-                  style={{ animationDelay: `${index * 0.1}s` }}
                 >
-                  <div className="category-icon">
-                    {category.icon}
+                  <div className="category-image-container">
+                    <img 
+                      src={category.image} 
+                      alt={category.name}
+                      className="category-image"
+                      onError={(e) => {
+                        e.target.src = `https://placehold.co/200x200/667eea/ffffff?text=${category.name}`;
+                      }}
+                    />
+                    {category.seasonal && (
+                      <div className={`seasonal-badge ${category.seasonal}`}>
+                        {category.seasonal === 'summer' ? 'Summer' : 'Winter'}
+                      </div>
+                    )}
                   </div>
-                  <div className="category-name">
-                    {category.name}
+                  <div className="category-content">
+                    <div className="category-name">{category.name}</div>
+                    <div className="category-description">{category.description}</div>
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
+
+      {/* Seasonal Services */}
+      <section className="seasonal-section">
+        <Container>
+          <div className="section-header">
+            <h2>Seasonal Services</h2>
+            <p>Right services for the right season</p>
+          </div>
+
+          <Row className="g-4">
+            {seasonalCategories.map((season, index) => (
+              <Col key={season.season} md={4}>
+                <div className="seasonal-card">
+                  <div className="seasonal-header">
+                    <div className="seasonal-icon">
+                      {season.icon}
+                    </div>
+                    <h4>{season.season}</h4>
+                  </div>
+                  <p className="seasonal-description">{season.description}</p>
+                  <div className="seasonal-services">
+                    {season.services.map((service, serviceIndex) => (
+                      <span 
+                        key={serviceIndex}
+                        className="service-tag"
+                        onClick={() => handleSeasonalServiceClick(service)}
+                      >
+                        {service}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </Col>
@@ -334,39 +460,39 @@ function HomePage() {
       {/* Trust Indicators */}
       <section className="trust-section">
         <Container>
-          <div className="section-header fade-in-up">
+          <div className="section-header">
             <h2>Why Choose Verified Professionals?</h2>
             <p>Your safety and satisfaction are our top priorities</p>
           </div>
 
-          <div className="trust-grid">
+          <Row className="g-4">
             {trustIndicators.map((indicator, index) => (
-              <div key={index} className="trust-card fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="trust-icon">
-                  {indicator.icon}
+              <Col key={index} md={6} lg={3}>
+                <div className="trust-card">
+                  <div className="trust-icon">
+                    {indicator.icon}
+                  </div>
+                  <h4>{indicator.title}</h4>
+                  <p>{indicator.description}</p>
                 </div>
-                <h4>{indicator.title}</h4>
-                <p>{indicator.description}</p>
-              </div>
+              </Col>
             ))}
-          </div>
+          </Row>
         </Container>
       </section>
-
-      
 
       {/* Recent Reviews */}
       <section className="reviews-section">
         <Container>
-          <div className="section-header fade-in-up">
+          <div className="section-header">
             <h2>What Our Customers Say</h2>
             <p>Real reviews from satisfied customers across India</p>
           </div>
 
-          <Row className="g-4">
+          <Row className="g-3">
             {displayReviews.map((review, index) => (
               <Col key={review.id} lg={4} md={6}>
-                <div className="review-card fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
+                <div className="review-card">
                   <div className="review-header">
                     <img 
                       src={review.userAvatar} 
@@ -405,30 +531,32 @@ function HomePage() {
       {/* Business Growth Section */}
       <section className="business-growth-section">
         <Container>
-          <div className="section-header fade-in-up">
+          <div className="section-header">
             <h2>Perfect Platform for Local Businesses</h2>
             <p>Grow your business and reach more customers in your area</p>
           </div>
 
-          <div className="growth-features">
+          <Row className="g-4">
             {growthFeatures.map((feature, index) => (
-              <div key={index} className="growth-feature fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="growth-icon">
-                  {feature.icon}
+              <Col key={index} md={6} lg={3}>
+                <div className="growth-feature">
+                  <div className="growth-icon">
+                    {feature.icon}
+                  </div>
+                  <h5>{feature.title}</h5>
+                  <p>{feature.description}</p>
                 </div>
-                <h5>{feature.title}</h5>
-                <p>{feature.description}</p>
-              </div>
+              </Col>
             ))}
-          </div>
+          </Row>
         </Container>
       </section>
 
       {/* Featured Vendors */}
       {featuredVendors.length > 0 && (
-        <section className="categories-section">
+        <section className="featured-vendors-section">
           <Container>
-            <div className="section-header with-action d-flex justify-content-between align-items-center">
+            <div className="section-header with-action">
               <div>
                 <h2>Top Rated Local Services</h2>
                 <p>Highly recommended by customers in your area</p>
@@ -436,22 +564,31 @@ function HomePage() {
               <Button 
                 variant="outline-primary" 
                 onClick={() => navigate('/vendors')}
-                className="view-all-btn"
+                className="view-all-btn d-none d-md-flex"
               >
                 View All
                 <ArrowRight size={16} className="ms-2" />
               </Button>
             </div>
 
-            <Row className="g-4">
+            <Row className="g-3">
               {featuredVendors.slice(0, 6).map((vendor, index) => (
                 <Col key={vendor.id} xs={12} sm={6} lg={4}>
-                  <div className="fade-in-up" style={{ animationDelay: `${index * 0.1}s` }}>
-                    <VendorCard vendor={vendor} />
-                  </div>
+                  <VendorCard vendor={vendor} />
                 </Col>
               ))}
             </Row>
+            
+            <div className="text-center mt-4 d-md-none">
+              <Button 
+                variant="outline-primary" 
+                onClick={() => navigate('/vendors')}
+                className="view-all-btn"
+              >
+                View All Services
+                <ArrowRight size={16} className="ms-2" />
+              </Button>
+            </div>
           </Container>
         </section>
       )}
@@ -461,7 +598,7 @@ function HomePage() {
         <Container>
           <Row className="justify-content-center">
             <Col lg={8}>
-              <div className="guide-card fade-in-up">
+              <div className="guide-card">
                 <h3>Want to List Your Business?</h3>
                 <p>
                   Not sure how to get started? We'll guide you through the entire process - 
@@ -485,7 +622,7 @@ function HomePage() {
       {/* Final CTA */}
       <section className="cta-section">
         <Container>
-          <div className="cta-content fade-in-up">
+          <div className="cta-content">
             <h2>Ready to Find Your Perfect Service Professional?</h2>
             <p>Join millions of satisfied customers who trust us for their home service needs</p>
             <div className="cta-buttons">
@@ -499,12 +636,12 @@ function HomePage() {
                 Explore All Services
               </Button>
               <Button 
-                variant="outline" 
+                variant="outline-light" 
                 size="lg"
                 onClick={() => navigate('/register-vendor')}
-                className="cta-btn-outline growbusiness"
+                className="cta-btn-outline"
               >
-                <Users size={20} className="me-2 growbusiness" />
+                <Users size={20} className="me-2" />
                 Grow Your Business
               </Button>
             </div>
