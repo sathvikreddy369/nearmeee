@@ -127,43 +127,64 @@ static async updateVendor(vendorId, updates) {
   }
 }
 
-  static async queryVendors(params = {}) {
-    // FIX: Filter by isSuspended: false (if present in params) instead of status: 'approved'
-    // This allows unverified vendors to appear.
-    let query = db.collection('vendors');
+ // In VendorModel.js - update queryVendors method
+static async queryVendors(params = {}) {
+  let query = db.collection('vendors');
+  
+  // Default filter: only show non-suspended vendors
+  const isSuspendedFilter = params.isSuspended === undefined ? false : params.isSuspended;
+  query = query.where('isSuspended', '==', isSuspendedFilter);
+
+  // Apply non-search filters to reduce dataset size
+  if (params.category) query = query.where('category', '==', params.category);
+  if (params.colony) query = query.where('address.colony', '==', params.colony);
+  if (params.isOpen !== undefined) query = query.where('isOpen', '==', params.isOpen);
+
+  const sortBy = params.sortBy || 'averageRating';
+  const sortOrder = params.sortOrder || 'desc';
+  query = query.orderBy(sortBy, sortOrder);
+
+  try {
+    const snapshot = await query.get();
+    let vendors = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     
-    // Default filter: only show non-suspended vendors
-    const isSuspendedFilter = params.isSuspended === undefined ? false : params.isSuspended;
-    query = query.where('isSuspended', '==', isSuspendedFilter);
-    delete params.isSuspended; // Remove from params to avoid conflicting filters
-
-    if (params.lat && params.lon) {
-      const center = [parseFloat(params.lat), parseFloat(params.lon)];
-      const geohashPrefix = ngeohash.encode(center[0], center[1], 5);
-      query = query.where('geohash', '>=', geohashPrefix).where('geohash', '<=', geohashPrefix + '~');
-    } else if (params.search) {
-        const searchTerms = params.search.toLowerCase().split(/\s+/).filter(Boolean);
-        if (searchTerms.length > 0) {
-            query = query.where('_searchKeywords', 'array-contains-any', searchTerms.slice(0, 10));
-        }
+    // Apply search filtering client-side
+    if (params.search) {
+      vendors = this.filterVendorsBySearch(vendors, params.search);
     }
-
-    if (params.category) query = query.where('category', '==', params.category);
-    if (params.colony && !params.lat) query = query.where('address.colony', '==', params.colony);
-    if (params.isOpen !== undefined) query = query.where('isOpen', '==', params.isOpen);
-
-    const sortBy = params.sortBy || 'averageRating';
-    const sortOrder = params.sortOrder || 'desc';
-    query = query.orderBy(sortBy, sortOrder);
-
-    try {
-      const snapshot = await query.get();
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    } catch (error) {
-      console.error('Error querying vendors:', error);
-      throw new Error('Failed to retrieve vendors.');
-    }
+    
+    return vendors;
+  } catch (error) {
+    console.error('Error querying vendors:', error);
+    throw new Error('Failed to retrieve vendors.');
   }
+}
+
+// Enhanced client-side search with better partial matching
+static filterVendorsBySearch(vendors, searchTerm) {
+  const searchTerms = searchTerm.toLowerCase().split(/\s+/).filter(term => term.length >= 2);
+  
+  if (searchTerms.length === 0) return vendors;
+  
+  return vendors.filter(vendor => {
+    // Create a searchable text blob from all relevant fields
+    const searchableText = [
+      vendor.businessName,
+      vendor.description,
+      vendor.category,
+      vendor.address?.city,
+      vendor.address?.colony,
+      ...(vendor.services?.map(s => s.name) || []),
+      ...(vendor.services?.map(s => s.description) || [])
+    ]
+      .filter(Boolean)
+      .join(' ')
+      .toLowerCase();
+    
+    // Check if ALL search terms appear somewhere in the searchable text
+    return searchTerms.every(term => searchableText.includes(term));
+  });
+}
 
   static async updateVendorRating(vendorId, ratingChange, reviewCountChange) {
     const vendorRef = db.collection('vendors').doc(vendorId);

@@ -1,0 +1,1882 @@
+[
+  {
+    "userId": "dummyUser011VendorKlmnop12345",
+    "businessName": "Bright Minds Coaching Centre",
+    "ownerName": "Suresh Kumar",
+    "description": "Comprehensive coaching for competitive exams (JEE, NEET, EAMCET) and academic subjects (Math, Science). Experienced faculty and proven track record of success. Small batch sizes for personalized attention.",
+    "category": "Education",
+    "contactEmail": "suresh.k@brightminds.edu",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Street No. 8",
+      "colony": "Ameerpet",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500016",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4399,
+      "longitude": 78.4482
+    },
+    "services": [
+      { "name": "JEE Advanced Coaching", "price": "75000", "description": "One-year program." },
+      { "name": "NEET Crash Course", "price": "30000", "description": "3-month intensive course." },
+      { "name": "Class 10 Math & Science", "price": "15000", "description": "Per subject, per year." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 8:00 PM",
+      "tuesday": "9:00 AM - 8:00 PM",
+      "wednesday": "9:00 AM - 8:00 PM",
+      "thursday": "9:00 AM - 8:00 PM",
+      "friday": "9:00 AM - 8:00 PM",
+      "saturday": "9:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2016-04-01T00:00:00.000Z",
+    "awards": ["Top Coaching Institute 2022"],
+    "profileImageUrl": "https://placehold.co/600x400/007BFF/FFFFFF?text=Bright+Minds",
+    "additionalImages": [],
+    "aadharNumber": "123450987654",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36GGGGG6666G1Z7",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser012VendorLmnopq23456",
+    "businessName": "Green Acres Nursery & Garden",
+    "ownerName": "Lakshmi Devi",
+    "description": "Your go-to place for all gardening needs. We offer a wide variety of plants, seeds, pots, and gardening tools. Expert advice on plant care and landscaping services available.",
+    "category": "Home & Garden",
+    "contactEmail": "lakshmi.d@greenacres.in",
+    "contactPhone": "+919876501234",
+    "address": {
+      "street": "Outer Ring Rd",
+      "colony": "Kompally",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500014",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.5300,
+      "longitude": 78.4800
+    },
+    "services": [
+      { "name": "Plant Sales", "price": "50", "description": "Starting price for small plants." },
+      { "name": "Landscaping Consultation", "price": "1500", "description": "Per hour." },
+      { "name": "Potting Soil & Fertilizers", "price": "100", "description": "Per kg/pack." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 6:00 PM",
+      "tuesday": "9:00 AM - 6:00 PM",
+      "wednesday": "9:00 AM - 6:00 PM",
+      "thursday": "9:00 AM - 6:00 PM",
+      "friday": "9:00 AM - 6:00 PM",
+      "saturday": "9:00 AM - 5:00 PM",
+      "sunday": "10:00 AM - 2:00 PM"
+    },
+    "establishmentDate": "2019-07-10T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/28A745/FFFFFF?text=Green+Acres",
+    "additionalImages": [],
+    "aadharNumber": "234501987654",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36HHHHH7777H1Z8",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser013VendorMnopqr34567",
+    "businessName": "Tech Solutions IT Services",
+    "ownerName": "Arjun Rao",
+    "description": "Providing reliable IT support, network solutions, web development, and cybersecurity services for small and medium businesses. We ensure your technology works for you.",
+    "category": "IT Services",
+    "contactEmail": "support@techsolutions.biz",
+    "contactPhone": "+917890123456",
+    "address": {
+      "street": "Cyber Towers Rd",
+      "colony": "Kothaguda",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500084",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4560,
+      "longitude": 78.3850
+    },
+    "services": [
+      { "name": "Managed IT Support", "price": "10000", "description": "Monthly retainer." },
+      { "name": "Website Development (Basic)", "price": "35000", "description": "Static website, 5 pages." },
+      { "name": "Network Setup & Configuration", "price": "8000", "description": "Per project basis." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 6:00 PM",
+      "tuesday": "9:00 AM - 6:00 PM",
+      "wednesday": "9:00 AM - 6:00 PM",
+      "thursday": "9:00 AM - 6:00 PM",
+      "friday": "9:00 AM - 6:00 PM",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2018-02-20T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6C757D/FFFFFF?text=Tech+Solutions",
+    "additionalImages": [],
+    "aadharNumber": "345012987654",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36IIIII8888I1Z9",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser014VendorNopqrs45678",
+    "businessName": "Hyderabad Tour Planners",
+    "ownerName": "Deepak Sharma",
+    "description": "Explore the best of Hyderabad with our customized tour packages. From historical monuments to culinary trails, we offer unforgettable experiences. Car rentals and guide services available.",
+    "category": "Travel & Tourism",
+    "contactEmail": "info@hydtourplanners.com",
+    "contactPhone": "+919900112233",
+    "address": {
+      "street": "Abids Road",
+      "colony": "Abids",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500001",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.3900,
+      "longitude": 78.4750
+    },
+    "services": [
+      { "name": "City Sightseeing Tour", "price": "1500", "description": "Full day tour, per person." },
+      { "name": "Ramoji Film City Package", "price": "2500", "description": "Includes transport and entry." },
+      { "name": "Customized Group Tours", "price": "0", "description": "Price on request." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 7:00 PM",
+      "tuesday": "10:00 AM - 7:00 PM",
+      "wednesday": "10:00 AM - 7:00 PM",
+      "thursday": "10:00 AM - 7:00 PM",
+      "friday": "10:00 AM - 7:00 PM",
+      "saturday": "10:00 AM - 5:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2017-09-15T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/17A2B8/FFFFFF?text=Hyd+Tours",
+    "additionalImages": [],
+    "aadharNumber": "456012398765",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36JJJJJ9999J1Z0",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser015VendorOpqrst56789",
+    "businessName": "Elite Photography Studio",
+    "ownerName": "Rohan Verma",
+    "description": "Capturing your precious moments with creativity and precision. Specializing in wedding photography, portrait sessions, and corporate events. High-quality prints and albums available.",
+    "category": "Photography",
+    "contactEmail": "rohan.v@elitephoto.com",
+    "contactPhone": "+918765432109",
+    "address": {
+      "street": "Road No. 10",
+      "colony": "Banjara Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500034",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4100,
+      "longitude": 78.4500
+    },
+    "services": [
+      { "name": "Wedding Photography Package", "price": "80000", "description": "Starting price for full-day coverage." },
+      { "name": "Portrait Session", "price": "10000", "description": "Includes 2-hour shoot and 10 edited photos." },
+      { "name": "Event Photography", "price": "5000", "description": "Per hour basis." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 7:00 PM (By Appointment)",
+      "tuesday": "10:00 AM - 7:00 PM (By Appointment)",
+      "wednesday": "10:00 AM - 7:00 PM (By Appointment)",
+      "thursday": "10:00 AM - 7:00 PM (By Appointment)",
+      "friday": "10:00 AM - 7:00 PM (By Appointment)",
+      "saturday": "10:00 AM - 5:00 PM (By Appointment)",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2015-11-01T00:00:00.000Z",
+    "awards": ["Best Wedding Photographer Hyderabad 2020"],
+    "profileImageUrl": "https://placehold.co/600x400/6F42C1/FFFFFF?text=Elite+Photo",
+    "additionalImages": [],
+    "aadharNumber": "567012349876",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36KKKKK0000K1Z1",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser016VendorPqrstu67890",
+    "businessName": "Legal Eagle Law Firm",
+    "ownerName": "Adv. Meena Singh",
+    "description": "Providing expert legal counsel and representation in civil, criminal, family, and corporate law matters. Our experienced team is dedicated to achieving the best outcomes for our clients.",
+    "category": "Legal Services",
+    "contactEmail": "meena.s@legaleagle.in",
+    "contactPhone": "+919876540123",
+    "address": {
+      "street": "Lakdi-ka-pul Rd",
+      "colony": "Lakdi-ka-pul",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500004",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4000,
+      "longitude": 78.4650
+    },
+    "services": [
+      { "name": "Legal Consultation", "price": "2000", "description": "Per hour." },
+      { "name": "Property Dispute Resolution", "price": "0", "description": "Case-by-case basis." },
+      { "name": "Divorce Proceedings", "price": "0", "description": "Case-by-case basis." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 6:00 PM",
+      "tuesday": "10:00 AM - 6:00 PM",
+      "wednesday": "10:00 AM - 6:00 PM",
+      "thursday": "10:00 AM - 6:00 PM",
+      "friday": "10:00 AM - 6:00 PM",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2010-01-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/DC3545/FFFFFF?text=Legal+Eagle",
+    "additionalImages": [],
+    "aadharNumber": "678012345987",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36LLLLL1111L1Z2",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser017VendorQrstuv78901",
+    "businessName": "Money Matters Financial Advisors",
+    "ownerName": "Rajesh Gupta",
+    "description": "Personalized financial planning, investment advice, tax consultation, and wealth management services. Helping you achieve your financial goals with expert guidance.",
+    "category": "Financial Services",
+    "contactEmail": "rajesh.g@moneymatters.co.in",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Road No. 45",
+      "colony": "Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500033",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4250,
+      "longitude": 78.4000
+    },
+    "services": [
+      { "name": "Investment Planning", "price": "5000", "description": "One-time consultation." },
+      { "name": "Tax Filing Assistance", "price": "2500", "description": "Per filing." },
+      { "name": "Wealth Management", "price": "0", "description": "Percentage of AUM." }
+    ],
+    "operatingHours": {
+      "monday": "9:30 AM - 5:30 PM",
+      "tuesday": "9:30 AM - 5:30 PM",
+      "wednesday": "9:30 AM - 5:30 PM",
+      "thursday": "9:30 AM - 5:30 PM",
+      "friday": "9:30 AM - 5:30 PM",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2012-03-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/FFC107/000000?text=Money+Matters",
+    "additionalImages": [],
+    "aadharNumber": "789012345678",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36MMMMM2222M1Z3",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser018VendorRstuvw89012",
+    "businessName": "Elegant Interiors",
+    "ownerName": "Pooja Singh",
+    "description": "Transforming spaces into dream homes. We offer complete interior design solutions, from conceptualization to execution, for residential and commercial projects. Modern, minimalist, or traditional designs.",
+    "category": "Home Decor",
+    "contactEmail": "pooja.s@elegantinteriors.in",
+    "contactPhone": "+918877665544",
+    "address": {
+      "street": "Hitech City Rd",
+      "colony": "Kondapur",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500084",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4600,
+      "longitude": 78.3700
+    },
+    "services": [
+      { "name": "Residential Interior Design", "price": "50000", "description": "Starting price for 2BHK." },
+      { "name": "Commercial Space Design", "price": "0", "description": "Custom quote." },
+      { "name": "Modular Kitchen Design", "price": "80000", "description": "Starting price." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 7:00 PM (By Appointment)",
+      "tuesday": "10:00 AM - 7:00 PM (By Appointment)",
+      "wednesday": "10:00 AM - 7:00 PM (By Appointment)",
+      "thursday": "10:00 AM - 7:00 PM (By Appointment)",
+      "friday": "10:00 AM - 7:00 PM (By Appointment)",
+      "saturday": "10:00 AM - 4:00 PM (By Appointment)",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2019-06-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/D63384/FFFFFF?text=Elegant+Interiors",
+    "additionalImages": [],
+    "aadharNumber": "890123456789",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36NNNNN3333N1Z4",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser019VendorStuvwx90123",
+    "businessName": "Hyderabad Sports Academy",
+    "ownerName": "Coach Anil Reddy",
+    "description": "Professional coaching for cricket, football, and badminton. State-of-the-art facilities and experienced coaches to nurture young talent and promote fitness. Summer camps and tournaments organized.",
+    "category": "Sports & Recreation",
+    "contactEmail": "anil.r@hydsports.com",
+    "contactPhone": "+917766554433",
+    "address": {
+      "street": "Gachibowli Stadium Rd",
+      "colony": "Gachibowli",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500032",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4300,
+      "longitude": 78.3300
+    },
+    "services": [
+      { "name": "Cricket Coaching (Monthly)", "price": "3000", "description": "Includes net practice and fitness." },
+      { "name": "Football Training (Quarterly)", "price": "7500", "description": "Age 8-16." },
+      { "name": "Badminton Court Rental", "price": "300", "description": "Per hour." }
+    ],
+    "operatingHours": {
+      "monday": "6:00 AM - 9:00 PM",
+      "tuesday": "6:00 AM - 9:00 PM",
+      "wednesday": "6:00 AM - 9:00 PM",
+      "thursday": "6:00 AM - 9:00 PM",
+      "friday": "6:00 AM - 9:00 PM",
+      "saturday": "6:00 AM - 8:00 PM",
+      "sunday": "6:00 AM - 8:00 PM"
+    },
+    "establishmentDate": "2018-08-10T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/0D6EFD/FFFFFF?text=Hyd+Sports",
+    "additionalImages": [],
+    "aadharNumber": "901234567890",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36OOOOO4444O1Z5",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser020VendorTuvwxy01234",
+    "businessName": "Swift Movers & Packers",
+    "ownerName": "Vijay Sharma",
+    "description": "Reliable and efficient packing and moving services for residential and commercial clients. Local and inter-city shifting, secure packing, and timely delivery. Free quotes available.",
+    "category": "Logistics & Moving",
+    "contactEmail": "vijay.s@swiftmovers.com",
+    "contactPhone": "+919876543210",
+    "address": {
+      "street": "NH 65",
+      "colony": "Miyapur",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500049",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4900,
+      "longitude": 78.3800
+    },
+    "services": [
+      { "name": "Local Home Shifting", "price": "8000", "description": "Starting price for 1BHK." },
+      { "name": "Office Relocation", "price": "0", "description": "Custom quote." },
+      { "name": "Packing Services", "price": "2000", "description": "Per room." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 7:00 PM",
+      "tuesday": "9:00 AM - 7:00 PM",
+      "wednesday": "9:00 AM - 7:00 PM",
+      "thursday": "9:00 AM - 7:00 PM",
+      "friday": "9:00 AM - 7:00 PM",
+      "saturday": "9:00 AM - 5:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2020-01-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/FD7E14/FFFFFF?text=Swift+Movers",
+    "additionalImages": [],
+    "aadharNumber": "012345678901",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36PPPPP5555P1Z6",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser021VendorUvwxyz12345",
+    "businessName": "The Fashion Hub Boutique",
+    "ownerName": "Sneha Rao",
+    "description": "Trendy and elegant fashion for women. Discover our exclusive collection of ethnic wear, western outfits, and accessories. Custom tailoring services also available.",
+    "category": "Fashion",
+    "contactEmail": "sneha.r@fashionhub.in",
+    "contactPhone": "+919988776655",
+    "address": {
+      "street": "Road No. 1",
+      "colony": "Banjara Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500034",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4180,
+      "longitude": 78.4550
+    },
+    "services": [
+      { "name": "Ethnic Wear Collection", "price": "2000", "description": "Starting price." },
+      { "name": "Western Outfits", "price": "1500", "description": "Starting price." },
+      { "name": "Custom Tailoring", "price": "500", "description": "Per garment." }
+    ],
+    "operatingHours": {
+      "monday": "11:00 AM - 8:00 PM",
+      "tuesday": "11:00 AM - 8:00 PM",
+      "wednesday": "11:00 AM - 8:00 PM",
+      "thursday": "11:00 AM - 8:00 PM",
+      "friday": "11:00 AM - 8:00 PM",
+      "saturday": "11:00 AM - 9:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2021-03-15T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/E83E8C/FFFFFF?text=Fashion+Hub",
+    "additionalImages": [],
+    "aadharNumber": "123456789012",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36QQQQQ6666Q1Z7",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser022VendorVwxyzab23456",
+    "businessName": "Sparkle & Shine Cleaning Services",
+    "ownerName": "Ganesh Rao",
+    "description": "Professional cleaning services for homes and offices. Deep cleaning, regular maintenance, and specialized services like carpet and sofa cleaning. Eco-friendly products used.",
+    "category": "Cleaning Services",
+    "contactEmail": "ganesh.r@sparkleclean.com",
+    "contactPhone": "+918765432109",
+    "address": {
+      "street": "Main Road",
+      "colony": "Dilsukhnagar",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500060",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.3700,
+      "longitude": 78.5200
+    },
+    "services": [
+      { "name": "Home Deep Cleaning (2BHK)", "price": "4000", "description": "Full house cleaning." },
+      { "name": "Office Cleaning (Per Sq Ft)", "price": "10", "description": "Minimum charge applies." },
+      { "name": "Sofa & Carpet Cleaning", "price": "1500", "description": "Per item." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 6:00 PM",
+      "tuesday": "9:00 AM - 6:00 PM",
+      "wednesday": "9:00 AM - 6:00 PM",
+      "thursday": "9:00 AM - 6:00 PM",
+      "friday": "9:00 AM - 6:00 PM",
+      "saturday": "9:00 AM - 2:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2020-09-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/20C997/FFFFFF?text=Sparkle+Clean",
+    "additionalImages": [],
+    "aadharNumber": "234567890123",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36RRRRR7777R1Z8",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser023VendorWxyzab34567",
+    "businessName": "Pest-Free Solutions",
+    "ownerName": "Srinivas Reddy",
+    "description": "Effective and safe pest control services for residential and commercial properties. Termite treatment, cockroach control, rodent management, and mosquito fogging. Certified technicians.",
+    "category": "Pest Control",
+    "contactEmail": "srinivas.r@pestfree.in",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Road No. 3",
+      "colony": "Himayatnagar",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500029",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4050,
+      "longitude": 78.4850
+    },
+    "services": [
+      { "name": "Cockroach Gel Treatment", "price": "1200", "description": "For 1BHK." },
+      { "name": "Termite Treatment (Pre-Construction)", "price": "0", "description": "Per sq ft." },
+      { "name": "Rodent Control", "price": "800", "description": "Per visit." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 6:00 PM",
+      "tuesday": "9:00 AM - 6:00 PM",
+      "wednesday": "9:00 AM - 6:00 PM",
+      "thursday": "9:00 AM - 6:00 PM",
+      "friday": "9:00 AM - 6:00 PM",
+      "saturday": "9:00 AM - 2:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2017-05-20T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6610F2/FFFFFF?text=Pest-Free",
+    "additionalImages": [],
+    "aadharNumber": "345678901234",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36SSSSS8888S1Z9",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser024VendorXyzabc45678",
+    "businessName": "The Grand Ballroom",
+    "ownerName": "Mr. Sharma",
+    "description": "Luxurious event venue perfect for weddings, corporate galas, and large celebrations. Spacious hall, exquisite catering options, and professional event coordination services. Capacity for 500 guests.",
+    "category": "Event Venues",
+    "contactEmail": "info@grandballroom.in",
+    "contactPhone": "+918877665544",
+    "address": {
+      "street": "Airport Road",
+      "colony": "Shamshabad",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500409",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.2400,
+      "longitude": 78.4300
+    },
+    "services": [
+      { "name": "Wedding Package", "price": "300000", "description": "Starting price for venue and basic catering." },
+      { "name": "Corporate Event Package", "price": "200000", "description": "Starting price." },
+      { "name": "Birthday Party Venue", "price": "50000", "description": "Starting price." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 7:00 PM (By Appointment)",
+      "tuesday": "10:00 AM - 7:00 PM (By Appointment)",
+      "wednesday": "10:00 AM - 7:00 PM (By Appointment)",
+      "thursday": "10:00 AM - 7:00 PM (By Appointment)",
+      "friday": "10:00 AM - 7:00 PM (By Appointment)",
+      "saturday": "10:00 AM - 5:00 PM (By Appointment)",
+      "sunday": "10:00 AM - 5:00 PM (By Appointment)"
+    },
+    "establishmentDate": "2016-10-01T00:00:00.000Z",
+    "awards": ["Best Event Venue Hyderabad 2021"],
+    "profileImageUrl": "https://placehold.co/600x400/DC3545/FFFFFF?text=Grand+Ballroom",
+    "additionalImages": [],
+    "aadharNumber": "456789012345",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36TTTTT9999T1Z0",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser025VendorYzabcd56789",
+    "businessName": "Melody Makers Music School",
+    "ownerName": "Priya Rao",
+    "description": "Learn to play guitar, keyboard, drums, and vocals from experienced instructors. Group and individual classes available for all age groups. Prepare for grade exams or just play for fun!",
+    "category": "Music & Arts",
+    "contactEmail": "priya.r@melodymakers.in",
+    "contactPhone": "+919876543210",
+    "address": {
+      "street": "Sainikpuri Main Rd",
+      "colony": "Sainikpuri",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500094",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4700,
+      "longitude": 78.5700
+    },
+    "services": [
+      { "name": "Guitar Classes (Monthly)", "price": "1500", "description": "Group classes." },
+      { "name": "Keyboard Individual Lessons", "price": "2500", "description": "Per month." },
+      { "name": "Vocal Training", "price": "1800", "description": "Group classes." }
+    ],
+    "operatingHours": {
+      "monday": "3:00 PM - 8:00 PM",
+      "tuesday": "3:00 PM - 8:00 PM",
+      "wednesday": "3:00 PM - 8:00 PM",
+      "thursday": "3:00 PM - 8:00 PM",
+      "friday": "3:00 PM - 8:00 PM",
+      "saturday": "10:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2019-02-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6F42C1/FFFFFF?text=Melody+Makers",
+    "additionalImages": [],
+    "aadharNumber": "567890123456",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36UUUUU0000U1Z1",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser026VendorZabcde67890",
+    "businessName": "Global Visa Consultants",
+    "ownerName": "Sandeep Rao",
+    "description": "Expert assistance for all your visa and immigration needs. Study visas, work permits, tourist visas, and permanent residency applications. Reliable and transparent services.",
+    "category": "Consulting",
+    "contactEmail": "sandeep.r@globalvisa.com",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Begumpet Road",
+      "colony": "Begumpet",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500016",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4400,
+      "longitude": 78.4600
+    },
+    "services": [
+      { "name": "Study Visa Consultation", "price": "5000", "description": "Initial consultation and application guidance." },
+      { "name": "Work Permit Assistance", "price": "10000", "description": "Includes documentation support." },
+      { "name": "Tourist Visa Processing", "price": "3000", "description": "Excludes visa fees." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 6:00 PM",
+      "tuesday": "10:00 AM - 6:00 PM",
+      "wednesday": "10:00 AM - 6:00 PM",
+      "thursday": "10:00 AM - 6:00 PM",
+      "friday": "10:00 AM - 6:00 PM",
+      "saturday": "10:00 AM - 2:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2018-07-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/17A2B8/FFFFFF?text=Global+Visa",
+    "additionalImages": [],
+    "aadharNumber": "678901234567",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36VVVVV1111V1Z2",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser027VendorAbcdef78901",
+    "businessName": "Smart Home Automation",
+    "ownerName": "Rahul Kumar",
+    "description": "Modernize your home with smart automation solutions. Lighting control, security systems, smart appliances, and voice-controlled devices. Installation and support services.",
+    "category": "Electronics & Gadgets",
+    "contactEmail": "rahul.k@smarthome.in",
+    "contactPhone": "+918877665544",
+    "address": {
+      "street": "Kukatpally Housing Board Rd",
+      "colony": "Kukatpally",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500072",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4800,
+      "longitude": 78.4000
+    },
+    "services": [
+      { "name": "Smart Lighting Installation", "price": "10000", "description": "Starting price for a 1BHK." },
+      { "name": "Home Security System", "price": "25000", "description": "Includes cameras and sensors." },
+      { "name": "Voice Assistant Integration", "price": "5000", "description": "Setup and configuration." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 7:00 PM",
+      "tuesday": "10:00 AM - 7:00 PM",
+      "wednesday": "10:00 AM - 7:00 PM",
+      "thursday": "10:00 AM - 7:00 PM",
+      "friday": "10:00 AM - 7:00 PM",
+      "saturday": "10:00 AM - 4:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2021-01-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/007BFF/FFFFFF?text=Smart+Home",
+    "additionalImages": [],
+    "aadharNumber": "789012345678",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36WWWWW2222W1Z3",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser028VendorBcdefg89012",
+    "businessName": "The Art Palette Gallery",
+    "ownerName": "Ananya Sharma",
+    "description": "Showcasing contemporary and traditional Indian art from emerging and established artists. Original paintings, sculptures, and art prints available for sale. Art workshops conducted regularly.",
+    "category": "Art & Culture",
+    "contactEmail": "ananya.s@artpalette.gallery",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Road No. 12",
+      "colony": "Banjara Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500034",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4080,
+      "longitude": 78.4400
+    },
+    "services": [
+      { "name": "Art Sales", "price": "5000", "description": "Starting price for small prints." },
+      { "name": "Painting Workshops", "price": "2000", "description": "Per session." },
+      { "name": "Art Consultation", "price": "1000", "description": "Per hour." }
+    ],
+    "operatingHours": {
+      "monday": "11:00 AM - 7:00 PM",
+      "tuesday": "Closed",
+      "wednesday": "11:00 AM - 7:00 PM",
+      "thursday": "11:00 AM - 7:00 PM",
+      "friday": "11:00 AM - 7:00 PM",
+      "saturday": "11:00 AM - 8:00 PM",
+      "sunday": "11:00 AM - 6:00 PM"
+    },
+    "establishmentDate": "2017-03-10T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/E83E8C/FFFFFF?text=Art+Palette",
+    "additionalImages": [],
+    "aadharNumber": "890123456789",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36XXXXX3333X1Z4",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser029VendorCdefgh90123",
+    "businessName": "Healthy Bites Cafe",
+    "ownerName": "Priya Singh",
+    "description": "Serving delicious and nutritious meals, smoothies, and healthy snacks. Vegan and gluten-free options available. A perfect spot for a quick healthy bite or a relaxed meal.",
+    "category": "Food & Beverage",
+    "contactEmail": "priya.s@healthybites.cafe",
+    "contactPhone": "+917766554433",
+    "address": {
+      "street": "Near Inorbit Mall",
+      "colony": "Madhapur",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500081",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4450,
+      "longitude": 78.3850
+    },
+    "services": [
+      { "name": "Smoothie Bowls", "price": "250", "description": "Various flavors." },
+      { "name": "Quinoa Salad", "price": "300", "description": "Freshly prepared." },
+      { "name": "Vegan Burger", "price": "350", "description": "Served with sweet potato fries." }
+    ],
+    "operatingHours": {
+      "monday": "8:00 AM - 9:00 PM",
+      "tuesday": "8:00 AM - 9:00 PM",
+      "wednesday": "8:00 AM - 9:00 PM",
+      "thursday": "8:00 AM - 9:00 PM",
+      "friday": "8:00 AM - 9:00 PM",
+      "saturday": "9:00 AM - 10:00 PM",
+      "sunday": "9:00 AM - 9:00 PM"
+    },
+    "establishmentDate": "2022-04-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/28A745/FFFFFF?text=Healthy+Bites",
+    "additionalImages": [],
+    "aadharNumber": "901234567890",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36YYYYY4444Y1Z5",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser030VendorDefghi01234",
+    "businessName": "Quick Laundry & Dry Cleaners",
+    "ownerName": "Ramesh Kumar",
+    "description": "Fast and reliable laundry and dry cleaning services. Wash, fold, and iron services available. Special care for delicate fabrics. Free pick-up and delivery within 5km radius.",
+    "category": "Home Services",
+    "contactEmail": "ramesh.k@quicklaundry.com",
+    "contactPhone": "+919876543210",
+    "address": {
+      "street": "Main Road",
+      "colony": "Nizampet",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500090",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.5000,
+      "longitude": 78.4000
+    },
+    "services": [
+      { "name": "Wash & Fold (Per Kg)", "price": "80", "description": "Minimum 2kg." },
+      { "name": "Dry Cleaning (Suit)", "price": "400", "description": "Per suit." },
+      { "name": "Ironing Service (Per Piece)", "price": "15", "description": "Minimum 10 pieces." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 8:00 PM",
+      "tuesday": "9:00 AM - 8:00 PM",
+      "wednesday": "9:00 AM - 8:00 PM",
+      "thursday": "9:00 AM - 8:00 PM",
+      "friday": "9:00 AM - 8:00 PM",
+      "saturday": "9:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2021-06-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/0D6EFD/FFFFFF?text=Quick+Laundry",
+    "additionalImages": [],
+    "aadharNumber": "012345678901",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36ZZZZZ5555Z1Z6",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser031VendorEfghij12345",
+    "businessName": "The Book Nook Cafe",
+    "ownerName": "Meera Devi",
+    "description": "A cozy cafe combined with a small library. Enjoy gourmet coffee, pastries, and light snacks while reading your favorite book. We also host open mic nights and poetry readings.",
+    "category": "Food & Beverage",
+    "contactEmail": "meera.d@booknook.cafe",
+    "contactPhone": "+919988776655",
+    "address": {
+      "street": "Street No. 4",
+      "colony": "Narayanaguda",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500029",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4000,
+      "longitude": 78.4900
+    },
+    "services": [
+      { "name": "Coffee & Beverages", "price": "150", "description": "Starting price." },
+      { "name": "Pastries & Snacks", "price": "100", "description": "Starting price." },
+      { "name": "Library Access", "price": "0", "description": "Free for patrons." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 10:00 PM",
+      "tuesday": "9:00 AM - 10:00 PM",
+      "wednesday": "9:00 AM - 10:00 PM",
+      "thursday": "9:00 AM - 10:00 PM",
+      "friday": "9:00 AM - 11:00 PM",
+      "saturday": "9:00 AM - 11:00 PM",
+      "sunday": "10:00 AM - 9:00 PM"
+    },
+    "establishmentDate": "2020-11-10T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/FFC107/000000?text=Book+Nook",
+    "additionalImages": [],
+    "aadharNumber": "123456789012",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36AAAAA6666A1Z7",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser032VendorFghijk23456",
+    "businessName": "Urban Greens Hydroponics",
+    "ownerName": "Siddharth Varma",
+    "description": "Grow fresh, organic vegetables and herbs at home with our hydroponic systems. We offer kits, supplies, and expert guidance for urban farming enthusiasts. Workshops available.",
+    "category": "Agriculture & Farming",
+    "contactEmail": "siddharth.v@urbangreens.in",
+    "contactPhone": "+918765432109",
+    "address": {
+      "street": "Gachibowli-Miyapur Rd",
+      "colony": "Nallagandla",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500019",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4650,
+      "longitude": 78.3250
+    },
+    "services": [
+      { "name": "Hydroponic Starter Kit", "price": "3500", "description": "Includes pump, nutrients, and seeds." },
+      { "name": "Advanced Hydroponic System", "price": "15000", "description": "For larger setups." },
+      { "name": "Hydroponics Workshop", "price": "1000", "description": "Per person." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 6:00 PM",
+      "tuesday": "10:00 AM - 6:00 PM",
+      "wednesday": "10:00 AM - 6:00 PM",
+      "thursday": "10:00 AM - 6:00 PM",
+      "friday": "10:00 AM - 6:00 PM",
+      "saturday": "10:00 AM - 2:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2022-01-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/28A745/FFFFFF?text=Urban+Greens",
+    "additionalImages": [],
+    "aadharNumber": "234567890123",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36BBBBB7777B1Z8",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser033VendorGhijkl34567",
+    "businessName": "Hyderabad Real Estate Hub",
+    "ownerName": "Rakesh Singh",
+    "description": "Your trusted partner for buying, selling, and renting properties in Hyderabad. Residential and commercial properties, land, and investment opportunities. Expert advice and transparent dealings.",
+    "category": "Real Estate",
+    "contactEmail": "rakesh.s@hydrealestate.com",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Main Road",
+      "colony": "Manikonda",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500089",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4100,
+      "longitude": 78.3800
+    },
+    "services": [
+      { "name": "Property Buying Assistance", "price": "0", "description": "Commission-based." },
+      { "name": "Property Selling Assistance", "price": "0", "description": "Commission-based." },
+      { "name": "Rental Property Management", "price": "0", "description": "Monthly fee." }
+    ],
+    "operatingHours": {
+      "monday": "9:30 AM - 6:30 PM",
+      "tuesday": "9:30 AM - 6:30 PM",
+      "wednesday": "9:30 AM - 6:30 PM",
+      "thursday": "9:30 AM - 6:30 PM",
+      "friday": "9:30 AM - 6:30 PM",
+      "saturday": "10:00 AM - 3:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2015-08-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6C757D/FFFFFF?text=Real+Estate+Hub",
+    "additionalImages": [],
+    "aadharNumber": "345678901234",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36CCCCCCC888C1Z9",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser034VendorHijklm45678",
+    "businessName": "The Gaming Zone Arcade",
+    "ownerName": "Arjun Reddy",
+    "description": "Experience the thrill of gaming with our state-of-the-art arcade games, VR experiences, and console gaming setups. Fun for all ages, host your birthday parties here!",
+    "category": "Entertainment",
+    "contactEmail": "arjun.r@gamingzone.com",
+    "contactPhone": "+918877665544",
+    "address": {
+      "street": "Kothaguda X Roads",
+      "colony": "Kothaguda",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500084",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4550,
+      "longitude": 78.3900
+    },
+    "services": [
+      { "name": "Arcade Games (Per Hour)", "price": "200", "description": "Unlimited plays." },
+      { "name": "VR Experience (Per Session)", "price": "350", "description": "15-minute session." },
+      { "name": "Console Gaming (Per Hour)", "price": "150", "description": "PS5/Xbox Series X." }
+    ],
+    "operatingHours": {
+      "monday": "11:00 AM - 10:00 PM",
+      "tuesday": "11:00 AM - 10:00 PM",
+      "wednesday": "11:00 AM - 10:00 PM",
+      "thursday": "11:00 AM - 10:00 PM",
+      "friday": "11:00 AM - 11:00 PM",
+      "saturday": "10:00 AM - 12:00 AM",
+      "sunday": "10:00 AM - 11:00 PM"
+    },
+    "establishmentDate": "2021-09-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/0D6EFD/FFFFFF?text=Gaming+Zone",
+    "additionalImages": [],
+    "aadharNumber": "456789012345",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36DDDDD9999D1Z0",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser035VendorIjklnm56789",
+    "businessName": "Fresh Bakes Bakery",
+    "ownerName": "Sita Devi",
+    "description": "Artisan bakery offering freshly baked breads, cakes, pastries, and custom-made desserts for all occasions. Using high-quality ingredients and traditional recipes.",
+    "category": "Food & Beverage",
+    "contactEmail": "sita.d@freshbakes.com",
+    "contactPhone": "+919876543210",
+    "address": {
+      "street": "Main Road",
+      "colony": "Tarnaka",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500017",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4300,
+      "longitude": 78.5300
+    },
+    "services": [
+      { "name": "Custom Cakes", "price": "800", "description": "Per kg, starting price." },
+      { "name": "Artisan Breads", "price": "150", "description": "Per loaf." },
+      { "name": "Pastries & Desserts", "price": "100", "description": "Starting price." }
+    ],
+    "operatingHours": {
+      "monday": "8:00 AM - 9:00 PM",
+      "tuesday": "8:00 AM - 9:00 PM",
+      "wednesday": "8:00 AM - 9:00 PM",
+      "thursday": "8:00 AM - 9:00 PM",
+      "friday": "8:00 AM - 10:00 PM",
+      "saturday": "8:00 AM - 10:00 PM",
+      "sunday": "8:00 AM - 9:00 PM"
+    },
+    "establishmentDate": "2019-04-20T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/FFC107/000000?text=Fresh+Bakes",
+    "additionalImages": [],
+    "aadharNumber": "567890123456",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36EEEEE0000E1Z1",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser036VendorJklmno67890",
+    "businessName": "The Craft Store",
+    "ownerName": "Ritu Agarwal",
+    "description": "A haven for artists and crafters. We stock a wide range of art supplies, craft materials, stationery, and DIY kits. Workshops for various art forms are also conducted.",
+    "category": "Hobbies & Crafts",
+    "contactEmail": "ritu.a@craftstore.in",
+    "contactPhone": "+919900112233",
+    "address": {
+      "street": "ECIL Cross Roads",
+      "colony": "ECIL",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500062",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4700,
+      "longitude": 78.5700
+    },
+    "services": [
+      { "name": "Art Supplies", "price": "50", "description": "Starting price." },
+      { "name": "Craft Kits", "price": "300", "description": "Various types." },
+      { "name": "Painting Workshop", "price": "1000", "description": "Per session." }
+    ],
+    "operatingHours": {
+      "monday": "10:30 AM - 8:00 PM",
+      "tuesday": "10:30 AM - 8:00 PM",
+      "wednesday": "10:30 AM - 8:00 PM",
+      "thursday": "10:30 AM - 8:00 PM",
+      "friday": "10:30 AM - 8:00 PM",
+      "saturday": "10:00 AM - 7:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2020-08-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6F42C1/FFFFFF?text=Craft+Store",
+    "additionalImages": [],
+    "aadharNumber": "678901234567",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36FFFFF1111F1Z2",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser037VendorKlmnoP78901",
+    "businessName": "Green Wheels Bicycle Shop",
+    "ownerName": "Prakash Rao",
+    "description": "Your one-stop shop for bicycles, accessories, and repair services. We offer a wide range of mountain bikes, road bikes, and kids' bikes. Expert mechanics for all repairs and maintenance.",
+    "category": "Sports & Recreation",
+    "contactEmail": "prakash.r@greenwheels.com",
+    "contactPhone": "+918765432109",
+    "address": {
+      "street": "Main Road",
+      "colony": "Attapur",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500048",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.3600,
+      "longitude": 78.4300
+    },
+    "services": [
+      { "name": "Bicycle Sales", "price": "5000", "description": "Starting price." },
+      { "name": "Bicycle Repair & Service", "price": "300", "description": "Basic service." },
+      { "name": "Accessories & Gear", "price": "100", "description": "Starting price." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 8:00 PM",
+      "tuesday": "10:00 AM - 8:00 PM",
+      "wednesday": "10:00 AM - 8:00 PM",
+      "thursday": "10:00 AM - 8:00 PM",
+      "friday": "10:00 AM - 8:00 PM",
+      "saturday": "10:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2018-03-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/28A745/FFFFFF?text=Green+Wheels",
+    "additionalImages": [],
+    "aadharNumber": "789012345678",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36GGGGG2222G1Z3",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser038VendorLmnopq89012",
+    "businessName": "The Language Hub",
+    "ownerName": "Dr. Kavita Rao",
+    "description": "Learn new languages with certified instructors. We offer classes for English, German, French, Spanish, and Japanese. Group and individual sessions available for all proficiency levels.",
+    "category": "Education",
+    "contactEmail": "kavita.r@languagehub.edu",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Street No. 1",
+      "colony": "Begumpet",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500016",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4420,
+      "longitude": 78.4580
+    },
+    "services": [
+      { "name": "German Language Course (A1)", "price": "12000", "description": "Beginner level." },
+      { "name": "Spoken English Classes", "price": "5000", "description": "Monthly." },
+      { "name": "Japanese Language (N5)", "price": "15000", "description": "Beginner level." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 8:00 PM",
+      "tuesday": "10:00 AM - 8:00 PM",
+      "wednesday": "10:00 AM - 8:00 PM",
+      "thursday": "10:00 AM - 8:00 PM",
+      "friday": "10:00 AM - 8:00 PM",
+      "saturday": "10:00 AM - 4:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2019-11-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/007BFF/FFFFFF?text=Language+Hub",
+    "additionalImages": [],
+    "aadharNumber": "890123456789",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36HHHHH3333H1Z4",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser039VendorMnopqr90123",
+    "businessName": "City Scapes Architecture",
+    "ownerName": "Ar. Sameer Khan",
+    "description": "Innovative architectural design and planning services for residential, commercial, and institutional projects. Sustainable and functional designs tailored to your vision.",
+    "category": "Architecture & Design",
+    "contactEmail": "sameer.k@cityscapes.arch",
+    "contactPhone": "+919876543210",
+    "address": {
+      "street": "Road No. 36",
+      "colony": "Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500033",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4350,
+      "longitude": 78.4050
+    },
+    "services": [
+      { "name": "Residential Design", "price": "0", "description": "Per sq ft, custom quote." },
+      { "name": "Commercial Design", "price": "0", "description": "Per sq ft, custom quote." },
+      { "name": "Interior Design Integration", "price": "0", "description": "Add-on service." }
+    ],
+    "operatingHours": {
+      "monday": "9:30 AM - 6:30 PM",
+      "tuesday": "9:30 AM - 6:30 PM",
+      "wednesday": "9:30 AM - 6:30 PM",
+      "thursday": "9:30 AM - 6:30 PM",
+      "friday": "9:30 AM - 6:30 PM",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2016-05-01T00:00:00.000Z",
+    "awards": ["Best Architectural Firm Hyderabad 2022"],
+    "profileImageUrl": "https://placehold.co/600x400/6C757D/FFFFFF?text=City+Scapes",
+    "additionalImages": [],
+    "aadharNumber": "901234567890",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36IIIII4444I1Z5",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser040VendorNopqrs01234",
+    "businessName": "The Pet Grooming Salon",
+    "ownerName": "Pooja Reddy",
+    "description": "Pamper your pets with our professional grooming services. Haircuts, baths, nail trims, and spa treatments for dogs and cats. Experienced groomers ensure a comfortable experience.",
+    "category": "Pets",
+    "contactEmail": "pooja.r@petgrooming.salon",
+    "contactPhone": "+918877665544",
+    "address": {
+      "street": "Road No. 4",
+      "colony": "Kondapur",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500084",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4620,
+      "longitude": 78.3650
+    },
+    "services": [
+      { "name": "Dog Grooming (Small Breed)", "price": "1500", "description": "Includes bath, haircut, nail trim." },
+      { "name": "Cat Grooming", "price": "1200", "description": "Includes bath and brush." },
+      { "name": "Pawdicure", "price": "300", "description": "Nail trim and paw massage." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 7:00 PM",
+      "tuesday": "10:00 AM - 7:00 PM",
+      "wednesday": "10:00 AM - 7:00 PM",
+      "thursday": "10:00 AM - 7:00 PM",
+      "friday": "10:00 AM - 7:00 PM",
+      "saturday": "10:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2020-06-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6610F2/FFFFFF?text=Pet+Grooming",
+    "additionalImages": [],
+    "aadharNumber": "012345678901",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36JJJJJ5555J1Z6",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser041VendorOpqrst12345",
+    "businessName": "Hyderabad Dance Academy",
+    "ownerName": "Sangeeta Rao",
+    "description": "Learn various dance forms including Bharatanatyam, Kuchipudi, Bollywood, and Western contemporary. Classes for all age groups and skill levels. Annual performances and competitions.",
+    "category": "Music & Arts",
+    "contactEmail": "sangeeta.r@hydance.com",
+    "contactPhone": "+919988776655",
+    "address": {
+      "street": "Near Paradise Circle",
+      "colony": "Secunderabad",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500003",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4400,
+      "longitude": 78.5000
+    },
+    "services": [
+      { "name": "Bollywood Dance Classes", "price": "1000", "description": "Monthly fee." },
+      { "name": "Bharatanatyam (Beginner)", "price": "1500", "description": "Monthly fee." },
+      { "name": "Contemporary Dance", "price": "1200", "description": "Monthly fee." }
+    ],
+    "operatingHours": {
+      "monday": "4:00 PM - 9:00 PM",
+      "tuesday": "4:00 PM - 9:00 PM",
+      "wednesday": "4:00 PM - 9:00 PM",
+      "thursday": "4:00 PM - 9:00 PM",
+      "friday": "4:00 PM - 9:00 PM",
+      "saturday": "10:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2017-09-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/E83E8C/FFFFFF?text=Hyd+Dance",
+    "additionalImages": [],
+    "aadharNumber": "123456789012",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36KKKKK6666K1Z7",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser042VendorPqrstu23456",
+    "businessName": "Eco-Friendly Car Wash",
+    "ownerName": "Anil Kumar",
+    "description": "Professional car wash and detailing services using eco-friendly products and water-saving techniques. Interior cleaning, exterior polishing, and ceramic coating options available.",
+    "category": "Automotive",
+    "contactEmail": "anil.k@ecocarwash.com",
+    "contactPhone": "+918765432109",
+    "address": {
+      "street": "Old Mumbai Hwy",
+      "colony": "Gachibowli",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500032",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4200,
+      "longitude": 78.3350
+    },
+    "services": [
+      { "name": "Exterior Wash & Vacuum", "price": "300", "description": "Sedan/Hatchback." },
+      { "name": "Full Interior Detailing", "price": "2500", "description": "Includes seat cleaning." },
+      { "name": "Ceramic Coating", "price": "15000", "description": "Starting price." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 7:00 PM",
+      "tuesday": "9:00 AM - 7:00 PM",
+      "wednesday": "9:00 AM - 7:00 PM",
+      "thursday": "9:00 AM - 7:00 PM",
+      "friday": "9:00 AM - 7:00 PM",
+      "saturday": "9:00 AM - 6:00 PM",
+      "sunday": "10:00 AM - 4:00 PM"
+    },
+    "establishmentDate": "2021-03-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/FD7E14/FFFFFF?text=Eco+Car+Wash",
+    "additionalImages": [],
+    "aadharNumber": "234567890123",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36LLLLL7777L1Z8",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser043VendorQrstuv34567",
+    "businessName": "The Organic Store",
+    "ownerName": "Deepa Sharma",
+    "description": "Your destination for organic groceries, fresh produce, healthy snacks, and natural personal care products. Supporting local farmers and sustainable living.",
+    "category": "Retail",
+    "contactEmail": "deepa.s@organicstore.in",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Road No. 92",
+      "colony": "Jubilee Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500033",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4380,
+      "longitude": 78.3950
+    },
+    "services": [
+      { "name": "Organic Vegetables & Fruits", "price": "50", "description": "Starting price per kg." },
+      { "name": "Organic Groceries", "price": "100", "description": "Starting price." },
+      { "name": "Natural Personal Care", "price": "200", "description": "Starting price." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 9:00 PM",
+      "tuesday": "9:00 AM - 9:00 PM",
+      "wednesday": "9:00 AM - 9:00 PM",
+      "thursday": "9:00 AM - 9:00 PM",
+      "friday": "9:00 AM - 9:00 PM",
+      "saturday": "9:00 AM - 9:00 PM",
+      "sunday": "10:00 AM - 7:00 PM"
+    },
+    "establishmentDate": "2018-05-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/28A745/FFFFFF?text=Organic+Store",
+    "additionalImages": [],
+    "aadharNumber": "345678901234",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36MMMMM8888M1Z9",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser044VendorRstuvw45678",
+    "businessName": "Quick Print Solutions",
+    "ownerName": "Sanjay Kumar",
+    "description": "High-quality printing services for business cards, flyers, brochures, banners, and personalized merchandise. Fast turnaround times and competitive pricing. Design services also available.",
+    "category": "Printing Services",
+    "contactEmail": "sanjay.k@quickprint.com",
+    "contactPhone": "+918877665544",
+    "address": {
+      "street": "SD Road",
+      "colony": "Secunderabad",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500003",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4450,
+      "longitude": 78.4950
+    },
+    "services": [
+      { "name": "Business Card Printing (1000 pcs)", "price": "500", "description": "Standard size, double-sided." },
+      { "name": "Flyer Printing (A5, 500 pcs)", "price": "1000", "description": "Single-sided." },
+      { "name": "Banner Printing (Flex)", "price": "50", "description": "Per sq ft." }
+    ],
+    "operatingHours": {
+      "monday": "9:30 AM - 7:00 PM",
+      "tuesday": "9:30 AM - 7:00 PM",
+      "wednesday": "9:30 AM - 7:00 PM",
+      "thursday": "9:30 AM - 7:00 PM",
+      "friday": "9:30 AM - 7:00 PM",
+      "saturday": "10:00 AM - 3:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2019-01-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6C757D/FFFFFF?text=Quick+Print",
+    "additionalImages": [],
+    "aadharNumber": "456789012345",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36NNNNN9999N1Z0",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser045VendorStuvwx56789",
+    "businessName": "The Wellness Hub Spa",
+    "ownerName": "Dr. Anjali Verma",
+    "description": "Rejuvenate your mind, body, and soul with our holistic spa treatments. Massages, facials, body wraps, and aromatherapy. Experienced therapists in a serene environment.",
+    "category": "Beauty & Wellness",
+    "contactEmail": "anjali.v@wellnesshub.spa",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Road No. 1",
+      "colony": "Banjara Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500034",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4150,
+      "longitude": 78.4600
+    },
+    "services": [
+      { "name": "Swedish Massage (60 min)", "price": "2500", "description": "Relaxing full body massage." },
+      { "name": "Deep Tissue Massage (60 min)", "price": "3000", "description": "For muscle relief." },
+      { "name": "Signature Facial", "price": "2000", "description": "Customized for skin type." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 8:00 PM",
+      "tuesday": "10:00 AM - 8:00 PM",
+      "wednesday": "10:00 AM - 8:00 PM",
+      "thursday": "10:00 AM - 8:00 PM",
+      "friday": "10:00 AM - 9:00 PM",
+      "saturday": "10:00 AM - 9:00 PM",
+      "sunday": "10:00 AM - 7:00 PM"
+    },
+    "establishmentDate": "2020-02-10T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/D63384/FFFFFF?text=Wellness+Hub",
+    "additionalImages": [],
+    "aadharNumber": "567890123456",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36OOOOO0000O1Z1",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser046VendorTuvwxy67890",
+    "businessName": "Kids' Play Zone",
+    "ownerName": "Ritu Singh",
+    "description": "An indoor play area for children aged 1-10 years. Ball pits, slides, climbing structures, and creative play zones. Safe and supervised environment for endless fun. Birthday party packages available.",
+    "category": "Entertainment",
+    "contactEmail": "ritu.s@kidsplayzone.com",
+    "contactPhone": "+919988776655",
+    "address": {
+      "street": "Near Forum Sujana Mall",
+      "colony": "Kukatpally",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500072",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4900,
+      "longitude": 78.3900
+    },
+    "services": [
+      { "name": "Hourly Play Pass", "price": "300", "description": "Per child." },
+      { "name": "Full Day Play Pass", "price": "700", "description": "Per child." },
+      { "name": "Birthday Party Package", "price": "10000", "description": "Starting price for 10 kids." }
+    ],
+    "operatingHours": {
+      "monday": "10:00 AM - 9:00 PM",
+      "tuesday": "10:00 AM - 9:00 PM",
+      "wednesday": "10:00 AM - 9:00 PM",
+      "thursday": "10:00 AM - 9:00 PM",
+      "friday": "10:00 AM - 10:00 PM",
+      "saturday": "10:00 AM - 10:00 PM",
+      "sunday": "10:00 AM - 9:00 PM"
+    },
+    "establishmentDate": "2021-07-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/0D6EFD/FFFFFF?text=Kids+Play+Zone",
+    "additionalImages": [],
+    "aadharNumber": "678901234567",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36PPPPPP1111P1Z2",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser047VendorUvwxyz78901",
+    "businessName": "Home Chef Catering",
+    "ownerName": "Suman Varma",
+    "description": "Delicious and hygienic catering services for small to medium-sized events. Specializing in authentic South Indian, North Indian, and Continental cuisines. Custom menus available.",
+    "category": "Food & Beverage",
+    "contactEmail": "suman.v@homechefcatering.com",
+    "contactPhone": "+918765432109",
+    "address": {
+      "street": "Nacharam Main Rd",
+      "colony": "Nacharam",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500076",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4400,
+      "longitude": 78.5600
+    },
+    "services": [
+      { "name": "Birthday Party Catering", "price": "500", "description": "Per plate, minimum 20 plates." },
+      { "name": "Corporate Lunch Boxes", "price": "250", "description": "Per box, minimum 10 boxes." },
+      { "name": "Custom Event Menu", "price": "0", "description": "Price on request." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 6:00 PM (Order Booking)",
+      "tuesday": "9:00 AM - 6:00 PM (Order Booking)",
+      "wednesday": "9:00 AM - 6:00 PM (Order Booking)",
+      "thursday": "9:00 AM - 6:00 PM (Order Booking)",
+      "friday": "9:00 AM - 6:00 PM (Order Booking)",
+      "saturday": "9:00 AM - 2:00 PM (Order Booking)",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2020-03-10T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/FFC107/000000?text=Home+Chef",
+    "additionalImages": [],
+    "aadharNumber": "789012345678",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36QQQQQ7777Q1Z3",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser048VendorVwxyzab89012",
+    "businessName": "The Green Pharmacy",
+    "ownerName": "Dr. Rajeshwari Devi",
+    "description": "A holistic wellness center offering Ayurvedic consultations, herbal medicines, and natural health products. Personalized treatment plans for various ailments. Yoga and meditation classes also available.",
+    "category": "Healthcare",
+    "contactEmail": "rajeshwari.d@greenpharmacy.in",
+    "contactPhone": "+919012345678",
+    "address": {
+      "street": "Tolichowki Main Rd",
+      "colony": "Tolichowki",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500008",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.3900,
+      "longitude": 78.4000
+    },
+    "services": [
+      { "name": "Ayurvedic Consultation", "price": "800", "description": "30-minute session." },
+      { "name": "Herbal Medicine Dispensing", "price": "0", "description": "Price varies by product." },
+      { "name": "Yoga & Meditation Classes", "price": "1000", "description": "Monthly fee." }
+    ],
+    "operatingHours": {
+      "monday": "9:00 AM - 7:00 PM",
+      "tuesday": "9:00 AM - 7:00 PM",
+      "wednesday": "9:00 AM - 7:00 PM",
+      "thursday": "9:00 AM - 7:00 PM",
+      "friday": "9:00 AM - 7:00 PM",
+      "saturday": "9:00 AM - 3:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2019-06-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/DC3545/FFFFFF?text=Green+Pharmacy",
+    "additionalImages": [],
+    "aadharNumber": "890123456789",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36RRRRR8888R1Z4",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser049VendorWxyzab90123",
+    "businessName": "Hyderabad Driving School",
+    "ownerName": "Ravi Teja",
+    "description": "Learn to drive with confidence from certified instructors. We offer driving lessons for cars and two-wheelers. Flexible timings and personalized training to help you get your license.",
+    "category": "Education",
+    "contactEmail": "ravi.t@hyddriving.com",
+    "contactPhone": "+919988776655",
+    "address": {
+      "street": "Mehdipatnam Main Rd",
+      "colony": "Mehdipatnam",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500028",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.3800,
+      "longitude": 78.4200
+    },
+    "services": [
+      { "name": "Car Driving Lessons (15 Days)", "price": "6000", "description": "Includes theory and practical." },
+      { "name": "Two-Wheeler Training (7 Days)", "price": "2500", "description": "Includes practical." },
+      { "name": "License Assistance", "price": "1000", "description": "Documentation support." }
+    ],
+    "operatingHours": {
+      "monday": "6:00 AM - 9:00 PM",
+      "tuesday": "6:00 AM - 9:00 PM",
+      "wednesday": "6:00 AM - 9:00 PM",
+      "thursday": "6:00 AM - 9:00 PM",
+      "friday": "6:00 AM - 9:00 PM",
+      "saturday": "6:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2018-01-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/007BFF/FFFFFF?text=Hyd+Driving",
+    "additionalImages": [],
+    "aadharNumber": "901234567890",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36SSSSS9999S1Z5",
+    "verificationStatus": "pending_review_basic",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  },
+  {
+    "userId": "dummyUser050VendorXyzabc01234",
+    "businessName": "The Vintage Collection Antiques",
+    "ownerName": "Anil Gupta",
+    "description": "Discover unique antique furniture, collectibles, vintage decor, and rare artifacts. Curated collection from across India. Perfect for collectors and interior decorators.",
+    "category": "Retail",
+    "contactEmail": "anil.g@vintagecollection.in",
+    "contactPhone": "+918877665544",
+    "address": {
+      "street": "Banjara Hills Rd No. 1",
+      "colony": "Banjara Hills",
+      "city": "Hyderabad",
+      "state": "Telangana",
+      "zipCode": "500034",
+      "country": "India"
+    },
+    "location": {
+      "latitude": 17.4120,
+      "longitude": 78.4520
+    },
+    "services": [
+      { "name": "Antique Furniture Sales", "price": "10000", "description": "Starting price." },
+      { "name": "Collectible Items", "price": "500", "description": "Starting price." },
+      { "name": "Restoration Services", "price": "0", "description": "Custom quote." }
+    ],
+    "operatingHours": {
+      "monday": "11:00 AM - 7:00 PM",
+      "tuesday": "11:00 AM - 7:00 PM",
+      "wednesday": "11:00 AM - 7:00 PM",
+      "thursday": "11:00 AM - 7:00 PM",
+      "friday": "11:00 AM - 7:00 PM",
+      "saturday": "11:00 AM - 6:00 PM",
+      "sunday": "Closed"
+    },
+    "establishmentDate": "2016-09-01T00:00:00.000Z",
+    "awards": [],
+    "profileImageUrl": "https://placehold.co/600x400/6F42C1/FFFFFF?text=Vintage+Collection",
+    "additionalImages": [],
+    "aadharNumber": "012345678901",
+    "aadharFrontUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharFront",
+    "aadharBackUrl": "https://placehold.co/400x250/DDDDDD/000000?text=AadharBack",
+    "gstin": "36TTTTT0000T1Z6",
+    "verificationStatus": "pending_gst_verification",
+    "isSuspended": false,
+    "status": "active",
+    "isOpen": true
+  }
+]
