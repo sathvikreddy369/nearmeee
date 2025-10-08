@@ -349,7 +349,7 @@ const VendorSuccessHub = () => {
               with Nearమీ. Start your journey today and transform your local business.
             </p>
             <div className="cta-buttons">
-              <a href="/vendor-registration" className="cta-btn primary">
+              <a href="/register-vendor" className="cta-btn primary">
                 <Users size={20} />
                 Register Your Business
               </a>

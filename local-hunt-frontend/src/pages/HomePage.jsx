@@ -291,7 +291,7 @@ function HomePage() {
   };
 
   const handleVendorGuide = () => {
-    navigate('/vendor-guide');
+    navigate('/vendor-success-hub');
   };
 
   // Mock reviews if API doesn't return any
