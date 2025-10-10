@@ -7,6 +7,7 @@ import { ToastProvider } from './contexts/ToastContext';
 // Import Components
 import SiteNavbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
+import ScrollToTop from './components/common/ScrollToTop';
 
 // Import Pages
 import HomePage from './pages/HomePage';
@@ -59,6 +60,7 @@ function App() {
     <AuthProvider>
       <ToastProvider>
         <Router>
+          <ScrollToTop />
           <div className="d-flex flex-column min-vh-100">
             <SiteNavbar />
             {/* Main content with proper padding for fixed navbar */}

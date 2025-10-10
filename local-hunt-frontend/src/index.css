@@ -3,6 +3,10 @@
 /* -------------------
    Design System - Elegant & Sophisticated
 ------------------- */
+/* Smooth scrolling behavior for the whole page */
+html {
+  scroll-behavior: smooth;
+}
 
 :root {
   /* Colors */
