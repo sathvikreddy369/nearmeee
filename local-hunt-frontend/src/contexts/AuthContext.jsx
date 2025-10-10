@@ -3,9 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
 import * as authApi from '../services/authApi';
-
 const AuthContext = createContext(null);
-
 export const useAuth = () => {
   return useContext(AuthContext);
 };
@@ -45,8 +43,6 @@ export const AuthProvider = ({ children }) => {
             'user',
             idToken
           );
-          
-          // Try to fetch the profile again
           const newProfile = await authApi.getAuthenticatedUserProfile(idToken);
           setUserProfile(newProfile);
           console.log('✅ New user profile created and loaded:', newProfile);
@@ -87,8 +83,6 @@ export const AuthProvider = ({ children }) => {
           setUserProfile(profile);
         } catch (error) {
           console.error("AuthContext: Error fetching user profile from backend:", error);
-          
-          // Use the refreshUserProfile function to handle missing profiles
           await refreshUserProfile(user);
         }
       } else {

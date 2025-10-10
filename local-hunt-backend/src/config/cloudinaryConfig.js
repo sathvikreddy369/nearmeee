@@ -1,7 +1,7 @@
 // src/config/cloudinaryConfig.js
-const cloudinary = require('cloudinary'); // Import the main cloudinary object
+const cloudinary = require('cloudinary');
 const path = require('path');
-require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }); // Load .env file
+require('dotenv').config({ path: path.resolve(__dirname, '../../.env') }); 
 
 // Configure the v2 object with your Cloudinary credentials
 cloudinary.v2.config({

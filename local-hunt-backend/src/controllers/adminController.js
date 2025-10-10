@@ -181,9 +181,6 @@ exports.updateVendorVerificationStatus = async (req, res, next) => {
     next(error);
   }
 };
-
-// In src/controllers/adminController.js - simplify the verifyGstinForVendor function
-
 // In src/controllers/adminController.js - fix the verifyGstinForVendor function
 exports.verifyGstinForVendor = async (req, res, next) => {
   try {

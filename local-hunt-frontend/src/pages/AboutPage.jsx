@@ -50,10 +50,10 @@ const AboutPage = () => {
       // bio: 'Led the overall architecture and development. Focused on backend APIs and system design. Passionate about building scalable applications.',
       avatar: 'AK',
       social: {
-        github: 'https://github.com/akhilkodi',
+        github: 'https://github.com/akhil123-pixel',
         linkedin: 'https://linkedin.com/in/akhilkodi',
-        instagram: 'https://instagram.com/akhilkodi',
-        email: 'akhil.kodi@example.com'
+        instagram: 'https://instagram.com/akhhxil._',
+        email: 'akhil25082005@gmail.com'
       }
     },
     {
@@ -63,9 +63,9 @@ const AboutPage = () => {
       avatar: 'NK',
       social: {
         github: 'https://github.com/nikhilalbai',
-        linkedin: 'https://linkedin.com/in/nikhilalbai',
-        instagram: 'https://instagram.com/nikhilalbai',
-        email: 'nikhil.albai@example.com'
+        linkedin: 'https://www.linkedin.com/in/nikhil-albai/',
+        instagram: 'https://instagram.com/@nikhil_1_12',
+        email: 'nikhilalbai4@gmail.com'
       }
     },
     {

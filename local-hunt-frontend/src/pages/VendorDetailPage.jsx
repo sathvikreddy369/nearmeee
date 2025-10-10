@@ -30,7 +30,8 @@ import {
   Calendar,
   Users,
   ArrowLeft,
-  ExternalLink
+  ExternalLink,
+  ChevronDown
 } from 'lucide-react';
 import * as vendorApi from '../services/vendorApi';
 import * as reviewApi from '../services/reviewApi';
@@ -38,6 +39,7 @@ import * as userApi from '../services/userApi';
 import { getDirections, getDistanceMatrix } from '../services/mapService';
 import ReviewForm from '../components/reviews/ReviewForm';
 import ReviewItem from '../components/reviews/ReviewItem';
+import OperatingHours from '../components/vendors/OperatingHours';
 import MapDisplay from '../components/maps/MapDisplay';
 import DirectionsMap from '../components/maps/DirectionsMap';
 import { useAuth } from '../contexts/AuthContext';
@@ -338,7 +340,7 @@ function VendorDetailPage() {
 
         <Row className="g-4">
           {/* Main Content */}
-          <Col xl={8} lg={7}>
+          <Col xl={8}>
             {/* Header Card */}
             <Card className="border-0 shadow-sm mb-4">
               <Card.Body className="p-3 p-md-4">
@@ -410,6 +412,72 @@ function VendorDetailPage() {
                     style={{ width: '44px' }}
                   >
                     <Share2 size={18} />
+                  </Button>
+                </div>
+              </Card.Body>
+            </Card>
+
+            {/* Contact & Actions Card */}
+            <Card className="border-0 shadow-sm mb-4">
+              <Card.Header className="bg-white border-0 py-3">
+                <h4 className="fw-bold mb-0 d-flex align-items-center">
+                  <MapPin size={20} className="me-2 text-primary" />
+                  Contact & Business Hours
+                </h4>
+              </Card.Header>
+              <Card.Body className="p-3 p-md-4">
+                <ListGroup variant="flush" className="vendor-info-list mb-4">
+                  <ListGroup.Item className="d-flex align-items-start px-0 py-3 border-bottom">
+                    <MapPin size={20} className="text-primary mt-1 me-3 flex-shrink-0" />
+                    <div>
+                      <div className="fw-medium text-dark">{vendor.address?.street}</div>
+                      <small className="text-muted">
+                        {vendor.address?.city}, {vendor.address?.state} {vendor.address?.zipCode}
+                      </small>
+                    </div>
+                  </ListGroup.Item>
+                  
+                  {vendor.contactPhone && (
+                    <ListGroup.Item className="d-flex align-items-center px-0 py-3 border-bottom">
+                      <Phone size={20} className="text-primary me-3 flex-shrink-0" />
+                      <a href={`tel:${vendor.contactPhone}`} className="fw-medium text-dark text-decoration-none">{vendor.contactPhone}</a>
+                    </ListGroup.Item>
+                  )}
+                  
+                  {vendor.contactEmail && (
+                    <ListGroup.Item className="d-flex align-items-center px-0 py-3 border-bottom">
+                      <Mail size={20} className="text-primary me-3 flex-shrink-0" />
+                      <a href={`mailto:${vendor.contactEmail}`} className="fw-medium text-dark text-decoration-none">{vendor.contactEmail}</a>
+                    </ListGroup.Item>
+                  )}
+
+                  {vendor.operatingHours && Object.keys(vendor.operatingHours).length > 0 && (
+                    <ListGroup.Item className="px-0 py-3">
+                       <OperatingHours operatingHours={vendor.operatingHours} />
+                    </ListGroup.Item>
+                  )}
+                </ListGroup>
+
+                {/* Action Buttons */}
+                <div className="d-grid gap-2">
+                  <Button
+                    variant="primary"
+                    as={Link}
+                    to={`/messages/${vendor.id}`}
+                    state={{ vendor }}
+                    className="d-flex align-items-center justify-content-center py-2"
+                  >
+                    <MessageCircle size={18} className="me-2" />
+                    Message Business
+                  </Button>
+                  
+                  <Button
+                    variant="outline-primary"
+                    onClick={handleQuickDirections}
+                    className="d-flex align-items-center justify-content-center py-2"
+                  >
+                    <ExternalLink size={18} className="me-2" />
+                    Get Directions
                   </Button>
                 </div>
               </Card.Body>
@@ -490,7 +558,7 @@ function VendorDetailPage() {
                           </div>
                           {service.price && (
                             <Badge bg="primary" className="fs-6 px-3 py-2 ms-3">
-                              ${service.price}
+                              ₹{service.price}
                             </Badge>
                           )}
                         </div>
@@ -556,101 +624,11 @@ function VendorDetailPage() {
           </Col>
 
           {/* Sidebar */}
-          <Col xl={4} lg={5}>
+          <Col xl={4}>
             <div className="sticky-sidebar">
-              {/* Contact & Location Card */}
-              <Card className="border-0 shadow-sm mb-4">
-                <Card.Body className="p-3 p-md-4">
-                  <h5 className="fw-bold mb-3 mb-md-4 text-dark">Contact & Location</h5>
-                  
-                  <ListGroup variant="flush" className="vendor-info-list">
-                    <ListGroup.Item className="d-flex align-items-start px-0 py-2 py-md-3 border-bottom">
-                      <MapPin size={20} className="text-primary mt-1 me-3 flex-shrink-0" />
-                      <div>
-                        <div className="fw-medium text-dark">{vendor.address?.street}</div>
-                        <small className="text-muted">
-                          {vendor.address?.city}, {vendor.address?.state} {vendor.address?.zipCode}
-                        </small>
-                      </div>
-                    </ListGroup.Item>
-                    
-                    {vendor.contactPhone && (
-                      <ListGroup.Item className="d-flex align-items-center px-0 py-2 py-md-3 border-bottom">
-                        <Phone size={20} className="text-primary me-3 flex-shrink-0" />
-                        <div className="fw-medium text-dark">{vendor.contactPhone}</div>
-                      </ListGroup.Item>
-                    )}
-                    
-                    {vendor.contactEmail && (
-                      <ListGroup.Item className="d-flex align-items-center px-0 py-2 py-md-3 border-bottom">
-                        <Mail size={20} className="text-primary me-3 flex-shrink-0" />
-                        <div className="fw-medium text-dark">{vendor.contactEmail}</div>
-                      </ListGroup.Item>
-                    )}
-
-                    {/* Distance Information */}
-                    {distanceInfo && (
-                      <ListGroup.Item className="d-flex align-items-center px-0 py-2 py-md-3 border-bottom">
-                        <Navigation size={20} className="text-primary me-3 flex-shrink-0" />
-                        <div>
-                          <div className="fw-medium text-dark">
-                            {formatDistance(distanceInfo.distance)}
-                          </div>
-                          <small className="text-muted">
-                            {formatDuration(distanceInfo.duration)}
-                          </small>
-                        </div>
-                      </ListGroup.Item>
-                    )}
-                  </ListGroup>
-
-                  {/* Action Buttons */}
-                  <div className="d-grid gap-2 mt-3 mt-md-4">
-                    <Button
-                      variant="primary"
-                      as={Link}
-                      to={`/messages/${vendor.id}`}
-                      state={{ vendor }}
-                      className="d-flex align-items-center justify-content-center py-2"
-                    >
-                      <MessageCircle size={18} className="me-2" />
-                      Message Business
-                    </Button>
-                    
-                    <Button
-                      variant="success"
-                      onClick={handleGetDirections}
-                      disabled={isFetchingRoute}
-                      className="d-flex align-items-center justify-content-center py-2"
-                    >
-                      {isFetchingRoute ? (
-                        <>
-                          <Spinner as="span" size="sm" animation="border" className="me-2" />
-                          Getting Route...
-                        </>
-                      ) : (
-                        <>
-                          <Navigation size={18} className="me-2" />
-                          Get Directions
-                        </>
-                      )}
-                    </Button>
-                    
-                    <Button
-                      variant="outline-primary"
-                      onClick={handleQuickDirections}
-                      className="d-flex align-items-center justify-content-center py-2"
-                    >
-                      <ExternalLink size={18} className="me-2" />
-                      Open in Maps
-                    </Button>
-                  </div>
-                </Card.Body>
-              </Card>
-
               {/* Map Preview */}
               {vendor.location && (
-                <Card className="border-0 shadow-sm">
+                <Card className="border-0 shadow-sm mb-4">
                   <Card.Body className="p-0">
                     <div className="map-preview-container">
                       <MapDisplay 
@@ -658,10 +636,40 @@ function VendorDetailPage() {
                         center={[vendor.location.longitude, vendor.location.latitude]}
                         zoom={14}
                         isInteractive={true}
-                        showPopup={true}
-                        height="200px"
+                        showPopup={false}
+                        height="250px"
                       />
                     </div>
+                    <div className="p-3">
+                      <Button
+                        variant="success"
+                        onClick={handleGetDirections}
+                        disabled={isFetchingRoute}
+                        className="d-flex align-items-center justify-content-center py-2 w-100"
+                      >
+                        {isFetchingRoute ? (
+                          <>
+                            <Spinner as="span" size="sm" animation="border" className="me-2" />
+                            Getting Route...
+                          </>
+                        ) : (
+                          <>
+                            <Navigation size={18} className="me-2" />
+                            Get Directions
+                          </>
+                        )}
+                      </Button>
+                    </div>
+                  </Card.Body>
+                </Card>
+              )}
+
+              {/* Distance Info */}
+              {distanceInfo && (
+                <Card className="border-0 shadow-sm bg-light">
+                  <Card.Body className="d-flex align-items-center justify-content-center text-center p-3">
+                    <Navigation size={20} className="text-primary me-3 flex-shrink-0" />
+                    <div className="fw-medium text-dark">{formatDistance(distanceInfo.distance)} <span className="text-muted">{formatDuration(distanceInfo.duration)}</span></div>
                   </Card.Body>
                 </Card>
               )}
@@ -755,7 +763,8 @@ function VendorDetailPage() {
         }
         
         .map-preview-container {
-          border-radius: 12px;
+          border-top-left-radius: var(--bs-card-inner-border-radius);
+          border-top-right-radius: var(--bs-card-inner-border-radius);
           overflow: hidden;
         }
         

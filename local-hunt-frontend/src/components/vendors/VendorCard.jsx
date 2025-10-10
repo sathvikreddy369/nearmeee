@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Badge, Button, OverlayTrigger, Tooltip, Row, Col } from 'react-bootstrap';
-import { Eye, Navigation, Star, MapPin, Clock } from 'lucide-react';
+import { Eye, Navigation, Star, MapPin, Award } from 'lucide-react';
 import './VendorCard.css';
 
 function VendorCard({ vendor, onViewDetails, onGetDirections }) {
@@ -13,10 +13,11 @@ function VendorCard({ vendor, onViewDetails, onGetDirections }) {
     averageRating,
     totalReviews,
     isOpen,
-    location,
+    address,
     services,
     contactPhone,
-    openingHours
+    openingHours,
+    awards
   } = vendor;
 
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -130,6 +131,11 @@ function VendorCard({ vendor, onViewDetails, onGetDirections }) {
                 {isOpen ? '✓' : '✕'}
               </Badge>
             </OverlayTrigger>
+
+            {/* Award Icon */}
+            {awards && awards.length > 0 && (
+              <div className="award-icon" title={`${awards.length} award(s)`}><Award size={16} /></div>
+            )}
           </div>
         </Col>
         <Col xs={8}>
@@ -142,7 +148,7 @@ function VendorCard({ vendor, onViewDetails, onGetDirections }) {
               <div className="vendor-location">
                 <MapPin size={14} className="location-icon" />
                 <span>
-                  {location?.colony && `${location.colony}, `}{location?.city}
+                  {address?.colony && `${address.colony}, `}{address?.city}
                   {distanceInfo && (
                     <span className="distance-info"> • {distanceInfo}</span>
                   )}

@@ -13,7 +13,7 @@ export const ToastProvider = ({ children }) => {
 
   const addToast = useCallback((type, message, duration = 3000) => {
     const newToast = {
-      id: Date.now(), // Use a more unique ID
+      id: Date.now(), 
       type,
       message,
       duration,
