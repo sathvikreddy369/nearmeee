@@ -3,7 +3,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import { Cookie, Shield, Settings, Eye } from 'lucide-react';
 
 const CookiePolicyPage = () => {
-  const lastUpdated = "December 1, 2024";
+  const lastUpdated = "October 10, 2025";
 
   const cookieTypes = [
     {

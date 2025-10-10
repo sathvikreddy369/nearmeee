@@ -88,7 +88,7 @@ const AboutPage = () => {
       social: {
         github: 'https://github.com/sathvikreddy369',
         linkedin: 'https://linkedin.com/in/sathvikreddy369',
-        instagram: 'https://instagram.com/sathvikreddy369',
+        instagram: 'https://instagram.com/sathvikreddy._',
         email: 'satreddyyy@gmail.com'
       }
     },
@@ -132,7 +132,7 @@ const AboutPage = () => {
   const techStack = [
     'React.js', 'Node.js', 'Express.js', 'Firebase','Cloudinary', 'GSTin Validator',
     'Mapbox GL JS', 'Bootstrap', 'JWT', 'REST API', 'Git',
-    'Jest', 'OnSnapShot(alternative to WebSockets)'
+    'Jest', 'WebSockets'
   ];
 
   // Project Stats
