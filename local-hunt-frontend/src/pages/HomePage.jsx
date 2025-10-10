@@ -119,7 +119,7 @@ function HomePage() {
       icon: <Sun size={24} />,
       image: 'summerseason.jpeg?w=600&auto=format&fit=crop',
       services: ['AC Repair', 'Cooler Services', 'Cold Drinks', 'Swimming Pools'],
-      description: 'Beat the heat with essential summer services'
+      description: 'Beat the heat with essential services'
     },
     {
       season: 'Winter',
@@ -132,7 +132,7 @@ function HomePage() {
       season: 'Monsoon',
       icon: <CloudRain size={24} />,
       image: 'rainy.jpeg?w=600&auto=format&fit=crop',
-      services: ['Waterproofing', 'Umbrella Repair', 'Car Cleaning', 'Pest Control'],
+      services: ['Waterproofing','Car Cleaning', 'Umbrella Repair', 'Pest Control'],
       description: 'Rain-ready services for the monsoon'
     }
   ];
@@ -166,7 +166,7 @@ function HomePage() {
     },
     { 
       name: 'Geyser Service', 
-      image: 'geyserservice.webp?w=400&h=600&fit=crop',
+      image: 'geyserservice.jpeg?w=400&h=600&fit=crop',
       query: 'Geyser Service'
     },
   ];
