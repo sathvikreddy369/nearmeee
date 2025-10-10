@@ -38,7 +38,7 @@ function HomePage() {
   const categories = [
     { 
       name: 'AC Repair', 
-      image: 'https://tiimg.tistatic.com/fp/1/007/134/ac-repair-maintenance-service-518.jpg?w=200&h=200&fit=crop',
+      image: '/ac-repair.jpg?w=200&h=200&fit=crop',
       query: 'AC Repair',
       seasonal: 'summer',
       description: 'Stay cool this summer'
@@ -57,13 +57,13 @@ function HomePage() {
     },
     { 
       name: 'Home Cleaning', 
-      image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=200&h=200&fit=crop',
+      image: 'home-service.jpeg?w=200&h=200&fit=crop',
       query: 'Home Cleaning',
       description: 'Sparkling clean homes'
     },
     { 
       name: 'Mobile Repair', 
-      image: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=200&h=200&fit=crop',
+      image: 'mobile-repair.jpeg?w=200&h=200&fit=crop',
       query: 'Mobile Repair',
       description: 'Quick phone fixes'
     },
@@ -75,7 +75,7 @@ function HomePage() {
     },
     { 
       name: 'Geyser Repair', 
-      image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=200&h=200&fit=crop',
+      image: 'geyserservice.jpeg?w=200&h=200&fit=crop',
       query: 'Geyser Repair',
       seasonal: 'winter',
       description: 'Hot water all winter'
@@ -117,21 +117,21 @@ function HomePage() {
     {
       season: 'Summer',
       icon: <Sun size={24} />,
-      image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&auto=format&fit=crop',
+      image: 'summerseason.jpeg?w=600&auto=format&fit=crop',
       services: ['AC Repair', 'Cooler Services', 'Cold Drinks', 'Swimming Pools'],
       description: 'Beat the heat with essential summer services'
     },
     {
       season: 'Winter',
       icon: <Thermometer size={24} />,
-      image: 'https://img.theweek.in/content/dam/week/news/india/images/2022/12/23/Winterrevised.jpg?w=600&auto=format&fit=crop',
+      image: 'winterseason.webp?w=600&auto=format&fit=crop',
       services: ['Geyser Repair', 'Heater Services', 'Woolen Clothing', 'Hot Food'],
       description: 'Stay warm and comfortable this winter'
     },
     {
       season: 'Monsoon',
       icon: <CloudRain size={24} />,
-      image: 'https://images.unsplash.com/photo-1534274988757-a28bf1a57c17?w=600&auto=format&fit=crop',
+      image: 'rainy.jpeg?w=600&auto=format&fit=crop',
       services: ['Waterproofing', 'Umbrella Repair', 'Car Cleaning', 'Pest Control'],
       description: 'Rain-ready services for the monsoon'
     }
@@ -229,10 +229,10 @@ function HomePage() {
             sortBy: 'averageRating',
             minRating: 4.0 
           }),
-          reviewApi.getRecentReviews({ limit: 3 })
+          //reviewApi.getRecentReviews({ limit: 3 })
         ]);
         setFeaturedVendors(featured || []);
-        setRecentReviews(reviews || []);
+        //setRecentReviews(reviews || []);
       } catch (err) {
         console.error('Error fetching initial data:', err);
         setFeaturedVendors([]);
@@ -303,7 +303,7 @@ function HomePage() {
       rating: 5,
       comment: 'Excellent service! The electrician was professional and completed the work quickly. Highly recommended!',
       createdAt: new Date().toISOString(),
-      userAvatar: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=100&h=100&fit=crop&crop=face'
+      userAvatar: 'woman1.jpeg?w=100&h=100&fit=crop&crop=face'
     },
     {
       id: 2,
@@ -312,7 +312,7 @@ function HomePage() {
       rating: 4,
       comment: 'Good service at reasonable prices. My phone was fixed within an hour. Will use again.',
       createdAt: new Date().toISOString(),
-      userAvatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop&crop=face'
+      userAvatar: 'man1.jpg?w=100&h=100&fit=crop&crop=face'
     },
     {
       id: 3,
@@ -321,7 +321,7 @@ function HomePage() {
       rating: 5,
       comment: 'Perfect stitching and on-time delivery. The tailor understood exactly what I wanted.',
       createdAt: new Date().toISOString(),
-      userAvatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face'
+      userAvatar: 'woman2.jpg?w=100&h=100&fit=crop&crop=face'
     }
   ];
 

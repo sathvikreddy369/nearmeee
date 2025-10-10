@@ -74,10 +74,10 @@ const AboutPage = () => {
       // bio: 'Managed database design and backend services. Implemented authentication, payment integration, and real-time features.',
       avatar: 'PR',
       social: {
-        github: 'https://github.com/prudhviraj',
-        linkedin: 'https://linkedin.com/in/prudhviraj',
+        github: 'https://github.com/Prudhvi-raj-1719',
+        linkedin: 'https://in.linkedin.com/in/prudhvirajbanchode',
         instagram: 'https://instagram.com/prudhviraj',
-        email: 'pruthvi.raj@example.com'
+        email: 'prudhvi1791@gmail.com'
       }
     },
     {
@@ -98,10 +98,10 @@ const AboutPage = () => {
       // bio: 'Managed deployment, CI/CD pipelines, and application security. Implemented monitoring and ensured system reliability.',
       avatar: 'VN',
       social: {
-        github: 'https://github.com/vineshnampally',
-        linkedin: 'https://linkedin.com/in/vineshnampally',
-        instagram: 'https://instagram.com/vineshnampally',
-        email: 'vinesh.nampally@example.com'
+        github: 'https://github.com/Vinesh-024',
+        linkedin: 'https://www.linkedin.com/in/vinesh-nampally-83a390389/',
+        instagram: 'https://www.instagram.com/__vinesh__nampally__/',
+        email: 'nvinesh58@gmail.com'
       }
     }
   ];
