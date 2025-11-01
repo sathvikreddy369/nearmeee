@@ -143,7 +143,7 @@ function VendorDiscoveryPage() {
 
   useEffect(() => {
     if (geoLoc.latitude && geoLoc.longitude) {
-      setSearchTerm('Vendors near your location');
+      setSearchTerm('');
       setSearchParams({ lat: geoLoc.latitude, lon: geoLoc.longitude });
     }
   }, [geoLoc]);
